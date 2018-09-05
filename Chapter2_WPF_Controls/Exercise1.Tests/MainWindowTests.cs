@@ -1,10 +1,14 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading;
 using Guts.Client.Classic;
 using Guts.Client.Classic.TestTools.WPF;
 using NUnit.Framework;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Guts.Client.Shared.TestTools;
 
 namespace Exercise1.Tests
 {
@@ -16,7 +20,7 @@ namespace Exercise1.Tests
         private Button _imageButton;
         private Button _gradientButton;
 
-        [SetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             _window = new TestWindow<MainWindow>();
@@ -35,26 +39,41 @@ namespace Exercise1.Tests
             }
         }
 
-        [TearDown]
+        [OneTimeTearDown]
         public void TearDown()
         {
             _window.Dispose();
         }
 
-        [MonitoredTest("Should have a simple button on the top"), Order(1)]
-        public void _1_ShouldHaveASimpleButtonOnTheTop()
+        [MonitoredTest("Should not have changed the codebehind file"), Order(1)]
+        public void _1_ShouldNotHaveChangedTheCodebehindFile()
+        {
+            var codeBehindFilePath = @"Exercise1\MainWindow.xaml.cs";
+            var codeBehind = Solution.Current.GetFileContent(codeBehindFilePath);
+            var fileBytes = Encoding.UTF8.GetBytes(codeBehind);
+            var hashBytes = MD5.Create().ComputeHash(fileBytes);
+            var hash = BitConverter.ToString(hashBytes);
+
+            Assert.That(hash, Is.EqualTo("AF-63-7C-51-6E-A6-0C-DE-E7-FB-8F-6A-B5-08-FC-40"),
+                () =>
+                    $"The file '{codeBehindFilePath}' has changed. " +
+                    $"Undo your changes on the file to make this test pass.");
+        }
+
+        [MonitoredTest("Should have a simple button on the top"), Order(2)]
+        public void _2_ShouldHaveASimpleButtonOnTheTop()
         {
             Assert.That(_simpleButton, Is.Not.Null, () => "The first button (on the top) could not be found.");
             Assert.That(_simpleButton.Content, Is.TypeOf<string>(), () => "The content of first button (on the top) should be a string.");
             Assert.That(_simpleButton.Content, Is.Not.Empty, () => "The content of first button (on the top) should not be empty.");
         }
 
-        [MonitoredTest("Should have a button with an image and text in the middle"), Order(2)]
-        public void _2_ShouldHaveAnImageButtonInTheMiddle()
+        [MonitoredTest("Should have a button with an image and text in the middle"), Order(3)]
+        public void _3_ShouldHaveAnImageButtonInTheMiddle()
         {
             Assert.That(_imageButton, Is.Not.Null, () => "The second (middle) button could not be found.");
             Assert.That(_imageButton.Content, Is.TypeOf<StackPanel>(), () => "The content of the middle button should be a 'StackPanel' so that you can position the image above the text.");
-            var contentStackPanel = (StackPanel) _imageButton.Content;
+            var contentStackPanel = (StackPanel)_imageButton.Content;
             Assert.That(contentStackPanel.Orientation, Is.EqualTo(Orientation.Vertical), () => "The 'StackPanel' of the middle button should have a vertical 'Orientation'.");
             Assert.That(contentStackPanel.Children.Count, Is.EqualTo(2), () => "The 'StackPanel' of the middle button should have 2 child controls.");
             var imageControl = contentStackPanel.Children[0] as Image;
@@ -66,8 +85,8 @@ namespace Exercise1.Tests
             Assert.That(textBlockControl.FontWeight.ToString(), Is.EqualTo("Bold").IgnoreCase, () => "The 'FontWeight' in the 'TextBlock' in the middle button should be bold.");
         }
 
-        [MonitoredTest("Should have a button on the bottom with a gradient brush as background"), Order(3)]
-        public void _3_ShouldHaveAGradientButtonAtTheBottom()
+        [MonitoredTest("Should have a button on the bottom with a gradient brush as background"), Order(4)]
+        public void _4_ShouldHaveAGradientButtonAtTheBottom()
         {
             Assert.That(_gradientButton, Is.Not.Null, () => "The third (bottom) button could not be found.");
             Assert.That(_gradientButton.Content, Is.TypeOf<string>(), () => "The content of the middle button should be a string.");
