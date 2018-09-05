@@ -58,6 +58,10 @@ You can check your progress and compare with the averages of other students via 
 Login, go to ".NET Advanced" in the navigation bar and select the chapter you want to view.
 ![alt text][img_chapter_contents]
 
+## Chapters
+The assignments for each chapter can be found in de README.md in the folder of the chapter or by clicking on one of the links below:
+* [Chapter 2 - WPF Controls](Chapter2_WPF_Controls/README.md)
+
 ## FAQ
 
 #### How do I deal with updates / bugfixes on the start code?
