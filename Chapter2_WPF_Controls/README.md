@@ -81,17 +81,35 @@ Tip: you can use the static *Char.IsDigit* method to check if a character is a d
 
 ![alt text][img_exercise6]
 
-## Exercie 7 (TODO)
-Creëer een listview met images zoals in volgende screenshot. Zoek gelijkaardige afbeeldingen op het internet.
+## Exercie 7
+Create a WPF application with a *ListView* that resembles the following screenshot:
 
-## Exercie 8 (TODO)
-Creëer een button zoals in volgende screenshot. Maak gebruik van een ControlTemplate voor de lay-out van de button. Tip: voorzie 2 Ellipsen binnen elkaar met elk hun eigen LinearGradientBrush)
+![alt text][img_exercise7]
 
-Wanneer er met de muis over de button wordt bewogen, verandert de kleur van de buitenste ellipse in zwart. Tip: ControlTemplate.Triggers. Trigger Property="Button.IsMouseOver"
-Setter Property="Fill"
+The necessary images can be found in the *images* folder in the project for this exercise.
 
-Bij het klikken op de button, verkleint de button tot 80% (bij het loslaten van de muis vergroot deze weer tot 100% Tip: Trigger Property="Button.IsPressed"
-Setter Property="RenderTransform"
+Do this **purely in XAML**. Do not change MainWindow.xaml.cs.
+
+## Exercie 8
+Create a round button like in the screenshot below:
+
+![alt text][img_exercise8]
+
+To achieve this you need to create a custom template for button controls. 
+Define this template as an application resource so that you can have round buttons in all future windows of the application. 
+
+The content of the template should be a grid that contains 2 ellipses that both stretch to the borders of the grid. 
+One ellipse (the inner ellipse) should get some margin to create the border effect. 
+The outer ellipse has a gradient from *Green* to *Purple*. 
+The inner ellipse has a gradient from *LightBlue* to *Blue*.
+Position a *ContentPresenter* in the center of the grid (this is where the *Content* of the round buttons will be placed).
+
+When you move the mouse over the button the color of the outer ellipse should become *Black*. Use a *Trigger* to achieve this.
+
+When you click on the button a push effect should be simulated by shrinking the button to 80% of its size. 
+When the button is released its size grows back to 100%. This can also be achieved with a *Trigger* that applies a *ScaleTransform* that originates in the center of the button.
+
+Do all of this **purely in XAML**. Do not change MainWindow.xaml.cs.
  
 [img_exercise1]:images/exercise1_mainwindow.png "Main window of exercise 1"
 [img_exercise2]:images/exercise2_mainwindow.png "Main window of exercise 2"
@@ -99,3 +117,5 @@ Setter Property="RenderTransform"
 [img_exercise4]:images/exercise4_mainwindow.png "Main window of exercise 4"
 [img_exercise5]:images/exercise5_mainwindow.png "Main window of exercise 5"
 [img_exercise6]:images/exercise6_mainwindow.png "Main window of exercise 6"
+[img_exercise7]:images/exercise7_mainwindow.png "Main window of exercise 7"
+[img_exercise8]:images/exercise8_mainwindow.png "Main window of exercise 8"
