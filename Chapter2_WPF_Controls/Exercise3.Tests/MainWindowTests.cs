@@ -5,11 +5,13 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Shapes;
 using Guts.Client.Classic;
 using Guts.Client.Classic.TestTools.WPF;
+using Guts.Client.Shared;
 using NUnit.Framework;
 
 namespace Exercise3.Tests
 {
-    [MonitoredTestFixture("dotNet2", 2, 3), Apartment(ApartmentState.STA)]
+    [MonitoredTestFixture("dotNet2", 2, 3, @"Exercise3\MainWindow.xaml;Exercise3\MainWindow.xaml.cs"), 
+     Apartment(ApartmentState.STA)]
     public class MainWindowTests
     {
         private TestWindow<MainWindow> _window;

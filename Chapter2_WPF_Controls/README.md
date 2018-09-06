@@ -32,10 +32,19 @@ The bottom button should be disabled. Notice how a different background is appli
 
 Do all of this **purely in XAML**. Do not change MainWindow.xaml.cs.
 
-## Exercie 3 (TODO)
-Creëer een WPF applicatie zoals in volgende schermafbeelding:
- 
-Wanneer er op de Grow button wordt geklikt, en de Grow button blijft ingedrukt, blijft de gele rectangle met 10 pixels in de breedte groeien. Wanneer de Shrink knop blijft ingehouden blijft de gele rectangle met 10 pixels verkleinen. Gebruik hiervoor een RepeatButton.
+## Exercie 3
+
+Create an application that looks like the image below:
+
+![alt text][img_exercise3]
+
+When the *Grow* button is pressed and the button keeps being pressed down, then the rectangle keeps growing 10 pixels in width.
+When the *Shrink* button is pressed and the button keeps being pressed down, then the rectangle keeps shrinking 10 pixels in width.
+Position the rectangle in a canvas. 
+Make sure the width of the rectangle does not shrink below zero. 
+Also make sure the width of the rectangle does not exceed the edge of the canvas. 
+
+Tip: use instances of *RepeatButton*.
 
 ## Exercie 4 (TODO)
 Creëer volgende WPF applicatie:
@@ -68,3 +77,4 @@ Setter Property="RenderTransform"
  
 [img_exercise1]:images/exercise1_mainwindow.png "Main window of exercise 1"
 [img_exercise2]:images/exercise2_mainwindow.png "Main window of exercise 2"
+[img_exercise3]:images/exercise3_mainwindow.png "Main window of exercise 3"

@@ -10,12 +10,14 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using Guts.Client.Classic;
 using Guts.Client.Classic.TestTools.WPF;
+using Guts.Client.Shared;
 using Guts.Client.Shared.TestTools;
 using NUnit.Framework;
 
 namespace Exercise8.Tests
 {
-    [MonitoredTestFixture("dotNet2", 2, 8), Apartment(ApartmentState.STA)]
+    [MonitoredTestFixture("dotNet2", 2, 8, @"Exercise8\App.xaml;Exercise8\MainWindow.xaml"), 
+     Apartment(ApartmentState.STA)]
     public class MainWindowTests
     {
         private TestWindow<MainWindow> _window;
