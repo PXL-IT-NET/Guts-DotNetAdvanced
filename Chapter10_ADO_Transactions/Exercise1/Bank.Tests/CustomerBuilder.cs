@@ -39,6 +39,15 @@ namespace Bank.Tests
             return this;
         }
 
+        public CustomerBuilder WithNullProperties()
+        {
+            _customer.FirstName = null;
+            _customer.Name = null;
+            _customer.Address = null;
+            _customer.CellPhone = null;
+            return this;
+        }
+
         public Customer Build()
         {
             return _customer;

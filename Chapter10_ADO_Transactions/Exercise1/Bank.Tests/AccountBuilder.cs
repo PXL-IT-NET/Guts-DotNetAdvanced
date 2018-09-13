@@ -43,6 +43,12 @@ namespace Bank.Tests
             return this;
         }
 
+        public AccountBuilder WithAccountNumber(string value)
+        {
+            _account.AccountNumber = value;
+            return this;
+        }
+
         public Account Build()
         {
             return _account;

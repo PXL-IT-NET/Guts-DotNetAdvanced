@@ -16,7 +16,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="4*" />
             <RowDefinition Height="60" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -25,7 +25,7 @@
             <ColumnDefinition Width="500" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <DataGrid AutoGenerateColumns="False" x:Name="AccountsDataGrid" HorizontalAlignment="Center" Height="auto" VerticalAlignment="Center" Width="auto" CanUserAddRows="False" Grid.Row="1" Grid.Column="1">
+        <DataGrid AutoGenerateColumns="False" x:Name="AccountsDataGrid" HorizontalAlignment="Center" Height="auto" VerticalAlignment="Top" Width="auto" CanUserAddRows="False" Grid.Row="1" Grid.Column="1">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Account Number" />
                 <DataGridComboBoxColumn Header="AccountType" x:Name="AccountTypeComboBox" ItemsSource="{Binding Source = {StaticResource AccountTypeDataProvider }}" SelectedItemBinding ="{Binding AccountType, Mode=TwoWay}"/>

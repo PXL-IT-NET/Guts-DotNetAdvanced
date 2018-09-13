@@ -9,7 +9,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="4*" />
             <RowDefinition Height="60" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -19,7 +19,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <DataGrid AutoGenerateColumns="False" Name="CustomersDataGrid" HorizontalAlignment="Center" VerticalAlignment="Center" 
+        <DataGrid AutoGenerateColumns="False" Name="CustomersDataGrid" HorizontalAlignment="Center" VerticalAlignment="Top" 
                   CanUserAddRows="False" Width="auto" Height="auto" Grid.Row="1" Grid.Column="1">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" />

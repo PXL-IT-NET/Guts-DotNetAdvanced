@@ -94,6 +94,23 @@ namespace Bank.Tests
                 () => "No customer with the added name can be found in the database afterwards.");
         }
 
+        [MonitoredTest("CustomerRepository - Add should be able to handle properties that are null")]
+        public void Add_ShouldBeAbleToHandlePropertiesThatAreNull()
+        {
+            //Arrange
+            var existingCity = GetAllCities().First();
+
+            Customer newCustomer = new CustomerBuilder()
+                .WithId(0)
+                .WithZipCode(existingCity.ZipCode)
+                .WithNullProperties().Build();
+
+            //Act
+            Assert.That(() => _repository.Add(newCustomer), Throws.Nothing,
+                () => "Make sure that the parameter value for a property that is null is 'DBNull.Value'. " +
+                      "Otherwise ADO.NET will think the parameter is not supplied. ");
+        }
+
         [MonitoredTest("CustomerRepository - Add should set the 'CustomerId' on the inserted customer instance")]
         public void Add_ShouldSetTheCustomerIdOnTheInsertedCustomerInstance()
         {
@@ -166,6 +183,24 @@ namespace Bank.Tests
             Assert.That(updatedAccount.FirstName, Is.EqualTo(newFirstName), () => "FirstName is not updated properly.");
             Assert.That(updatedAccount.Name, Is.EqualTo(newLastName), () => "Name is not updated properly.");
             Assert.That(updatedAccount.ZipCode, Is.EqualTo(existingCity.ZipCode), () => "ZipCode is not updated properly.");
+        }
+
+        [MonitoredTest("CustomerRepository - Update should be able to handle properties that are null")]
+        public void Update_ShouldBeAbleToHandlePropertiesThatAreNull()
+        {
+            //Arrange
+            var allOriginalCustomers = GetAllCustomers();
+            var existingCustomer = allOriginalCustomers.First();
+
+            existingCustomer.Address = null;
+            existingCustomer.CellPhone = null;
+            existingCustomer.FirstName = null;
+            existingCustomer.Name = null;
+
+            //Act
+            Assert.That(() => _repository.Update(existingCustomer), Throws.Nothing,
+                () => "Make sure that the parameter value for a property that is null is 'DBNull.Value'. " +
+                      "Otherwise ADO.NET will think the parameter is not supplied. ");
         }
 
         [MonitoredTest("CustomerRepository - Update should throw an ArgumentException when 'ZipCode' is not set")]

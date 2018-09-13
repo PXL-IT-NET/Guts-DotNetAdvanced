@@ -105,6 +105,24 @@ namespace Bank.Tests
                 () => "The customerId of the added account is not correct.");
         }
 
+        [MonitoredTest("AccountRepository - Add should be able to handle null for account number")]
+        public void Add_ShouldBeAbleToHandleNullForAccountNumber()
+        {
+            //Arrange
+            var allOriginalCustomers = GetAllCustomers();
+            int existingCustomerId = allOriginalCustomers.First().CustomerId;
+
+            Account newAccount = new AccountBuilder()
+                .WithCustomerId(existingCustomerId)
+                .WithAccountNumber(null)
+                .Build();
+
+            //Act + Assert
+            Assert.That(() => _repository.Add(newAccount), Throws.Nothing,
+                () => "Make sure that the '@accountNumber' parameter value is 'DBNull.Value' when the account number is null. " +
+                      "Otherwise ADO.NET will think the parameter is not supplied. ");
+        }
+
         [MonitoredTest("AccountRepository - Add should set the id on the inserted account instance")]
         public void Add_ShouldSetTheIdOnTheInsertedAccountInstance()
         {
@@ -173,6 +191,19 @@ namespace Bank.Tests
             Assert.That(updatedAccount.AccountNumber, Is.EqualTo(newAccountNumber), () => "AccountNumber is not updated properly.");
             Assert.That(updatedAccount.Balance, Is.EqualTo(newBalance), () => "Balance is not updated properly.");
             Assert.That(updatedAccount.AccountType, Is.EqualTo(newAccountType), () => "AccountType is not updated properly.");
+        }
+
+        [MonitoredTest("AccountRepository - Update should be able to handle null for account number")]
+        public void Update_ShouldBeAbleToHandleNullForAccountNumber()
+        {
+            //Arrange
+            var existingAccount = GetAllAccounts().First();
+            existingAccount.AccountNumber = null;
+
+            //Act + Assert
+            Assert.That(() => _repository.Update(existingAccount), Throws.Nothing,
+                () => "Make sure that the '@accountNumber' parameter value is 'DBNull.Value' when the account number is null. " +
+                      "Otherwise ADO.NET will think the parameter is not supplied. ");
         }
 
         [MonitoredTest("AccountRepository - Update should throw an ArgumentException when the CustomerId is not set")]

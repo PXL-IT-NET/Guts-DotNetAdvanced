@@ -61,6 +61,7 @@ Login, go to ".NET Advanced" in the navigation bar and select the chapter you wa
 ## Chapters
 The assignments for each chapter can be found in de README.md in the folder of the chapter or by clicking on one of the links below:
 * [Chapter 2 - WPF Controls](Chapter2_WPF_Controls/README.md)
+* [Chapter 10 - ADO.NET Transactions](Chapter10_ADO_Transactions/README.md)
 
 ## FAQ
 
