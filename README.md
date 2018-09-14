@@ -11,6 +11,12 @@ A chapter solution contains multiple projects:
 The WPF solutions are waiting for you to complete them.
 The matching test projects contain **automated tests** that can be run to check if your solution is correct.
 
+## Chapters
+The assignments for each chapter can be found in de README.md in the folder of the chapter or by clicking on one of the links below:
+* [Chapter 2 - WPF Controls](Chapter2_WPF_Controls/README.md)
+* [Chapter 3 - WPF Layout](Chapter3_WPF_Layout/README.md)
+* [Chapter 10 - ADO.NET Transactions](Chapter10_ADO_Transactions/README.md)
+
 ## Getting Started
 
 #### Clone the repository
@@ -57,12 +63,6 @@ Test results of all students are sent to the Guts servers.
 You can check your progress and compare with the averages of other students via [guts-web.appspot.com](https://guts-web.appspot.com).
 Login, go to ".NET Advanced" in the navigation bar and select the chapter you want to view.
 ![alt text][img_chapter_contents]
-
-## Chapters
-The assignments for each chapter can be found in de README.md in the folder of the chapter or by clicking on one of the links below:
-* [Chapter 2 - WPF Controls](Chapter2_WPF_Controls/README.md)
-* [Chapter 3 - WPF Layout](Chapter3_WPF_Layout/README.md)
-* [Chapter 10 - ADO.NET Transactions](Chapter10_ADO_Transactions/README.md)
 
 ## FAQ
 
