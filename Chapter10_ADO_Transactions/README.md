@@ -71,7 +71,7 @@ The unit test for this class will check if you implemented the method correctly.
 
 #### CustomersWindow.xaml (.cs) (Bank.UI)
 We want to display the customers in a table layout, we want to be able to edit rows and we want to be able to add new rows (customers). 
-There is a (WPF) control that can do all of this stuff: the **DataGrid** control. 
+There is a (WPF) control that can do all of this stuff and more: the **DataGrid** control. 
 
 Make yourself familiar with this control (their is a big chance that you'll have to work with it on the exam):
 * [DataGrid class documentation](https://docs.microsoft.com/en-us/dotnet/api/system.windows.controls.datagrid)
@@ -96,9 +96,10 @@ The *AccountRepository* class implements *IAccountRepository* that defines 4 met
 * GetAllAccountsOfCustomer: returns all the accounts linked to a certain customer
 * Add: adds a new account for a customer to the databse
 * Update: updates an existing account in the database
-* TransferMoney: transfer money between two accounts of the same customer
+* TransferMoney: transfer money between two accounts of the same customer. 
 
 Use ADO.NET to implement these methods. 
+The TransferMoney method should use a transaction to avoid money getting lost or created.
 The unit tests for this class will help you build a solid errorprone repository.
 
 #### AccountsWindow.xaml (.cs) (Bank.UI)
