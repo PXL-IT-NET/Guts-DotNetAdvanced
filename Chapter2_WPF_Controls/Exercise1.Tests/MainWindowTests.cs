@@ -8,12 +8,13 @@ using Guts.Client.Classic.TestTools.WPF;
 using NUnit.Framework;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Guts.Client.Shared;
 using Guts.Client.Shared.TestTools;
 
 namespace Exercise1.Tests
 {
-    [MonitoredTestFixture("dotNet2", 2, 1, @"Exercise1\MainWindow.xaml"), 
+    [MonitoredTestFixture("dotNet2", 2, 1, @"Exercise1\MainWindow.xaml"),
      Apartment(ApartmentState.STA)]
     public class MainWindowTests
     {
@@ -59,7 +60,7 @@ namespace Exercise1.Tests
             Assert.That(hash, Is.EqualTo("AF-63-7C-51-6E-A6-0C-DE-E7-FB-8F-6A-B5-08-FC-40"),
                 () =>
                     $"The file '{codeBehindFilePath}' has changed. " +
-                    $"Undo your changes on the file to make this test pass.");
+                    "Undo your changes on the file to make this test pass.");
         }
 
         [MonitoredTest("Should have a simple button on the top"), Order(2)]
@@ -74,17 +75,38 @@ namespace Exercise1.Tests
         public void _3_ShouldHaveAnImageButtonInTheMiddle()
         {
             Assert.That(_imageButton, Is.Not.Null, () => "The second (middle) button could not be found.");
-            Assert.That(_imageButton.Content, Is.TypeOf<StackPanel>(), () => "The content of the middle button should be a 'StackPanel' so that you can position the image above the text.");
+            Assert.That(_imageButton.Content, Is.TypeOf<StackPanel>(),
+                () =>
+                    "The content of the middle button should be a 'StackPanel' so that you can position the image above the text.");
             var contentStackPanel = (StackPanel)_imageButton.Content;
-            Assert.That(contentStackPanel.Orientation, Is.EqualTo(Orientation.Vertical), () => "The 'StackPanel' of the middle button should have a vertical 'Orientation'.");
-            Assert.That(contentStackPanel.Children.Count, Is.EqualTo(2), () => "The 'StackPanel' of the middle button should have 2 child controls.");
+            Assert.That(contentStackPanel.Orientation, Is.EqualTo(Orientation.Vertical),
+                () => "The 'StackPanel' of the middle button should have a vertical 'Orientation'.");
+            Assert.That(contentStackPanel.Children.Count, Is.EqualTo(2),
+                () => "The 'StackPanel' of the middle button should have 2 child controls.");
             var imageControl = contentStackPanel.Children[0] as Image;
-            Assert.That(imageControl, Is.Not.Null, () => "The first child control of the 'StackPanel' of the middle button should be an 'Image' control.");
-            Assert.That(imageControl.Source.ToString(), Contains.Substring("images/banner.png").IgnoreCase, () => "The 'Image' in the middle button should have its 'Source' set to 'images/banner.png'.");
+            Assert.That(imageControl, Is.Not.Null,
+                () => "The first child control of the 'StackPanel' of the middle button should be an 'Image' control.");
+            Assert.That(imageControl.Source, Is.Not.Null,
+                () => "The 'Image' must have a (valid) 'Source'.");
+
+            var bitmapSource = imageControl.Source as BitmapFrame;
+            Assert.That(bitmapSource, Is.Not.Null,
+                () => "The 'Source' of 'Image' must be a valid (bitmap) image.");
+
+            Assert.That(bitmapSource.BaseUri, Is.Not.Null,
+                () => "The 'Source' of the 'Image' in the middle should be a relative path.");
+
+            Assert.That(bitmapSource.ToString(), Contains.Substring("banner.png").IgnoreCase,
+                () => "The 'Image' in the middle button should have its 'Source' set to 'images\\banner.png'.");
+
             var textBlockControl = contentStackPanel.Children[1] as TextBlock;
-            Assert.That(textBlockControl, Is.Not.Null, () => "The second child control of the 'StackPanel' of the middle button should be an 'TextBlock' control.");
-            Assert.That(textBlockControl.FontSize, Is.GreaterThanOrEqualTo(14), () => "The 'FontSize' in the 'TextBlock' in the middle button should be bigger (e.g. 16).");
-            Assert.That(textBlockControl.FontWeight.ToString(), Is.EqualTo("Bold").IgnoreCase, () => "The 'FontWeight' in the 'TextBlock' in the middle button should be bold.");
+            Assert.That(textBlockControl, Is.Not.Null,
+                () =>
+                    "The second child control of the 'StackPanel' of the middle button should be an 'TextBlock' control.");
+            Assert.That(textBlockControl.FontSize, Is.GreaterThanOrEqualTo(14),
+                () => "The 'FontSize' in the 'TextBlock' in the middle button should be bigger (e.g. 16).");
+            Assert.That(textBlockControl.FontWeight.ToString(), Is.EqualTo("Bold").IgnoreCase,
+                () => "The 'FontWeight' in the 'TextBlock' in the middle button should be bold.");
         }
 
         [MonitoredTest("Should have a button on the bottom with a gradient brush as background"), Order(4)]
