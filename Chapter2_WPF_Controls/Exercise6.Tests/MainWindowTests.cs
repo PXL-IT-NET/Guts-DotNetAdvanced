@@ -12,7 +12,7 @@ using NUnit.Framework;
 
 namespace Exercise6.Tests
 {
-    [MonitoredTestFixture("dotNet2", 2, 6, @"Exercise6\MainWindow.xaml;Exercise6\MainWindow.xaml.cs"), 
+    [MonitoredTestFixture("dotNet2", 2, 6, @"Exercise6\MainWindow.xaml;Exercise6\MainWindow.xaml.cs"),
      Apartment(ApartmentState.STA)]
     public class MainWindowTests
     {
@@ -35,7 +35,7 @@ namespace Exercise6.Tests
             _window.Dispose();
         }
 
-        [MonitoredTest("Should have a textbox and 10 digit buttons"), Order(1)]
+        [MonitoredTest("Should have a tree"), Order(1)]
         public void _1_ShouldHaveATextBoxAnd10DigitButtons()
         {
             AssertHasAllControls();
@@ -48,7 +48,7 @@ namespace Exercise6.Tests
 
             var xamlCode = Solution.Current.GetFileContent(@"Exercise6\MainWindow.xaml");
 
-            var clickHandlerForButtonRegex = new Regex(@"<Button\s.*Click="".*>");
+            var clickHandlerForButtonRegex = new Regex(@"<Button\s.*Click\s?=\s?"".*>");
             Assert.That(clickHandlerForButtonRegex.IsMatch(xamlCode), Is.False,
                 () =>
                     "There is a 'Click' handler defined for at least one 'Button'. " +
@@ -60,7 +60,7 @@ namespace Exercise6.Tests
                     "This exercise can be made without naming the buttons. " +
                     "Use event bubbling to achieve this.");
 
-            var clickHandlerForStackPanelRegex = new Regex(@"<StackPanel\s.*\.Click="".*>");
+            var clickHandlerForStackPanelRegex = new Regex(@"<StackPanel\s.*\.Click\s?=\s?"".*>");
             Assert.That(clickHandlerForStackPanelRegex.IsMatch(xamlCode), Is.True,
                 () =>
                     "The 'StackPanel' containing the buttons should have defined which method handles bubbled click events from the buttons. " +

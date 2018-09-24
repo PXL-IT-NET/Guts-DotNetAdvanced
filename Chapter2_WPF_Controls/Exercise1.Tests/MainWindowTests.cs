@@ -128,7 +128,7 @@ namespace Exercise1.Tests
                 var offset = expectedOffset;
                 Assert.That(gradientStop.Offset, Is.EqualTo(expectedOffset).Within(10.0),
                     () => $"The 'GradientStop' at position {gradientStopPosition} should have an 'Offset' of {offset}");
-                expectedOffset += 0.25;
+                expectedOffset += 0.33;
             }
         }
     }

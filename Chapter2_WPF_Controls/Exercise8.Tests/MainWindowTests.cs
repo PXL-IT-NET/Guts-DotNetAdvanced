@@ -16,7 +16,7 @@ using NUnit.Framework;
 
 namespace Exercise8.Tests
 {
-    [MonitoredTestFixture("dotNet2", 2, 8, @"Exercise8\App.xaml;Exercise8\MainWindow.xaml"), 
+    [MonitoredTestFixture("dotNet2", 2, 8, @"Exercise8\App.xaml;Exercise8\MainWindow.xaml"),
      Apartment(ApartmentState.STA)]
     public class MainWindowTests
     {
@@ -74,7 +74,16 @@ namespace Exercise8.Tests
             AssertHasButtonWithCustomTemplate();
 
             var grid = GetAndAssertGrid();
+            Assert.That(double.IsNaN(grid.Width), Is.True, () => "The 'Grid' should not have a fixed 'Width'.");
+            Assert.That(double.IsNaN(grid.Height), Is.True, () => "The 'Grid' should not have a fixed 'Height'.");
+
             var ellipses = GetAndAssertEllipses(grid);
+            Assert.That(ellipses,
+                Has.All.Matches((Ellipse ellipse) =>
+                    double.IsNaN(ellipse.Width) &&
+                    double.IsNaN(ellipse.Height)),
+                () => "None of the ellipses should have a fixed 'Width' or 'Height'.");
+
             Assert.That(ellipses,
                 Has.All.Matches((Ellipse ellipse) =>
                     ellipse.HorizontalAlignment == HorizontalAlignment.Stretch &&
