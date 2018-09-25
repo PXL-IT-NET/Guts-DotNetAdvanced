@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading;
 using System.Windows.Controls;
 using Guts.Client.Classic;
@@ -42,14 +39,7 @@ namespace Exercise5.Tests
         public void _1_ShouldNotHaveChangedTheCodebehindFile()
         {
             var codeBehindFilePath = @"Exercise5\MainWindow.xaml.cs";
-            var codeBehind = Solution.Current.GetFileContent(codeBehindFilePath);
-
-            byte[] fileBytes = new byte[codeBehind.Length * sizeof(char)];
-            Buffer.BlockCopy(codeBehind.ToCharArray(), 0, fileBytes, 0, fileBytes.Length);
-
-            var hashBytes = MD5.Create().ComputeHash(fileBytes);
-            var hash = BitConverter.ToString(hashBytes);
-
+            var hash = Solution.Current.GetFileHash(codeBehindFilePath);
             Assert.That(hash, Is.EqualTo("E3-AA-5B-D0-63-D7-86-5D-F0-8E-35-01-BE-EA-E3-54"),
                 () =>
                     $"The file '{codeBehindFilePath}' has changed. " +

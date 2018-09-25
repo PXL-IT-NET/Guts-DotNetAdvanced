@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
+﻿using System.Linq;
 using System.Threading;
 using Guts.Client.Classic;
 using Guts.Client.Classic.TestTools.WPF;
@@ -52,14 +49,7 @@ namespace Exercise1.Tests
         public void _1_ShouldNotHaveChangedTheCodebehindFile()
         {
             var codeBehindFilePath = @"Exercise1\MainWindow.xaml.cs";
-            var codeBehind = Solution.Current.GetFileContent(codeBehindFilePath);
-
-            byte[] fileBytes = new byte[codeBehind.Length * sizeof(char)];
-            Buffer.BlockCopy(codeBehind.ToCharArray(), 0, fileBytes, 0, fileBytes.Length);
-
-            var hashBytes = MD5.Create().ComputeHash(fileBytes);
-            var hash = BitConverter.ToString(hashBytes);
-
+            var hash = Solution.Current.GetFileHash(codeBehindFilePath);
             Assert.That(hash, Is.EqualTo("32-2C-19-B6-CE-C5-13-81-AB-67-BE-A0-94-78-1F-5D"),
                 () =>
                     $"The file '{codeBehindFilePath}' has changed. " +
@@ -116,7 +106,7 @@ namespace Exercise1.Tests
         public void _4_ShouldHaveAGradientButtonAtTheBottom()
         {
             Assert.That(_gradientButton, Is.Not.Null, () => "The third (bottom) button could not be found.");
-            Assert.That(_gradientButton.Content, Is.TypeOf<string>(), () => "The content of the middle button should be a string.");
+            Assert.That(_gradientButton.Content, Is.TypeOf<string>(), () => "The content of the bottom button should be a string.");
             Assert.That(_gradientButton.Foreground.ToString(), Contains.Substring("FFFFFF").IgnoreCase, () => "The color of the text ('ForeColor') of the bottom button should be 'White'.");
             Assert.That(_gradientButton.FontWeight.ToString(), Is.EqualTo("Bold").IgnoreCase, () => "The 'FontWeight' of the text ('ForeColor') of the bottom button should be bold.");
             var backgroundBrush = _gradientButton.Background as LinearGradientBrush;

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
+﻿using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -56,14 +53,7 @@ namespace Exercise2.Tests
         public void _1_ShouldNotHaveChangedTheCodebehindFile()
         {
             var codeBehindFilePath = @"Exercise2\MainWindow.xaml.cs";
-            var codeBehind = Solution.Current.GetFileContent(codeBehindFilePath);
-
-            byte[] fileBytes = new byte[codeBehind.Length * sizeof(char)];
-            Buffer.BlockCopy(codeBehind.ToCharArray(), 0, fileBytes, 0, fileBytes.Length);
-
-            var hashBytes = MD5.Create().ComputeHash(fileBytes);
-            var hash = BitConverter.ToString(hashBytes);
-
+            var hash = Solution.Current.GetFileHash(codeBehindFilePath);
             Assert.That(hash, Is.EqualTo("88-5E-FF-A7-D9-A1-0F-D2-A8-7D-E3-6E-1B-A4-0C-4C"),
                 () =>
                     $"The file '{codeBehindFilePath}' has changed. " +

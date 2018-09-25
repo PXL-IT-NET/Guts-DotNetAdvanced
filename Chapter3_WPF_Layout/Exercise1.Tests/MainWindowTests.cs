@@ -2,11 +2,8 @@
 using Guts.Client.Shared;
 using Guts.Client.Shared.TestTools;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -45,15 +42,8 @@ namespace Exercise1.Tests
         public void _1_ShouldNotHaveChangedTheCodebehindFile()
         {
             var codeBehindFilePath = @"Exercise1\MainWindow.xaml.cs";
-            var codeBehind = Solution.Current.GetFileContent(codeBehindFilePath);
-
-            byte[] fileBytes = new byte[codeBehind.Length * sizeof(char)];
-            Buffer.BlockCopy(codeBehind.ToCharArray(), 0, fileBytes, 0, fileBytes.Length);
-
-            var hashBytes = MD5.Create().ComputeHash(fileBytes);
-            var hash = BitConverter.ToString(hashBytes);
-
-            Assert.That(hash, Is.EqualTo("41-77-27-4F-5D-C8-3C-20-74-DF-48-31-39-84-7F-6F"),
+            var hash = Solution.Current.GetFileHash(codeBehindFilePath);
+            Assert.That(hash, Is.EqualTo("32-2C-19-B6-CE-C5-13-81-AB-67-BE-A0-94-78-1F-5D"),
                 () =>
                     $"The file '{codeBehindFilePath}' has changed. " +
                     "Undo your changes on the file to make this test pass. " +

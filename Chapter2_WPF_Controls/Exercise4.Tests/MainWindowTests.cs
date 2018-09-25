@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
+﻿using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -46,19 +43,12 @@ namespace Exercise4.Tests
         public void _1_ShouldNotHaveChangedTheCodebehindFile()
         {
             var codeBehindFilePath = @"Exercise4\MainWindow.xaml.cs";
-            var codeBehind = Solution.Current.GetFileContent(codeBehindFilePath);
-
-            byte[] fileBytes = new byte[codeBehind.Length * sizeof(char)];
-            Buffer.BlockCopy(codeBehind.ToCharArray(), 0, fileBytes, 0, fileBytes.Length);
-
-            var hashBytes = MD5.Create().ComputeHash(fileBytes);
-            var hash = BitConverter.ToString(hashBytes);
-
+            var hash = Solution.Current.GetFileHash(codeBehindFilePath);
             Assert.That(hash, Is.EqualTo("9B-52-69-7C-12-B9-86-31-42-58-9D-67-B5-D7-BE-A6"),
                 () =>
                     $"The file '{codeBehindFilePath}' has changed. " +
-                    $"Undo your changes on the file to make this test pass. " +
-                    $"This exercise can be completed by purely working with XAML.");
+                    "Undo your changes on the file to make this test pass. " +
+                    "This exercise can be completed by purely working with XAML.");
         }
 
         [MonitoredTest("Should have a (toggle)button"), Order(2)]

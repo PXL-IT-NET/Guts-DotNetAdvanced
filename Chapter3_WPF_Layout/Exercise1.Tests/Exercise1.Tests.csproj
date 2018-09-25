@@ -35,14 +35,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Guts.Client.Classic, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Guts.Client.1.1.1\lib\net461\Guts.Client.Classic.dll</HintPath>
+    <Reference Include="Guts.Client.Classic, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Guts.Client.1.1.2\lib\net461\Guts.Client.Classic.dll</HintPath>
     </Reference>
     <Reference Include="Guts.Client.Classic.UI, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Guts.Client.1.1.1\lib\net461\Guts.Client.Classic.UI.dll</HintPath>
+      <HintPath>..\packages\Guts.Client.1.1.2\lib\net461\Guts.Client.Classic.UI.dll</HintPath>
     </Reference>
-    <Reference Include="Guts.Client.Shared, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Guts.Client.Shared.1.0.1\lib\netstandard2.0\Guts.Client.Shared.dll</HintPath>
+    <Reference Include="Guts.Client.Shared, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Guts.Client.Shared.1.0.2\lib\netstandard2.0\Guts.Client.Shared.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
