@@ -14,7 +14,7 @@ using NUnit.Framework;
 
 namespace Exercise2.Tests
 {
-    [MonitoredTestFixture("dotNet2", 2, 2, @"Exercise2\MainWindow.xaml"), 
+    [MonitoredTestFixture("dotNet2", 2, 2, @"Exercise2\MainWindow.xaml"),
      Apartment(ApartmentState.STA)]
     public class MainWindowTests
     {
@@ -57,11 +57,14 @@ namespace Exercise2.Tests
         {
             var codeBehindFilePath = @"Exercise2\MainWindow.xaml.cs";
             var codeBehind = Solution.Current.GetFileContent(codeBehindFilePath);
-            var fileBytes = Encoding.UTF8.GetBytes(codeBehind);
+
+            byte[] fileBytes = new byte[codeBehind.Length * sizeof(char)];
+            Buffer.BlockCopy(codeBehind.ToCharArray(), 0, fileBytes, 0, fileBytes.Length);
+
             var hashBytes = MD5.Create().ComputeHash(fileBytes);
             var hash = BitConverter.ToString(hashBytes);
 
-            Assert.That(hash, Is.EqualTo("2F-AE-B4-43-EA-32-C7-87-D1-1F-FC-3A-21-A7-CB-D9"),
+            Assert.That(hash, Is.EqualTo("88-5E-FF-A7-D9-A1-0F-D2-A8-7D-E3-6E-1B-A4-0C-4C"),
                 () =>
                     $"The file '{codeBehindFilePath}' has changed. " +
                     $"Undo your changes on the file to make this test pass. " +

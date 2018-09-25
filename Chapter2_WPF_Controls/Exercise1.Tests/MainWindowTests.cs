@@ -53,11 +53,14 @@ namespace Exercise1.Tests
         {
             var codeBehindFilePath = @"Exercise1\MainWindow.xaml.cs";
             var codeBehind = Solution.Current.GetFileContent(codeBehindFilePath);
-            var fileBytes = Encoding.UTF8.GetBytes(codeBehind);
+
+            byte[] fileBytes = new byte[codeBehind.Length * sizeof(char)];
+            Buffer.BlockCopy(codeBehind.ToCharArray(), 0, fileBytes, 0, fileBytes.Length);
+
             var hashBytes = MD5.Create().ComputeHash(fileBytes);
             var hash = BitConverter.ToString(hashBytes);
 
-            Assert.That(hash, Is.EqualTo("AF-63-7C-51-6E-A6-0C-DE-E7-FB-8F-6A-B5-08-FC-40"),
+            Assert.That(hash, Is.EqualTo("32-2C-19-B6-CE-C5-13-81-AB-67-BE-A0-94-78-1F-5D"),
                 () =>
                     $"The file '{codeBehindFilePath}' has changed. " +
                     "Undo your changes on the file to make this test pass.");

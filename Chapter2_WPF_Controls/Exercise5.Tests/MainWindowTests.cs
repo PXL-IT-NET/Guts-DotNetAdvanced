@@ -13,7 +13,7 @@ using NUnit.Framework;
 
 namespace Exercise5.Tests
 {
-    [MonitoredTestFixture("dotNet2", 2, 5, @"Exercise5\MainWindow.xaml"), 
+    [MonitoredTestFixture("dotNet2", 2, 5, @"Exercise5\MainWindow.xaml"),
      Apartment(ApartmentState.STA)]
     public class MainWindowTests
     {
@@ -43,15 +43,18 @@ namespace Exercise5.Tests
         {
             var codeBehindFilePath = @"Exercise5\MainWindow.xaml.cs";
             var codeBehind = Solution.Current.GetFileContent(codeBehindFilePath);
-            var fileBytes = Encoding.UTF8.GetBytes(codeBehind);
+
+            byte[] fileBytes = new byte[codeBehind.Length * sizeof(char)];
+            Buffer.BlockCopy(codeBehind.ToCharArray(), 0, fileBytes, 0, fileBytes.Length);
+
             var hashBytes = MD5.Create().ComputeHash(fileBytes);
             var hash = BitConverter.ToString(hashBytes);
 
-            Assert.That(hash, Is.EqualTo("7C-BF-9B-F1-F2-02-0D-15-9E-2E-9A-C2-45-3C-5F-9E"),
+            Assert.That(hash, Is.EqualTo("E3-AA-5B-D0-63-D7-86-5D-F0-8E-35-01-BE-EA-E3-54"),
                 () =>
                     $"The file '{codeBehindFilePath}' has changed. " +
-                    $"Undo your changes on the file to make this test pass. " +
-                    $"This exercise can be completed by purely working with XAML.");
+                    "Undo your changes on the file to make this test pass. " +
+                    "This exercise can be completed by purely working with XAML.");
         }
 
         [MonitoredTest("Should have a tree"), Order(2)]
