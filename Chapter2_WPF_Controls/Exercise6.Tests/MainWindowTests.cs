@@ -35,7 +35,7 @@ namespace Exercise6.Tests
             _window.Dispose();
         }
 
-        [MonitoredTest("Should have a tree"), Order(1)]
+        [MonitoredTest("Should have a textbox and 10 digit buttons"), Order(1)]
         public void _1_ShouldHaveATextBoxAnd10DigitButtons()
         {
             AssertHasAllControls();
