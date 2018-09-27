@@ -5,28 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Exercise6"
         mc:Ignorable="d"
-        Title="Bubbling an tunneling" Height="450" Width="300">
-    <StackPanel Margin="10">
+        Title="Bubbling an tunneling" Height="450" Width="300" PreviewTextInput="Window_PreviewTextInput">
+    <StackPanel x:Name="parentStackPanel" Margin="10">
         <TextBox x:Name="numberTextBox" 
-                 Margin="12" Padding="2" FontSize="16" HorizontalAlignment="Center" Width="200"></TextBox>
+                 Margin="12" Padding="2" FontSize="16" HorizontalAlignment="Center" Width="200" />
         <StackPanel Background="LightCyan" HorizontalAlignment="Center">
             <StackPanel Orientation="Horizontal">
-                <Button Padding="5" FontSize="24" Width="60" Height="60" Margin="8">1</Button>
-                <Button Padding="5" FontSize="24" Width="60" Height="60" Margin="8">2</Button>
-                <Button Padding="5" FontSize="24" Width="60" Height="60" Margin="8">3</Button>
+                <Button Padding="5" FontSize="24" Width="60" Height="60" Margin="8" >1</Button>
+                <Button Padding="5" FontSize="24" Width="60" Height="60" Margin="8" >2</Button>
+                <Button Padding="5" FontSize="24" Width="60" Height="60" Margin="8" >3</Button>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Button Padding="5" FontSize="24" Width="60" Height="60" Margin="8">4</Button>
-                <Button Padding="5" FontSize="24" Width="60" Height="60" Margin="8">5</Button>
-                <Button Padding="5" FontSize="24" Width="60" Height="60" Margin="8">6</Button>
+                <Button Padding="5" FontSize="24" Width="60" Height="60" Margin="8" >4</Button>
+                <Button Padding="5" FontSize="24" Width="60" Height="60" Margin="8" >5</Button>
+                <Button Padding="5" FontSize="24" Width="60" Height="60" Margin="8" >6</Button>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Button Padding="5" FontSize="24" Width="60" Height="60" Margin="8">7</Button>
-                <Button Padding="5" FontSize="24" Width="60" Height="60" Margin="8">8</Button>
-                <Button Padding="5" FontSize="24" Width="60" Height="60" Margin="8">9</Button>
+                <Button Padding="5" FontSize="24" Width="60" Height="60" Margin="8" >7</Button>
+                <Button Padding="5" FontSize="24" Width="60" Height="60" Margin="8" >8</Button>
+                <Button Padding="5" FontSize="24" Width="60" Height="60" Margin="8" >9</Button>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Padding="5" FontSize="24" Width="60" Height="60" Margin="8">0</Button>
+                <Button Padding="5" FontSize="24" Width="60" Height="60" Margin="8" >0</Button>
             </StackPanel>
         </StackPanel>
     </StackPanel>
