@@ -6,7 +6,70 @@
         xmlns:local="clr-namespace:Exercise5"
         mc:Ignorable="d"
         Title="Countries treeview" Height="350" Width="500">
+    <Window.Resources>
+        <Style TargetType="{x:Type Image}">
+            <Setter Property="Width" Value="40"></Setter>
+            <Setter Property="Height" Value="20"></Setter>
+            <Setter Property="Margin" Value="5"></Setter>
+        </Style>
+        <Style TargetType="{x:Type TreeViewItem}">
+            <Setter Property="Margin" Value="5"></Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
-
+        <TreeView>
+            <TreeViewItem Header="North America">
+                <TreeViewItem>
+                    <TreeViewItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="images/canada.png"></Image>
+                            <TextBlock Text="Canada" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </TreeViewItem.Header>
+                </TreeViewItem>
+                <TreeViewItem>
+                    <TreeViewItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="images/mexico.png"></Image>
+                            <TextBlock Text="Mexico" VerticalAlignment="Center"></TextBlock>
+                        </StackPanel>
+                    </TreeViewItem.Header>
+                </TreeViewItem>
+                <TreeViewItem>
+                    <TreeViewItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="images/usa.png"></Image>
+                            <TextBlock Text="USA" VerticalAlignment="Center"></TextBlock>
+                        </StackPanel>
+                    </TreeViewItem.Header>
+                </TreeViewItem>
+            </TreeViewItem>
+            <TreeViewItem Header="South America">
+                <TreeViewItem>
+                    <TreeViewItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="images/argentina.png"></Image>
+                            <TextBlock Text="Argentina" VerticalAlignment="Center"></TextBlock>
+                        </StackPanel>
+                    </TreeViewItem.Header>
+                </TreeViewItem>
+                <TreeViewItem>
+                    <TreeViewItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="images/brazil.png"></Image>
+                            <TextBlock Text="Brazil" VerticalAlignment= "Center"></TextBlock>
+                        </StackPanel>
+                    </TreeViewItem.Header>
+                </TreeViewItem>
+                <TreeViewItem>
+                    <TreeViewItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="images/uruguay.png"></Image>
+                            <TextBlock Text="Uruguay" VerticalAlignment="Center"></TextBlock>
+                        </StackPanel>
+                    </TreeViewItem.Header>
+                </TreeViewItem>
+            </TreeViewItem>
+        </TreeView>
     </Grid>
 </Window>
