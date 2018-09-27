@@ -6,7 +6,34 @@
         xmlns:local="clr-namespace:Exercise8"
         mc:Ignorable="d"
         Title="Round button" Height="250" Width="250">
+    <Window.Resources>
+        <ControlTemplate x:Key="newButtonStyle" TargetType="Button">
+            <Grid Height="150" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20">
+                <Ellipse>
+                    <Ellipse.Fill>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStop Color="Green" Offset="0"></GradientStop>
+                                <GradientStop Color="Purple" Offset="1"></GradientStop>
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <Ellipse Margin="15">
+                    <Ellipse.Fill>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStop Color="LightBlue" Offset="0"></GradientStop>
+                                <GradientStop Color="Blue" Offset="1"></GradientStop>
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <ContentPresenter Content="Button" VerticalAlignment="Center" HorizontalAlignment="Center" TextBlock.Foreground="White" TextBlock.FontWeight="Bold" TextBlock.FontSize="16"></ContentPresenter>
+            </Grid>
+        </ControlTemplate>
+    </Window.Resources>
     <Grid>
- 
+        <Button Template="{StaticResource newButtonStyle}"></Button>
     </Grid>
 </Window>
