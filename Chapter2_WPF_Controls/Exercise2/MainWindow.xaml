@@ -6,7 +6,29 @@
         xmlns:local="clr-namespace:Exercise2"
         mc:Ignorable="d"
         Title="Buttons with style" Height="350" Width="525">
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="250"></Setter>
+            <Setter Property="Margin" Value="20"></Setter>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStop Color="LimeGreen" Offset="0"></GradientStop>
+                            <GradientStop Color="Green" Offset="0.5"></GradientStop>
+                            <GradientStop Color="LimeGreen" Offset="1"></GradientStop>
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
+        <StackPanel>
+            <Button Content="Hello"></Button>
+            <Button Content="BIG BUTTON" FontSize="18"></Button>
+            <Button Content="DISABLED" IsEnabled="False"></Button>
+        </StackPanel>
 
     </Grid>
 </Window>
