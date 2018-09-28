@@ -15,6 +15,7 @@ The matching test projects contain **automated tests** that can be run to check 
 The assignments for each chapter can be found in de README.md in the folder of the chapter or by clicking on one of the links below:
 * [Chapter 2 - WPF Controls](Chapter2_WPF_Controls/README.md)
 * [Chapter 3 - WPF Layout](Chapter3_WPF_Layout/README.md)
+* [Chapter 5 - Unit Testing](Chapter5_Unit_Testing/README.md)
 * [Chapter 10 - ADO.NET Transactions](Chapter10_ADO_Transactions/README.md)
 
 ## Getting Started

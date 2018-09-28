@@ -1,0 +1,27 @@
+﻿<Window x:Class="FizzBuzz.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FizzBuzz"
+        mc:Ignorable="d"
+        Title="FizzBuzz generator" Height="500" Width="525">
+    <StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <Label MinWidth="80" Target="{Binding ElementName=fizzTextBox}">Fizz number</Label>
+            <TextBox x:Name="fizzTextBox" MinWidth="200"></TextBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <Label MinWidth="80" Target="{Binding ElementName=buzzTextBox}">Buzz number</Label>
+            <TextBox x:Name="buzzTextBox" MinWidth="200"></TextBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <Label MinWidth="80" Target="{Binding ElementName=lastNumberTextBox}">Last number</Label>
+            <TextBox x:Name="lastNumberTextBox" MinWidth="200"></TextBox>
+        </StackPanel>
+        <Button x:Name="generateButton" Margin="50 10" Padding="5" FontSize="14" FontWeight="Bold" Click="generateButton_Click">Generate FizzBuzz text</Button>
+        <TextBlock x:Name="resultTextBlock" Background="Azure" 
+                   MinHeight="150" Margin="20 0 20 20" TextWrapping="Wrap"
+                   Padding="5"></TextBlock>
+    </StackPanel>
+</Window>
