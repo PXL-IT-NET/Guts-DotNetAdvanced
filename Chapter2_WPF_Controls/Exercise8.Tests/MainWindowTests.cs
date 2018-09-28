@@ -78,15 +78,16 @@ namespace Exercise8.Tests
                 () => "None of the ellipses should have a fixed 'Width' or 'Height'.");
 
             Assert.That(ellipses,
+                Has.All.Matches((Ellipse ellipse) => Equals(ellipse.Parent, grid)),
+                () => "Both ellipses need to be direct children of the 'Grid'.");
+
+            Assert.That(ellipses,
                 Has.All.Matches((Ellipse ellipse) =>
                     ellipse.HorizontalAlignment == HorizontalAlignment.Stretch &&
                     ellipse.VerticalAlignment == VerticalAlignment.Stretch),
                 () => "Both ellipses need to stretch themselves to the borders of the grid. " +
                       "This can be achieved by not setting 'HorizontalAlignment' and 'VerticalAlignment' so that the default (Stretch) is used.");
-            Assert.That(ellipses,
-                Has.All.Matches((Ellipse ellipse) =>
-                    ellipse.Fill is LinearGradientBrush),
-                () => "Both ellipses need to have their 'Fill' property set to a 'LinearGradientBrush'.");
+
             Assert.That(ellipses,
                 Has.One.Matches((Ellipse ellipse) =>
                     ellipse.Margin.Left > 0 &&
@@ -95,6 +96,7 @@ namespace Exercise8.Tests
                     ellipse.Margin.Bottom > 0),
                 () =>
                     "One of the ellipses (the outer ellipse) should have a 'Margin' of zero on all sides so that it stretches right onto the border of the grid");
+
             Assert.That(ellipses,
                 Has.One.Matches((Ellipse ellipse) =>
                     ellipse.Margin.Left > 0 &&
@@ -103,6 +105,16 @@ namespace Exercise8.Tests
                     ellipse.Margin.Bottom > 0),
                 () =>
                     "One of the ellipses (the inner ellipse) should have a 'Margin' on all sides to make it smaller than the outer ellipse");
+
+            Assert.That(ellipses,
+                Has.All.Matches((Ellipse ellipse) =>
+                    ellipse.Fill is LinearGradientBrush),
+                () => "Both ellipses need to have their 'Fill' property set to a 'LinearGradientBrush'.");
+
+            Assert.That(ellipses,
+                Has.All.Matches((Ellipse ellipse) => Equals(ellipse.RenderTransform, Transform.Identity)),
+                () => "The 'RenderTransform' property of all ellipses should be 'Transform.Identity' when the button is not pressed. " +
+                      "Only apply a (scale) transformation when the button is pressed.");
 
             var contentPresenter = grid.FindVisualChildren<ContentPresenter>().FirstOrDefault();
             Assert.That(contentPresenter, Is.Not.Null, () => "The 'Grid' control should contain an instance of 'ContentPresenter'. " +
@@ -117,7 +129,6 @@ namespace Exercise8.Tests
                     "The 'VerticalAlignment' of the 'ContentPresenter' should be 'Center' " +
                     "so that content is placed in the middle of the button");
         }
-
 
         [MonitoredTest("The border of the button should become black on mouseover"), Order(4)]
         public void _4_TheBorderOfTheButtonShouldBecomeBlackOnMouseOver()
