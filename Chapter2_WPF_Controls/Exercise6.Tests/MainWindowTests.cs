@@ -108,6 +108,13 @@ namespace Exercise6.Tests
             Assert.That(firedEventArgs.Handled, Is.True,
                 () =>
                     "You should prevent TextInput tunnel event (PreviewTextInput) to reach the inner workings of the 'TextBox' control when a non-digit is typed. ");
+
+            firedEventArgs = FirePreviewTextInputEvent("1A1");
+
+            Assert.That(firedEventArgs.Handled, Is.True,
+                () =>
+                    "The 'PreviewTextInput' is handled correctly when the 'Text' property of the 'TextCompositionEventArgs' contains one (non-digit) character. " +
+                    "But when the 'Text' is e.g. '1A1' the TextInput tunnel event is not prevented to reach the inner workings of the 'TextBox' control.");
         }
 
         private TextCompositionEventArgs FirePreviewTextInputEvent(string inputText)

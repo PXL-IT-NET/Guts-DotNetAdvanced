@@ -73,7 +73,7 @@ With git you can *stash* (or set aside) your local changes, then pull (or get) t
 
 To do this, follow these steps:
 * Open a command prompt
-* Navigate to the local folder in which you cloned the online repository
+* Navigate to the local folder in which you cloned the online repository (**!the root folder, not a folder for a specific chapter or exercise!**)
 * Save your local changes by executing the command **git stash**
 * Do a pull request that overwrites the local code with the code in the online repository: **git pull origin master**
 * Reapply your stashed changes: **git stash apply**
