@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using Bank.Data.DomainClasses;
 using Bank.Data.DomainClasses.Enums;
 using Guts.Client.Shared.TestTools;
-using Microsoft.SqlServer.Management.Common;
-using Microsoft.SqlServer.Management.Smo;
 using NUnit.Framework;
 
 namespace Bank.Tests
@@ -16,23 +15,14 @@ namespace Bank.Tests
         public void BeforeAllTests()
         {
             var script = Solution.Current.GetFileContent(@"Bank.Tests\DropAndCreateTestDatabase.sql");
-
-            using (var connection = CreateConnection("MasterConnection"))
-            {
-                var server = new Server(new ServerConnection(connection)); //makes is possible to execute scripts with GO-statements
-                server.ConnectionContext.ExecuteNonQuery(script);
-            }
+            ExecuteScript(script, "MasterConnection");
         }
 
         [SetUp]
         public void BeforeEachTests()
         {
             var script = Solution.Current.GetFileContent(@"Bank.Tests\EmptyAndFillTestDatabase.sql");
-            using (var connection = CreateConnection())
-            {
-                var server = new Server(new ServerConnection(connection)); //makes is possible to execute scripts with GO-statements
-                server.ConnectionContext.ExecuteNonQuery(script);
-            }
+            ExecuteScript(script, "BankConnection");
         }
 
         protected SqlConnection CreateConnection()
@@ -44,6 +34,22 @@ namespace Bank.Tests
         {
             string connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
             return new SqlConnection(connectionString);
+        }
+
+        private void ExecuteScript(string script, string connectionStringName)
+        {
+            var c = script.Split(new string[] { "GO" }, StringSplitOptions.RemoveEmptyEntries);
+
+            using (var a = CreateConnection(connectionStringName))
+            {
+                a.Open();
+                foreach (var d in c)
+                {
+                    var b = new SqlCommand(d, a);
+                    b.ExecuteNonQuery();
+                }
+                a.Close();
+            }
         }
 
         #region Helper functions
@@ -125,7 +131,7 @@ namespace Bank.Tests
                     int g = d.GetOrdinal("Balance");
                     int h = d.GetOrdinal("AccountType");
                     int i = d.GetOrdinal("CustomerId");
-                    
+
                     while (d.Read())
                     {
                         var j = new Account

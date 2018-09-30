@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Linq;
 using Bank.Data;
@@ -14,20 +16,23 @@ using NUnit.Framework;
 
 namespace Bank.Tests
 {
-    [MonitoredTestFixture("dotnet2", 10, 1, @"Bank.Data\DomainClasses\Account.cs;Bank.Data\AccountRepository.cs;Bank.Data\CityRepository.cs;Bank.Data\ConnectionFactory.cs;Bank.Data\CustomerRepository.cs;Bank.UI\AccountsWindow.xaml;Bank.UI\AccountsWindow.xaml.cs;Bank.UI\CustomersWindow.xaml;Bank.UI\CustomersWindow.xaml.cs;Bank.UI\TransferWindow.xaml;Bank.UI\TransferWindow.xaml.cs")]
+    [ExerciseTestFixture("dotnet2", 10, "1", @"Bank.Data\DomainClasses\Account.cs;Bank.Data\AccountRepository.cs;Bank.Data\CityRepository.cs;Bank.Data\ConnectionFactory.cs;Bank.Data\CustomerRepository.cs;Bank.UI\AccountsWindow.xaml;Bank.UI\AccountsWindow.xaml.cs;Bank.UI\CustomersWindow.xaml;Bank.UI\CustomersWindow.xaml.cs;Bank.UI\TransferWindow.xaml;Bank.UI\TransferWindow.xaml.cs")]
     public class AccountRepositoyTests : DatabaseTestsBase
     {
         private AccountRepository _repository;
         private Random _random;
+        private Mock<IConnectionFactory> _connectionFactoryMock;
+        private SqlConnection _connection;
 
         [SetUp]
         public void Setup()
         {
-            var connectionFactoryMock = new Mock<IConnectionFactory>();
-            connectionFactoryMock.Setup(factory => factory.CreateSqlConnection()).Returns(CreateConnection);
+            _connectionFactoryMock = new Mock<IConnectionFactory>();
+            _connection = CreateConnection();
+            _connectionFactoryMock.Setup(factory => factory.CreateSqlConnection()).Returns(_connection);
 
-            _repository = new AccountRepository(connectionFactoryMock.Object);
-   
+            _repository = new AccountRepository(_connectionFactoryMock.Object);
+
             _random = new Random();
         }
 
@@ -35,7 +40,7 @@ namespace Bank.Tests
         public void GetAllAccountsOfCustomer_ShouldReturnAllCustomerAccountsFromDatabase()
         {
             //Arrange
-            var customerId = GetAllCustomers().First().CustomerId;
+            var customerId = GetAllCustomers().First(c => c.CustomerId > 0).CustomerId;
             var allAccounts = GetAllAccounts();
             var allAccountsOfCustomer = allAccounts.Where(account => account.CustomerId == customerId).ToList();
 
@@ -76,13 +81,19 @@ namespace Bank.Tests
             }
         }
 
+        [MonitoredTest("AccountRepository - GetAllAccountsOfCustomer should create and close a database connection")]
+        public void GetAllAccountsOfCustomer_ShouldCreateAndCloseConnection()
+        {
+            var customerId = GetAllCustomers().First(c => c.CustomerId > 0).CustomerId;
+            AssertConnectionIsCreatedAndClosed(() => _repository.GetAllAccountsOfCustomer(customerId));
+        }
+
         [MonitoredTest("AccountRepository - Add should add a new account to the database for the correct customer")]
         public void Add_ShouldAddANewAccountToTheDatabaseForTheCorrectCustomer()
         {
             //Arrange
             var allOriginalCustomers = GetAllCustomers();
-            int existingCustomerId = allOriginalCustomers.First().CustomerId;
-
+            int existingCustomerId = allOriginalCustomers.First(c => c.CustomerId > 0).CustomerId;
             Account newAccount = new AccountBuilder().WithCustomerId(existingCustomerId).Build();
 
             var allOriginalAccountsOfCustomer =
@@ -101,8 +112,45 @@ namespace Bank.Tests
             var addedAccount = allAccounts.FirstOrDefault(account => account.AccountNumber == newAccount.AccountNumber);
             Assert.That(addedAccount, Is.Not.Null,
                 () => "No account with the added account number can be found in the database afterwards.");
+            Assert.That(addedAccount.Id, Is.GreaterThan(0),
+                () => "The account was added with 'IDENTITY_INSERT' on. " +
+                      "You should let the database generate a value for the 'Id' column. " +
+                      "Until you fix this problem, other tests might also behave strangely.");
             Assert.That(addedAccount.CustomerId, Is.EqualTo(existingCustomerId),
                 () => "The customerId of the added account is not correct.");
+            Assert.That(addedAccount.AccountType, Is.EqualTo(newAccount.AccountType),
+                () => "The 'AccountType' is not saved correctly.");
+            Assert.That(addedAccount.Balance, Is.EqualTo(newAccount.Balance),
+                () => "The 'Balance' is not saved correctly.");
+        }
+
+        [MonitoredTest("AccountRepository - Add should not be vunerable to SQL injection attacks")]
+        public void Add_ShouldNotBeVunerableToSQLInjectionAttacks()
+        {
+            //Arrange
+            var allOriginalCustomers = GetAllCustomers();
+            int existingCustomerId = allOriginalCustomers.First(c => c.CustomerId > 0).CustomerId;
+            Account newAccount = new AccountBuilder().WithCustomerId(existingCustomerId).Build();
+            var sqlInjectionText = $"',{existingCustomerId},{(int)AccountType.PaymentAccount},{existingCustomerId}); DELETE FROM dbo.Accounts; --";
+            newAccount.AccountNumber = sqlInjectionText;
+
+            //Act
+            _repository.Add(newAccount);
+
+            //Assert
+            var allAccounts = GetAllAccounts();
+            Assert.That(allAccounts.Count, Is.GreaterThan(0),
+                () => "A SQL Injection attack that deletes all 'Accounts' from the database succeeded. " +
+                      "This may also affect the outcome of other tests.");
+        }
+
+        [MonitoredTest("AccountRepository - Add should create and close a database connection")]
+        public void Add_ShouldCreateAndCloseConnection()
+        {
+            var allOriginalCustomers = GetAllCustomers();
+            int existingCustomerId = allOriginalCustomers.First(c => c.CustomerId > 0).CustomerId;
+            Account newAccount = new AccountBuilder().WithCustomerId(existingCustomerId).Build();
+            AssertConnectionIsCreatedAndClosed(() => _repository.Add(newAccount));
         }
 
         [MonitoredTest("AccountRepository - Add should be able to handle null for account number")]
@@ -118,9 +166,7 @@ namespace Bank.Tests
                 .Build();
 
             //Act + Assert
-            Assert.That(() => _repository.Add(newAccount), Throws.Nothing,
-                () => "Make sure that the '@accountNumber' parameter value is 'DBNull.Value' when the account number is null. " +
-                      "Otherwise ADO.NET will think the parameter is not supplied. ");
+            AssertDoesNotThrowSqlParameterException(() => _repository.Add(newAccount));
         }
 
         [MonitoredTest("AccountRepository - Add should set the id on the inserted account instance")]
@@ -168,7 +214,7 @@ namespace Bank.Tests
         {
             //Arrange
             var allOriginalAccounts = GetAllAccounts();
-            var existingAccount = allOriginalAccounts.First();
+            var existingAccount = allOriginalAccounts.First(a => a.Id > 0);
 
             var newAccountNumber = Guid.NewGuid().ToString();
             var newBalance = _random.Next(0, int.MaxValue);
@@ -193,17 +239,42 @@ namespace Bank.Tests
             Assert.That(updatedAccount.AccountType, Is.EqualTo(newAccountType), () => "AccountType is not updated properly.");
         }
 
+        [MonitoredTest("AccountRepository - Update should not be vunerable to SQL injection attacks")]
+        public void Update_ShouldNotBeVunerableToSQLInjectionAttacks()
+        {
+            //Arrange
+            var allOriginalAccounts = GetAllAccounts();
+            var existingAccount = allOriginalAccounts.First(a => a.Id > 0);
+            var sqlInjectionText = "'; DELETE FROM dbo.Accounts; --";
+            existingAccount.AccountNumber = sqlInjectionText;
+
+            //Act
+            _repository.Update(existingAccount);
+
+            //Assert
+            var allAccounts = GetAllAccounts();
+            Assert.That(allAccounts.Count, Is.GreaterThan(0),
+                () => "A SQL Injection attack that deletes all 'Accounts' from the database succeeded. " +
+                      "This may also affect the outcome of other tests.");
+        }
+
+        [MonitoredTest("AccountRepository - Update should create and close a database connection")]
+        public void Update_ShouldCreateAndCloseConnection()
+        {
+            var allOriginalAccounts = GetAllAccounts();
+            var existingAccount = allOriginalAccounts.First(a => a.Id > 0);
+            AssertConnectionIsCreatedAndClosed(() => _repository.Update(existingAccount));
+        }
+
         [MonitoredTest("AccountRepository - Update should be able to handle null for account number")]
         public void Update_ShouldBeAbleToHandleNullForAccountNumber()
         {
             //Arrange
-            var existingAccount = GetAllAccounts().First();
+            var existingAccount = GetAllAccounts().First(a => a.Id > 0);
             existingAccount.AccountNumber = null;
 
             //Act + Assert
-            Assert.That(() => _repository.Update(existingAccount), Throws.Nothing,
-                () => "Make sure that the '@accountNumber' parameter value is 'DBNull.Value' when the account number is null. " +
-                      "Otherwise ADO.NET will think the parameter is not supplied. ");
+            AssertDoesNotThrowSqlParameterException(() => _repository.Update(existingAccount));
         }
 
         [MonitoredTest("AccountRepository - Update should throw an ArgumentException when the CustomerId is not set")]
@@ -233,22 +304,32 @@ namespace Bank.Tests
         {
             //Arrange
             var allOriginalAccounts = GetAllAccounts();
-            var originalFromAccount = allOriginalAccounts.First();
-            var originalToAccount = allOriginalAccounts.ElementAt(1);
+            var originalFromAccount = allOriginalAccounts.First(a => a.Id > 0);
+            var originalToAccount = allOriginalAccounts.First(a => a.Id > 0 && a.Id != originalFromAccount.Id);
             var validAmount = _random.Next(1, Convert.ToInt32(originalFromAccount.Balance));
-            
+
             //Act
             _repository.TransferMoney(originalFromAccount.Id, originalToAccount.Id, validAmount);
 
             //Assert
             var allAccounts = GetAllAccounts();
-            var updatedFromAccount = allAccounts.First();
-            var updatedToAccount = allAccounts.ElementAt(1);
+            var updatedFromAccount = allAccounts.First(a => a.Id > 0);
+            var updatedToAccount = allAccounts.First(a => a.Id > 0 && a.Id != originalFromAccount.Id);
 
             Assert.That(updatedFromAccount.Balance, Is.EqualTo(originalFromAccount.Balance - validAmount),
                 () => "The balance of the 'From' account is not correct.");
             Assert.That(updatedToAccount.Balance, Is.EqualTo(originalToAccount.Balance + validAmount),
                 () => "The balance of the 'To' account is not correct.");
+        }
+
+        [MonitoredTest("AccountRepository - TransferMoney should create and close a database connection")]
+        public void TransferMoney_ShouldCreateAndCloseConnection()
+        {
+            var allOriginalAccounts = GetAllAccounts();
+            var originalFromAccount = allOriginalAccounts.First(a => a.Id > 0);
+            var originalToAccount = allOriginalAccounts.First(a => a.Id > 0 && a.Id != originalFromAccount.Id);
+            var validAmount = _random.Next(1, Convert.ToInt32(originalFromAccount.Balance));
+            AssertConnectionIsCreatedAndClosed(() => _repository.TransferMoney(originalFromAccount.Id, originalToAccount.Id, validAmount));
         }
 
         [MonitoredTest("AccountRepository - TransferMoney should use a transaction")]
@@ -272,7 +353,7 @@ namespace Bank.Tests
         {
             //Arrange
             var allOriginalAccounts = GetAllAccounts();
-            var originalFromAccount = allOriginalAccounts.First();
+            var originalFromAccount = allOriginalAccounts.First(a => a.Id > 0);
             var invalidToAccountId = -1;
             var amount = _random.Next(1, Convert.ToInt32(originalFromAccount.Balance));
 
@@ -287,6 +368,37 @@ namespace Bank.Tests
                 () => "The update of the balance the 'From' account is persisted in the database. " +
                       "This should not be allowed when the 'Id' of the 'To' account is invalid (e.g. -1) and an exception happens. " +
                       "In that case the transaction should be rolled back.");
+        }
+
+        private void AssertDoesNotThrowSqlParameterException(Action action)
+        {
+            try
+            {
+                action.Invoke();
+            }
+            catch (SqlException sqlException)
+            {
+                if (sqlException.Message.Contains("parameter"))
+                {
+                    Assert.Fail("Make sure that the parameter value for a property that is null is 'DBNull.Value'. " +
+                                "Otherwise ADO.NET will think the parameter is not supplied. ");
+                }
+
+                Assert.Fail("An unexpected SqlException occurred. " +
+                            "Maybe you should first fix some other tests? " +
+                            $"Exception message: {sqlException.Message}");
+            }
+        }
+
+        private void AssertConnectionIsCreatedAndClosed(Action action)
+        {
+            _connectionFactoryMock.Invocations.Clear();
+
+            action.Invoke();
+
+            _connectionFactoryMock.Verify(factory => factory.CreateSqlConnection(), Times.Once,
+                "The 'ConnectionFactory' should be used to create a new 'SqlConnection' each time the repository method is called.");
+            Assert.That(_connection.State, Is.EqualTo(ConnectionState.Closed), () => "The created connection is not closed.");
         }
     }
 }

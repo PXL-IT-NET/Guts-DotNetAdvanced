@@ -15,7 +15,7 @@ using NUnit.Framework;
 
 namespace Bank.Tests
 {
-    [MonitoredTestFixture("dotnet2", 10, 1, @"Bank.Data\DomainClasses\Account.cs;Bank.Data\AccountRepository.cs;Bank.Data\CityRepository.cs;Bank.Data\ConnectionFactory.cs;Bank.Data\CustomerRepository.cs;Bank.UI\AccountsWindow.xaml;Bank.UI\AccountsWindow.xaml.cs;Bank.UI\CustomersWindow.xaml;Bank.UI\CustomersWindow.xaml.cs;Bank.UI\TransferWindow.xaml;Bank.UI\TransferWindow.xaml.cs"), 
+    [ExerciseTestFixture("dotnet2", 10, "1", @"Bank.Data\DomainClasses\Account.cs;Bank.Data\AccountRepository.cs;Bank.Data\CityRepository.cs;Bank.Data\ConnectionFactory.cs;Bank.Data\CustomerRepository.cs;Bank.UI\AccountsWindow.xaml;Bank.UI\AccountsWindow.xaml.cs;Bank.UI\CustomersWindow.xaml;Bank.UI\CustomersWindow.xaml.cs;Bank.UI\TransferWindow.xaml;Bank.UI\TransferWindow.xaml.cs"),
      Apartment(ApartmentState.STA)]
     public class CustomersWindowTests
     {
@@ -38,6 +38,7 @@ namespace Bank.Tests
             _windowDialogServiceMock = new Mock<IWindowDialogService>();
         }
 
+        [TearDown]
         public void TearDown()
         {
             _window?.Close();
@@ -87,8 +88,8 @@ namespace Bank.Tests
             //Assert
             _customerRepositoryMock.Verify(repo => repo.GetAll(), Times.Once,
                 "The constructor should call the 'GetAll' method from the customer repository correctly.");
-            Assert.That(_datagrid.ItemsSource, Is.EqualTo(allCustomers),
-                () => "The 'ItemsSource' of the datagrid should be the list returned by the repository.");
+            Assert.That(_datagrid.ItemsSource, Is.SameAs(allCustomers),
+                () => "The 'ItemsSource' of the datagrid should be the very same list returned by the repository.");
         }
 
         [MonitoredTest("CustomersWindow - Should load the cities on construction"), Order(3)]
@@ -149,7 +150,6 @@ namespace Bank.Tests
             //Arrange
             var newCustomer = new CustomerBuilder().WithId(0).Build();
             AddCustomerToTheGridAndSelectIt(newCustomer);
-            _datagrid.CanUserAddRows = true;
 
             //Act
             _saveCustomerButton.FireClickEvent();
@@ -160,19 +160,21 @@ namespace Bank.Tests
             _customerRepositoryMock.Verify(repo => repo.Update(It.IsAny<Customer>()), Times.Never,
                 "The 'Update' method of the repository should not have been called.");
 
-            Assert.That(_datagrid.CanUserAddRows, Is.False);
+            Assert.That(_datagrid.CanUserAddRows, Is.False, () => "After adding a new customer the property 'CanUserAddRows' of the datagrid should be false " +
+                                                                  "so that the new row is showed as a normal row.");
         }
 
         [MonitoredTest("CustomersWindow - A click on SaveCustomeButton should do nothing when no customer is selected"), Order(7)]
         public void _7_SaveCustomerButton_Click_ShouldDoNothingWhenNoCustomerIsSelected()
         {
             //Arrange
+            InitializeWindow(_customerRepositoryMock.Object, _cityRepositoryMock.Object, _windowDialogServiceMock.Object);
             _datagrid.SelectedIndex = -1;
 
             //Act
             Assert.That(() => _saveCustomerButton.FireClickEvent(), Throws.Nothing,
                 () => "An exception occurs when nothing is selected.");
-            
+
             //Assert
             _customerRepositoryMock.Verify(repo => repo.Add(It.IsAny<Customer>()), Times.Never,
                 "The 'Add' method of the repository should not have been called.");
@@ -239,8 +241,19 @@ namespace Bank.Tests
 
         private void AddCustomerToTheGridAndSelectIt(Customer customer)
         {
-            _customerRepositoryMock.Setup(repo => repo.GetAll()).Returns(new List<Customer> { customer });
+            var allExistingCustomers = new List<Customer>();
+            if (customer.CustomerId > 0)
+            {
+                allExistingCustomers.Add(customer);
+            }
+            _customerRepositoryMock.Setup(repo => repo.GetAll()).Returns(allExistingCustomers);
             InitializeWindow(_customerRepositoryMock.Object, _cityRepositoryMock.Object, _windowDialogServiceMock.Object);
+
+            if (customer.CustomerId == 0)
+            {
+                _datagrid.CanUserAddRows = true;
+                allExistingCustomers.Insert(0, customer);
+            }
 
             _datagrid.SelectedIndex = 0; //select the customer
         }

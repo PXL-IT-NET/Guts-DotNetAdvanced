@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading;
+using System.Windows;
 using Guts.Client.Classic;
 using Guts.Client.Classic.TestTools.WPF;
 using NUnit.Framework;
@@ -11,7 +12,7 @@ using Guts.Client.Shared.TestTools;
 
 namespace Exercise1.Tests
 {
-    [MonitoredTestFixture("dotNet2", 2, 1, @"Exercise1\MainWindow.xaml"),
+    [ExerciseTestFixture("dotNet2", 2, "1", @"Exercise1\MainWindow.xaml"),
      Apartment(ApartmentState.STA)]
     public class MainWindowTests
     {
@@ -24,7 +25,13 @@ namespace Exercise1.Tests
         public void Setup()
         {
             _window = new TestWindow<MainWindow>();
-            var allButtons = _window.GetUIElements<Button>().OrderBy(button => button.Margin.Top).ToList();
+
+            var allButtons = _window.GetUIElements<Button>().ToList();
+            if (allButtons.All(button => button.Parent is Grid && button.VerticalAlignment == VerticalAlignment.Top))
+            {
+                allButtons = allButtons.OrderBy(button => button.Margin.Top).ToList();
+            }
+
             if (allButtons.Count >= 1)
             {
                 _simpleButton = allButtons.ElementAt(0);
@@ -49,11 +56,10 @@ namespace Exercise1.Tests
         public void _1_ShouldNotHaveChangedTheCodebehindFile()
         {
             var codeBehindFilePath = @"Exercise1\MainWindow.xaml.cs";
-            var hash = Solution.Current.GetFileHash(codeBehindFilePath);
-            Assert.That(hash, Is.EqualTo("32-2C-19-B6-CE-C5-13-81-AB-67-BE-A0-94-78-1F-5D"),
-                () =>
-                    $"The file '{codeBehindFilePath}' has changed. " +
-                    "Undo your changes on the file to make this test pass.");
+
+            var fileContent = Solution.Current.GetFileContent(codeBehindFilePath);
+            Assert.That(fileContent.Length, Is.LessThanOrEqualTo(200), () => $"The file '{codeBehindFilePath}' has changed. " +
+                                                                             "Undo your changes on the file to make this test pass.");
         }
 
         [MonitoredTest("Should have a simple button on the top"), Order(2)]

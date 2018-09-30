@@ -11,7 +11,7 @@ using Guts.Client.Classic;
 
 namespace Exercise1.Tests
 {
-    [MonitoredTestFixture("dotnet2", 3, 1, @"Exercise1\MainWindow.xaml"),
+    [ExerciseTestFixture("dotnet2", 3, "1", @"Exercise1\MainWindow.xaml"),
      Apartment(ApartmentState.STA)]
     public class MainWindowTests
     {
@@ -42,8 +42,8 @@ namespace Exercise1.Tests
         public void _1_ShouldNotHaveChangedTheCodebehindFile()
         {
             var codeBehindFilePath = @"Exercise1\MainWindow.xaml.cs";
-            var hash = Solution.Current.GetFileHash(codeBehindFilePath);
-            Assert.That(hash, Is.EqualTo("32-2C-19-B6-CE-C5-13-81-AB-67-BE-A0-94-78-1F-5D"),
+            var fileContent = Solution.Current.GetFileContent(codeBehindFilePath);
+            Assert.That(fileContent.Length, Is.LessThanOrEqualTo(200),
                 () =>
                     $"The file '{codeBehindFilePath}' has changed. " +
                     "Undo your changes on the file to make this test pass. " +

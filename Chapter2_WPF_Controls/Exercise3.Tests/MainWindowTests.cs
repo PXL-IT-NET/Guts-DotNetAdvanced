@@ -10,7 +10,7 @@ using NUnit.Framework;
 
 namespace Exercise3.Tests
 {
-    [MonitoredTestFixture("dotNet2", 2, 3, @"Exercise3\MainWindow.xaml;Exercise3\MainWindow.xaml.cs"), 
+    [ExerciseTestFixture("dotNet2", 2, "3", @"Exercise3\MainWindow.xaml;Exercise3\MainWindow.xaml.cs"),
      Apartment(ApartmentState.STA)]
     public class MainWindowTests
     {
@@ -24,7 +24,7 @@ namespace Exercise3.Tests
         public void Setup()
         {
             _window = new TestWindow<MainWindow>();
-         
+
             var allButtons = _window.GetUIElements<RepeatButton>().ToList();
             _growButton = allButtons.FirstOrDefault(button => (button.Content as string)?.ToLower() == "grow");
             _shrinkButton = allButtons.FirstOrDefault(button => (button.Content as string)?.ToLower() == "shrink");
@@ -34,7 +34,7 @@ namespace Exercise3.Tests
             {
                 _rectangle = _canvas.Children.OfType<Rectangle>().FirstOrDefault();
             }
-            
+
         }
 
         [OneTimeTearDown]

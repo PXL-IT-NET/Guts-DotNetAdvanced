@@ -1,0 +1,25 @@
+﻿<Window x:Class="Exercise1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Chapter5_WPF_Databinding"
+        mc:Ignorable="d"
+        Title="OneWay Databinding" Height="350" Width="525">
+    <Grid>
+        <Label Content="Game Id" HorizontalAlignment="Left" Margin="30,20,0,0" VerticalAlignment="Top" Target="{Binding ElementName=GameIdTextBox}" />
+        <TextBox x:Name="GameIdTextBox" HorizontalAlignment="Left" Height="23" Margin="180,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+
+        <Label Content="Name" HorizontalAlignment="Left" Margin="30,70,0,0" VerticalAlignment="Top" Target="{Binding ElementName=NameTextBox}"/>
+        <TextBox x:Name="NameTextBox" HorizontalAlignment="Left" Height="23" Margin="180,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+
+        <Label Content="Type" HorizontalAlignment="Left" Margin="30,120,0,0" VerticalAlignment="Top" Target="{Binding ElementName=TypeTextBoxTextBox}"/>
+        <TextBox x:Name="TypeTextBox" HorizontalAlignment="Left" Height="23" Margin="180,120,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+
+        <Label Content="Release Date" HorizontalAlignment="Left" Margin="30,170,0,0" VerticalAlignment="Top" Target="{Binding ElementName=ReleaseDateTextBox}"/>
+        <TextBox x:Name="ReleaseDateTextBox" HorizontalAlignment="Left" Height="23" Margin="180,170,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="216"/>
+
+        <Label Content="Description" HorizontalAlignment="Left" Margin="30,220,0,0" VerticalAlignment="Top" Target="{Binding ElementName=DescriptionTextBox}"/>
+        <TextBox x:Name="DescriptionTextBox" HorizontalAlignment="Left" Height="82" Margin="180,220,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="316"/>
+    </Grid>
+</Window>

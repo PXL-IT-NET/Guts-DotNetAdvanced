@@ -15,7 +15,7 @@ using Guts.Client.Shared;
 
 namespace Bank.Tests
 {
-    [MonitoredTestFixture("dotnet2", 10, 1, @"Bank.Data\DomainClasses\Account.cs;Bank.Data\AccountRepository.cs;Bank.Data\CityRepository.cs;Bank.Data\ConnectionFactory.cs;Bank.Data\CustomerRepository.cs;Bank.UI\AccountsWindow.xaml;Bank.UI\AccountsWindow.xaml.cs;Bank.UI\CustomersWindow.xaml;Bank.UI\CustomersWindow.xaml.cs;Bank.UI\TransferWindow.xaml;Bank.UI\TransferWindow.xaml.cs"), 
+    [ExerciseTestFixture("dotnet2", 10, "1", @"Bank.Data\DomainClasses\Account.cs;Bank.Data\AccountRepository.cs;Bank.Data\CityRepository.cs;Bank.Data\ConnectionFactory.cs;Bank.Data\CustomerRepository.cs;Bank.UI\AccountsWindow.xaml;Bank.UI\AccountsWindow.xaml.cs;Bank.UI\CustomersWindow.xaml;Bank.UI\CustomersWindow.xaml.cs;Bank.UI\TransferWindow.xaml;Bank.UI\TransferWindow.xaml.cs"),
      Apartment(ApartmentState.STA)]
     public class AccountsWindowTests
     {
@@ -82,9 +82,9 @@ namespace Bank.Tests
             //Assert
             _accountRepositoryMock.Verify(repo => repo.GetAllAccountsOfCustomer(customer.CustomerId), Times.Once,
                 "The constructor should call the 'GetAllAccountsOfCustomer' method from the repository correctly.");
-            Assert.That(_datagrid.ItemsSource, Is.EqualTo(allAccounts),
-                () => "The 'ItemsSource' of the datagrid should be the list returned by the repository.");
-            
+            Assert.That(_datagrid.ItemsSource, Is.SameAs(allAccounts),
+                () => "The 'ItemsSource' of the datagrid should be the very same list returned by the repository.");
+
         }
 
         [MonitoredTest("AccountsWindow - Should show the fullname of the customer in its title"), Order(3)]
@@ -141,8 +141,7 @@ namespace Bank.Tests
         {
             //Arrange  
             var newAccount = new AccountBuilder().WithId(0).Build();
-            AddAccountsToTheGridAndSelectTheFirst(new List<Account> { newAccount });
-            _datagrid.CanUserAddRows = true;
+            AddNewAccountToTheGridAndSelectIt(newAccount);
 
             //Act
             _saveAccountButton.FireClickEvent();
@@ -249,6 +248,21 @@ namespace Bank.Tests
                 .Returns(allAccountsOfCustomer);
 
             InitializeWindow(customer, _accountRepositoryMock.Object, _windowDialogServiceMock.Object);
+
+            _datagrid.SelectedIndex = 0; //select the account
+        }
+
+        private void AddNewAccountToTheGridAndSelectIt(Account newAccount)
+        {
+            var customer = new CustomerBuilder().WithId().Build();
+            var accountsItemSource = new List<Account>();
+            _accountRepositoryMock.Setup(repo => repo.GetAllAccountsOfCustomer(It.IsAny<int>()))
+                .Returns(accountsItemSource);
+
+            InitializeWindow(customer, _accountRepositoryMock.Object, _windowDialogServiceMock.Object);
+
+            _datagrid.CanUserAddRows = true;
+            accountsItemSource.Insert(0, newAccount);
 
             _datagrid.SelectedIndex = 0; //select the account
         }

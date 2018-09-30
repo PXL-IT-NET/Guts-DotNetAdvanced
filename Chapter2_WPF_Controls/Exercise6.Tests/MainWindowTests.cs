@@ -12,7 +12,7 @@ using NUnit.Framework;
 
 namespace Exercise6.Tests
 {
-    [MonitoredTestFixture("dotNet2", 2, 6, @"Exercise6\MainWindow.xaml;Exercise6\MainWindow.xaml.cs"),
+    [ExerciseTestFixture("dotNet2", 2, "6", @"Exercise6\MainWindow.xaml;Exercise6\MainWindow.xaml.cs"),
      Apartment(ApartmentState.STA)]
     public class MainWindowTests
     {
@@ -64,6 +64,7 @@ namespace Exercise6.Tests
             Assert.That(clickHandlerForStackPanelRegex.IsMatch(xamlCode), Is.True,
                 () =>
                     "The 'StackPanel' containing the buttons should have defined which method handles bubbled click events from the buttons. " +
+                    "You are expected to link the event handler in XAML code. " +
                     "Tip: 'ButtonBase.Click'.");
         }
 

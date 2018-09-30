@@ -13,6 +13,8 @@ Tip: a *StackPanel* can hold multiple controls and positions them vertically.
 The bottom button must have white bold text and a gradient as background (Tip: *LinearGradientBrush*). 
 The gradient must move from yellow to red to blue and finally to green with equal distance between the color transitions.
 
+Place the buttons in a single-cell *Grid*.
+
 Do all of this **purely in XAML**. Do not change MainWindow.xaml.cs.
 
 ## Exercise 2

@@ -12,10 +12,12 @@ namespace Bank.Tests
         public AccountBuilder()
         {
             _random = new Random();
+            var accountTypeValues = Enum.GetValues(typeof(AccountType));
+
             _account = new Account
             {
                 AccountNumber = Guid.NewGuid().ToString(),
-                AccountType = AccountType.PaymentAccount,
+                AccountType = (AccountType)accountTypeValues.GetValue(_random.Next(accountTypeValues.Length)),
                 Balance = _random.Next(0, int.MaxValue),
                 CustomerId = 0
             };

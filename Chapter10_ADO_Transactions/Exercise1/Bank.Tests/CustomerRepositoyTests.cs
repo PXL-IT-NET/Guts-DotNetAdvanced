@@ -1,29 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlTypes;
-using System.Linq;
-using Bank.Data;
+﻿using Bank.Data;
 using Bank.Data.DomainClasses;
 using Bank.Data.Interfaces;
 using Guts.Client.Classic;
 using Guts.Client.Shared;
 using Moq;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Data.SqlTypes;
+using System.Linq;
 
 namespace Bank.Tests
 {
-    [MonitoredTestFixture("dotnet2", 10, 1, @"Bank.Data\DomainClasses\Account.cs;Bank.Data\AccountRepository.cs;Bank.Data\CityRepository.cs;Bank.Data\ConnectionFactory.cs;Bank.Data\CustomerRepository.cs;Bank.UI\AccountsWindow.xaml;Bank.UI\AccountsWindow.xaml.cs;Bank.UI\CustomersWindow.xaml;Bank.UI\CustomersWindow.xaml.cs;Bank.UI\TransferWindow.xaml;Bank.UI\TransferWindow.xaml.cs")]
+    [ExerciseTestFixture("dotnet2", 10, "1", @"Bank.Data\DomainClasses\Account.cs;Bank.Data\AccountRepository.cs;Bank.Data\CityRepository.cs;Bank.Data\ConnectionFactory.cs;Bank.Data\CustomerRepository.cs;Bank.UI\AccountsWindow.xaml;Bank.UI\AccountsWindow.xaml.cs;Bank.UI\CustomersWindow.xaml;Bank.UI\CustomersWindow.xaml.cs;Bank.UI\TransferWindow.xaml;Bank.UI\TransferWindow.xaml.cs")]
     public class CustomerRepositoyTests : DatabaseTestsBase
     {
         private CustomerRepository _repository;
+        private Mock<IConnectionFactory> _connectionFactoryMock;
+        private SqlConnection _connection;
 
         [SetUp]
         public void Setup()
         {
-            var connectionFactoryMock = new Mock<IConnectionFactory>();
-            connectionFactoryMock.Setup(factory => factory.CreateSqlConnection()).Returns(CreateConnection);
+            _connectionFactoryMock = new Mock<IConnectionFactory>();
+            _connection = CreateConnection();
+            _connectionFactoryMock.Setup(factory => factory.CreateSqlConnection()).Returns(_connection);
 
-            _repository = new CustomerRepository(connectionFactoryMock.Object);
+            _repository = new CustomerRepository(_connectionFactoryMock.Object);
         }
 
         [MonitoredTest("CustomerRepository - GetAll should return all customers from the database")]
@@ -31,7 +36,7 @@ namespace Bank.Tests
         {
             //Arrange
             var allOriginalCustomers = GetAllCustomers();
-           
+
             //Act
             IList<Customer> retrievedCustomers = null;
             try
@@ -72,13 +77,18 @@ namespace Bank.Tests
             }
         }
 
+        [MonitoredTest("CustomerRepository - GetAll should create and close a database connection")]
+        public void GetAll_ShouldCreateAndCloseConnection()
+        {
+            AssertConnectionIsCreatedAndClosed(() => _repository.GetAll());
+        }
+
         [MonitoredTest("CustomerRepository - Add should add a new customer to the database")]
         public void Add_ShouldAddANewCustomerToTheDatabase()
         {
             //Arrange
             var allOriginalCustomers = GetAllCustomers();
             var existingCity = GetAllCities().First();
-
             Customer newCustomer = new CustomerBuilder().WithId(0).WithZipCode(existingCity.ZipCode).Build();
 
             //Act
@@ -92,6 +102,50 @@ namespace Bank.Tests
             var addedCustomer = allCustomersAfterInsert.FirstOrDefault(customer => customer.Name == newCustomer.Name);
             Assert.That(addedCustomer, Is.Not.Null,
                 () => "No customer with the added name can be found in the database afterwards.");
+            Assert.That(addedCustomer.CustomerId, Is.GreaterThan(0),
+                () => "The customer was added with 'IDENTITY_INSERT' on. " +
+                      "You should let the database generate a value for the 'CustomerId' column. " +
+                      "Until you fix this problem, other tests might also behave strangely.");
+            Assert.That(addedCustomer.Address, Is.EqualTo(newCustomer.Address),
+                () => "The 'Address' is not saved correctly.");
+            Assert.That(addedCustomer.CellPhone, Is.EqualTo(newCustomer.CellPhone),
+                () => "The 'CellPhone' is not saved correctly.");
+            Assert.That(addedCustomer.FirstName, Is.EqualTo(newCustomer.FirstName),
+                () => "The 'FirstName' is not saved correctly.");
+            Assert.That(addedCustomer.Name, Is.EqualTo(newCustomer.Name),
+                () => "The 'Name' is not saved correctly.");
+            Assert.That(addedCustomer.ZipCode, Is.EqualTo(newCustomer.ZipCode),
+                () => "The 'ZipCode' is not saved correctly.");
+        }
+
+        [MonitoredTest("CustomerRepository - Add should not be vunerable to SQL injection attacks")]
+        public void Add_ShouldNotBeVunerableToSQLInjectionAttacks()
+        {
+            //Arrange
+            var existingCity = GetAllCities().First();
+            Customer newCustomer = new CustomerBuilder().WithId(0).WithZipCode(existingCity.ZipCode).Build();
+            var sqlInjectionText = "',3500,3500,3500,3500, ''); DELETE FROM dbo.Accounts; --";
+            newCustomer.Name = sqlInjectionText;
+            newCustomer.FirstName = sqlInjectionText;
+            newCustomer.Address = sqlInjectionText;
+            newCustomer.CellPhone = sqlInjectionText;
+
+            //Act
+            _repository.Add(newCustomer);
+
+            //Assert
+            var allAccounts = GetAllAccounts();
+            Assert.That(allAccounts.Count, Is.GreaterThan(0),
+                () => "A SQL Injection attack that deletes all 'Accounts' from the database succeeded. " +
+                      "This may also affect the outcome of other tests.");
+        }
+
+        [MonitoredTest("CustomerRepository - Add should create and close a database connection")]
+        public void Add_ShouldCreateAndCloseConnection()
+        {
+            var existingCity = GetAllCities().First();
+            Customer newCustomer = new CustomerBuilder().WithId(0).WithZipCode(existingCity.ZipCode).Build();
+            AssertConnectionIsCreatedAndClosed(() => _repository.Add(newCustomer));
         }
 
         [MonitoredTest("CustomerRepository - Add should be able to handle properties that are null")]
@@ -106,9 +160,7 @@ namespace Bank.Tests
                 .WithNullProperties().Build();
 
             //Act
-            Assert.That(() => _repository.Add(newCustomer), Throws.Nothing,
-                () => "Make sure that the parameter value for a property that is null is 'DBNull.Value'. " +
-                      "Otherwise ADO.NET will think the parameter is not supplied. ");
+            AssertDoesNotThrowSqlParameterException(() => _repository.Add(newCustomer));
         }
 
         [MonitoredTest("CustomerRepository - Add should set the 'CustomerId' on the inserted customer instance")]
@@ -155,7 +207,7 @@ namespace Bank.Tests
             //Arrange
             var allOriginalCustomers = GetAllCustomers();
             var existingCity = GetAllCities().First();
-            var existingCustomer = allOriginalCustomers.First();
+            var existingCustomer = allOriginalCustomers.First(c => c.CustomerId > 0);
 
             var newAddress = Guid.NewGuid().ToString();
             var newCellPhone = Guid.NewGuid().ToString();
@@ -185,12 +237,42 @@ namespace Bank.Tests
             Assert.That(updatedAccount.ZipCode, Is.EqualTo(existingCity.ZipCode), () => "ZipCode is not updated properly.");
         }
 
+        [MonitoredTest("CustomerRepository - Update should not be vunerable to SQL injection attacks")]
+        public void Update_ShouldNotBeVunerableToSQLInjectionAttacks()
+        {
+            //Arrange
+            var allOriginalCustomers = GetAllCustomers();
+            var existingCustomer = allOriginalCustomers.First(c => c.CustomerId > 0);
+            var sqlInjectionText = "'; DELETE FROM dbo.Accounts; --";
+            existingCustomer.Name = sqlInjectionText;
+            existingCustomer.FirstName = sqlInjectionText;
+            existingCustomer.Address = sqlInjectionText;
+            existingCustomer.CellPhone = sqlInjectionText;
+
+            //Act
+            _repository.Update(existingCustomer);
+
+            //Assert
+            var allAccounts = GetAllAccounts();
+            Assert.That(allAccounts.Count, Is.GreaterThan(0),
+                () => "A SQL Injection attack that deletes all 'Accounts' from the database succeeded. " +
+                      "This may also affect the outcome of other tests.");
+        }
+
+        [MonitoredTest("CustomerRepository - Update should create and close a database connection")]
+        public void Update_ShouldCreateAndCloseConnection()
+        {
+            var allOriginalCustomers = GetAllCustomers();
+            var existingCustomer = allOriginalCustomers.First(c => c.CustomerId > 0);
+            AssertConnectionIsCreatedAndClosed(() => _repository.Update(existingCustomer));
+        }
+
         [MonitoredTest("CustomerRepository - Update should be able to handle properties that are null")]
         public void Update_ShouldBeAbleToHandlePropertiesThatAreNull()
         {
             //Arrange
             var allOriginalCustomers = GetAllCustomers();
-            var existingCustomer = allOriginalCustomers.First();
+            var existingCustomer = allOriginalCustomers.First(c => c.CustomerId > 0);
 
             existingCustomer.Address = null;
             existingCustomer.CellPhone = null;
@@ -198,9 +280,7 @@ namespace Bank.Tests
             existingCustomer.Name = null;
 
             //Act
-            Assert.That(() => _repository.Update(existingCustomer), Throws.Nothing,
-                () => "Make sure that the parameter value for a property that is null is 'DBNull.Value'. " +
-                      "Otherwise ADO.NET will think the parameter is not supplied. ");
+            AssertDoesNotThrowSqlParameterException(() => _repository.Update(existingCustomer));
         }
 
         [MonitoredTest("CustomerRepository - Update should throw an ArgumentException when 'ZipCode' is not set")]
@@ -223,6 +303,37 @@ namespace Bank.Tests
             //Act + Assert
             Assert.That(() => _repository.Update(newCustomer), Throws.ArgumentException,
                 () => "No ArgumentException is thrown when the 'CustomerId' is zero.");
+        }
+
+        private void AssertDoesNotThrowSqlParameterException(Action action)
+        {
+            try
+            {
+                action.Invoke();
+            }
+            catch (SqlException sqlException)
+            {
+                if (sqlException.Message.Contains("parameter"))
+                {
+                    Assert.Fail("Make sure that the parameter value for a property that is null is 'DBNull.Value'. " +
+                                "Otherwise ADO.NET will think the parameter is not supplied. ");
+                }
+
+                Assert.Fail("An unexpected SqlException occurred. " +
+                            "Maybe you should first fix some other tests? " +
+                            $"Exception message: {sqlException.Message}");
+            }
+        }
+
+        private void AssertConnectionIsCreatedAndClosed(Action action)
+        {
+            _connectionFactoryMock.Invocations.Clear();
+
+            action.Invoke();
+
+            _connectionFactoryMock.Verify(factory => factory.CreateSqlConnection(), Times.Once,
+                "The 'ConnectionFactory' should be used to create a new 'SqlConnection' each time the repository method is called.");
+            Assert.That(_connection.State, Is.EqualTo(ConnectionState.Closed), () => "The created connection is not closed.");
         }
     }
 }

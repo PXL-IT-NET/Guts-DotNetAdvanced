@@ -19,9 +19,9 @@ It uses a class “FizzBuzzService” in the business layer that can generate the te
 Complete the FizzBuzzService tests (in the test project) and make sure the FizzBuzzService class works correctly.
 Complete the following tests:
 * ReturnsCorrectFizzBuzzTextWhenParametersAreValid
-* ThrowsValidationExceptionWhenFizzFactorIsNotInRange
-* ThrowsValidationExceptionWhenBuzzFactorIsNotInRange
-* ThrowsValidationExceptionWhenLastNumberIsNotInRange
+* ThrowsValidationExceptionWhenFizzFactorIsNotInRange (Minimum = 2, Maximum = 10 -> See constants in *FizzBussService.cs*)
+* ThrowsValidationExceptionWhenBuzzFactorIsNotInRange (Minimum = 2, Maximum = 10 -> See constants in *FizzBussService.cs*)
+* ThrowsValidationExceptionWhenLastNumberIsNotInRange (Minimum = 1, Maximum = 250 -> See constants in *FizzBussService.cs*)
 
 Make sure to test the following cases in the first test:
 

@@ -11,7 +11,7 @@ using NUnit.Framework;
 
 namespace Exercise4.Tests
 {
-    [MonitoredTestFixture("dotNet2", 2, 4, @"Exercise4\MainWindow.xaml"),
+    [ExerciseTestFixture("dotNet2", 2, "4", @"Exercise4\MainWindow.xaml"),
      Apartment(ApartmentState.STA)]
     public class MainWindowTests
     {
@@ -43,12 +43,10 @@ namespace Exercise4.Tests
         public void _1_ShouldNotHaveChangedTheCodebehindFile()
         {
             var codeBehindFilePath = @"Exercise4\MainWindow.xaml.cs";
-            var hash = Solution.Current.GetFileHash(codeBehindFilePath);
-            Assert.That(hash, Is.EqualTo("9B-52-69-7C-12-B9-86-31-42-58-9D-67-B5-D7-BE-A6"),
-                () =>
-                    $"The file '{codeBehindFilePath}' has changed. " +
-                    "Undo your changes on the file to make this test pass. " +
-                    "This exercise can be completed by purely working with XAML.");
+            var fileContent = Solution.Current.GetFileContent(codeBehindFilePath);
+            Assert.That(fileContent.Length, Is.LessThanOrEqualTo(200), () => $"The file '{codeBehindFilePath}' has changed. " +
+                                                                             "Undo your changes on the file to make this test pass. " +
+                                                                             "This exercise can be completed by purely working with XAML.");
         }
 
         [MonitoredTest("Should have a (toggle)button"), Order(2)]
@@ -121,6 +119,10 @@ namespace Exercise4.Tests
             Assert.That(_toggleButton.Parent, Is.EqualTo(_canvas), () => "The 'ToggleButton' is not in the 'Canvas'.");
             Assert.That(_ageGroupBox.Parent, Is.EqualTo(_canvas), () => "The age 'GroupBox' is not in the 'Canvas'.");
             Assert.That(_genderGroupBox.Parent, Is.EqualTo(_canvas), () => "The gender 'GroupBox' is not in the 'Canvas'.");
+
+            AssertUsesCanvasPositioning(_toggleButton, "ToggleButton");
+            AssertUsesCanvasPositioning(_ageGroupBox, "age GroupBox");
+            AssertUsesCanvasPositioning(_genderGroupBox, "gender GroupBox");
         }
 
         private void AssertHasToggleButton()
@@ -138,5 +140,23 @@ namespace Exercise4.Tests
             Assert.That(_genderGroupBox, Is.Not.Null, () => "A groupbox with header equal to 'Geslacht' could not be found.");
         }
 
+        private void AssertUsesCanvasPositioning(Control control, string controlName)
+        {
+            Assert.That(Canvas.GetLeft(control), Is.GreaterThan(0),
+                () => ShowCanvasPositioningMesssage(controlName, "Canvas.Left"));
+            Assert.That(Canvas.GetTop(control), Is.GreaterThan(0),
+                () => ShowCanvasPositioningMesssage(controlName, "Canvas.Top"));
+
+            Assert.That(control.Margin.Left == 0 && control.Margin.Top == 0, Is.True,
+                () =>
+                    $"The '{controlName}' has a 'Margin' set, but that is not necessary when positioning controls in a 'Canvas'. " +
+                    "Use the attached properties 'Canvas.Left' and 'Canvas.Top' instead.");
+        }
+
+        private string ShowCanvasPositioningMesssage(string controlName, string attachedProperty)
+        {
+            return
+                $"The '{controlName}' should use the attached property '{attachedProperty}' to position itself in the 'Canvas'.";
+        }
     }
 }
