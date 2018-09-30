@@ -69,17 +69,21 @@ Login, go to ".NET Advanced" in the navigation bar and select the chapter you wa
 
 #### How do I deal with updates / bugfixes on the start code?
 When you are working on the exercises of a chapter and you get notified that the start code changed (e.g. after a bug fix in one of the tests), you want to get the latest version of the tests **without losing any work** you already did.
-With git you can *stash* (or set aside) your local changes, then pull (or get) the latest version of the online repository to finally reapply the stashed local changes.
+You have 2 options:
 
-To do this, follow these steps:
+###### Option 1: stash your changes
+With git you can *stash* (or set aside) your local changes, then pull (or get) the latest version of the online repository to finally reapply the stashed local changes.
 * Open a command prompt
 * Navigate to the local folder in which you cloned the online repository (**!the root folder, not a folder for a specific chapter or exercise!**)
 * Save your local changes by executing the command **git stash**
 * Do a pull request that overwrites the local code with the code in the online repository: **git pull origin master**
 * Reapply your stashed changes: **git stash apply**
+* Clear the stash (in case you need to do this operation again in the future): **get stash clear**
 
-An even better option is to really embrace git and create local commits that contain your changes (e.g. each time you finish an exercise). 
-You can then safely do a **git pull origin master**. This wil create a merge commit that contains an update version of the tests (from origin) merged with the changes you made.
+###### Option2 (recommended): commit your changes locally
+An even better option is to really **embrace git and create local commits** that contain your changes (e.g. each time you finish an exercise). 
+You can then safely do a **git pull origin master** without stashing your changes. 
+This wil create a (local) merge commit that contains an updated version of the tests (from origin) merged with the changes you made.
 
 [img_projects]:Images/projects.png "Solution for chapter five with its projects"
 [img_download]:Images/download.png "Download repository"
