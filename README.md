@@ -78,6 +78,9 @@ To do this, follow these steps:
 * Do a pull request that overwrites the local code with the code in the online repository: **git pull origin master**
 * Reapply your stashed changes: **git stash apply**
 
+An even better option is to really embrace git and create local commits that contain your changes (e.g. each time you finish an exercise). 
+You can then safely do a **git pull origin master**. This wil create a merge commit that contains an update version of the tests (from origin) merged with the changes you made.
+
 [img_projects]:Images/projects.png "Solution for chapter five with its projects"
 [img_download]:Images/download.png "Download repository"
 [img_clone]:Images/clone.png "Clone repository"
