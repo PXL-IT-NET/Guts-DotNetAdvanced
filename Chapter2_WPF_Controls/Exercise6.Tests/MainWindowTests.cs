@@ -64,6 +64,7 @@ namespace Exercise6.Tests
             Assert.That(clickHandlerForStackPanelRegex.IsMatch(xamlCode), Is.True,
                 () =>
                     "The 'StackPanel' containing the buttons should have defined which method handles bubbled click events from the buttons. " +
+                    "You are expected to link the event handler in XAML code. " +
                     "Tip: 'ButtonBase.Click'.");
         }
 
