@@ -6,7 +6,29 @@
         xmlns:local="clr-namespace:Exercise3"
         mc:Ignorable="d"
         Title="Grow and shrink" Height="250" Width="730">
+    <Window.Resources>
+        <Style TargetType="{x:Type RepeatButton}">
+            <Setter Property="Height" Value="15"></Setter>
+            <Setter Property="Margin" Value="10"></Setter>
+            <Setter Property="FontSize" Value="8"></Setter>
+            <Setter Property="Width" Value="50"></Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <RepeatButton x:Name="growButton" Content="Grow" Click="growButton_Click"/>
+                <RepeatButton x:Name="shrinkButton" Content="Shrink" Click="shrinkButton_Click"></RepeatButton>
+            </StackPanel>
+            <Canvas x:Name="myCanvas" Background="LightGray" Width="700" Height="170">
+                <Canvas.Children>
+                    <Rectangle x:Name="orangeRectangle" Width="100" Height="100" Fill="Orange" Margin="10">
+                    </Rectangle>
+                </Canvas.Children>
+            </Canvas>
+
+        </StackPanel>
+        
 
     </Grid>
 </Window>

@@ -9,5 +9,21 @@ namespace Exercise3
         {
             InitializeComponent();
         }
+
+        private void growButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (myCanvas.Width - 30 >= orangeRectangle.Width)
+            {
+                orangeRectangle.Width += 10;
+            }
+        }
+
+        private void shrinkButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (10 < orangeRectangle.Width)
+            {
+                orangeRectangle.Width -= 10;
+            }
+        }
     }
 }
