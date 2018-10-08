@@ -39,12 +39,10 @@ namespace Exercise5.Tests
         public void _1_ShouldNotHaveChangedTheCodebehindFile()
         {
             var codeBehindFilePath = @"Exercise5\MainWindow.xaml.cs";
-            var hash = Solution.Current.GetFileHash(codeBehindFilePath);
-            Assert.That(hash, Is.EqualTo("E3-AA-5B-D0-63-D7-86-5D-F0-8E-35-01-BE-EA-E3-54"),
-                () =>
-                    $"The file '{codeBehindFilePath}' has changed. " +
-                    "Undo your changes on the file to make this test pass. " +
-                    "This exercise can be completed by purely working with XAML.");
+            var fileContent = Solution.Current.GetFileContent(codeBehindFilePath);
+            Assert.That(fileContent.Length, Is.LessThanOrEqualTo(200), () => $"The file '{codeBehindFilePath}' has changed. " +
+                                                                             "Undo your changes on the file to make this test pass. " +
+                                                                             "This exercise can be completed by purely working with XAML.");
         }
 
         [MonitoredTest("Should have a tree"), Order(2)]

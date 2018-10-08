@@ -39,12 +39,10 @@ namespace Exercise7.Tests
         public void _1_ShouldNotHaveChangedTheCodebehindFile()
         {
             var codeBehindFilePath = @"Exercise7\MainWindow.xaml.cs";
-            var hash = Solution.Current.GetFileHash(codeBehindFilePath);
-            Assert.That(hash, Is.EqualTo("17-F4-5B-66-CC-C7-B4-7A-7F-5F-6E-25-7D-3A-FD-C6"),
-                () =>
-                    $"The file '{codeBehindFilePath}' has changed. " +
-                    "Undo your changes on the file to make this test pass. " +
-                    "This exercise can be completed by purely working with XAML.");
+            var fileContent = Solution.Current.GetFileContent(codeBehindFilePath);
+            Assert.That(fileContent.Length, Is.LessThanOrEqualTo(200), () => $"The file '{codeBehindFilePath}' has changed. " +
+                                                                             "Undo your changes on the file to make this test pass. " +
+                                                                             "This exercise can be completed by purely working with XAML.");
         }
 
         [MonitoredTest("Should have a ListView"), Order(2)]

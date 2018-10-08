@@ -53,12 +53,11 @@ namespace Exercise2.Tests
         public void _1_ShouldNotHaveChangedTheCodebehindFile()
         {
             var codeBehindFilePath = @"Exercise2\MainWindow.xaml.cs";
-            var hash = Solution.Current.GetFileHash(codeBehindFilePath);
-            Assert.That(hash, Is.EqualTo("88-5E-FF-A7-D9-A1-0F-D2-A8-7D-E3-6E-1B-A4-0C-4C"),
-                () =>
-                    $"The file '{codeBehindFilePath}' has changed. " +
-                    $"Undo your changes on the file to make this test pass. " +
-                    $"This exercise can be completed by purely working with XAML.");
+
+            var fileContent = Solution.Current.GetFileContent(codeBehindFilePath);
+            Assert.That(fileContent.Length, Is.LessThanOrEqualTo(200), () => $"The file '{codeBehindFilePath}' has changed. " +
+                                                                             "Undo your changes on the file to make this test pass. " +
+                                                                             "This exercise can be completed by purely working with XAML.");
         }
 
         [MonitoredTest("Should have 3 buttons"), Order(2)]
