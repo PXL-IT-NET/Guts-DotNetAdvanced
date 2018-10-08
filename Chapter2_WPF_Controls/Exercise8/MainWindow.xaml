@@ -9,7 +9,7 @@
     <Window.Resources>
         <ControlTemplate x:Key="newButtonStyle" TargetType="Button">
             <Grid Height="150" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20">
-                <Ellipse>
+                <Ellipse x:Name="outerEllipse">
                     <Ellipse.Fill>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                             <LinearGradientBrush.GradientStops>
@@ -31,6 +31,18 @@
                 </Ellipse>
                 <ContentPresenter Content="Button" VerticalAlignment="Center" HorizontalAlignment="Center" TextBlock.Foreground="White" TextBlock.FontWeight="Bold" TextBlock.FontSize="16"></ContentPresenter>
             </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Fill" Value="Black" TargetName="outerEllipse"></Setter>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="true">
+                    <Setter Property="LayoutTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="0.2" ScaleY="0.2"></ScaleTransform>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </ControlTemplate.Triggers>
         </ControlTemplate>
     </Window.Resources>
     <Grid>
