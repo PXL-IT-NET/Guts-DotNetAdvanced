@@ -6,7 +6,76 @@
         xmlns:local="clr-namespace:Exercise5"
         mc:Ignorable="d"
         Title="Countries treeview" Height="350" Width="500">
+    <Window.Resources >
+        <Style x:Key="landenImages" TargetType="{x:Type Image}">
+            <Setter Property="Width" Value="35"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Margin" Value="1"/>
+        </Style>
+        <Style x:Key="stackPanelMargin" TargetType="{x:Type StackPanel}">
+            <Setter Property="Margin" Value="0,1,0,0"/>
+            <Setter Property="Orientation" Value="Horizontal"/>
+        </Style>
+    </Window.Resources>
     <Grid>
+        <TreeView>
+            <TreeViewItem Header="North America">
+                <TreeViewItem>
+                    <TreeViewItem.Header>
+                        <StackPanel Style="{StaticResource stackPanelMargin}">
+                            <Image HorizontalAlignment="Left" Style="{StaticResource landenImages}" Source="C:\Users\Jochen\Source\Repos\Guts-DotNetAdvanced\Chapter2_WPF_Controls\Exercise5\images\canada.png"/>
+                            <TextBlock Text="Canada"/>
+                        </StackPanel>
+                    </TreeViewItem.Header>
+                </TreeViewItem>
+                
+                <TreeViewItem>
+                   <TreeViewItem.Header>
+                        <StackPanel Style="{StaticResource stackPanelMargin}">
+                            <Image HorizontalAlignment="Left" Style="{StaticResource landenImages}" Source="C:\Users\Jochen\Source\Repos\Guts-DotNetAdvanced\Chapter2_WPF_Controls\Exercise5\images\mexico.png"/>
+                            <TextBlock Text="Mexico"/>
+                </StackPanel>
+                </TreeViewItem.Header>
+                </TreeViewItem>
+                <TreeViewItem>
+                    <TreeViewItem.Header>
+                        <StackPanel Style="{StaticResource stackPanelMargin}">
+                            <Image HorizontalAlignment="Left" Style="{StaticResource landenImages}" Source="C:\Users\Jochen\Source\Repos\Guts-DotNetAdvanced\Chapter2_WPF_Controls\Exercise5\images\usa.png"/>
+                            <TextBlock Text="USA"/>
+                        </StackPanel>
+                    </TreeViewItem.Header>
+                </TreeViewItem>
+            </TreeViewItem>
+            <TreeViewItem Header="South America">
+                <TreeViewItem>
+                    <TreeViewItem.Header>
+                        <StackPanel Style="{StaticResource stackPanelMargin}">
+                            <Image HorizontalAlignment="Left" Style="{StaticResource landenImages}" Source="C:\Users\Jochen\Source\Repos\Guts-DotNetAdvanced\Chapter2_WPF_Controls\Exercise5\images\argentina.png"/>
+                            <TextBlock Text="Argentina"/>
+                </StackPanel>
+                        
+                    </TreeViewItem.Header>
+                </TreeViewItem>
+                <TreeViewItem>
+                    <TreeViewItem.Header>
+                        <StackPanel Style="{StaticResource stackPanelMargin}">
+                            <Image Style="{StaticResource landenImages}" Source="C:\Users\Jochen\Source\Repos\Guts-DotNetAdvanced\Chapter2_WPF_Controls\Exercise5\images\brazil.png"/>
+                            <TextBlock Text="Brazil"/>
+                </StackPanel>
 
+                    </TreeViewItem.Header>
+                </TreeViewItem>
+                <TreeViewItem>
+                    <TreeViewItem.Header>
+                        <StackPanel Style="{StaticResource stackPanelMargin}">
+                            <Image Style="{StaticResource landenImages}" Source="C:\Users\Jochen\Source\Repos\Guts-DotNetAdvanced\Chapter2_WPF_Controls\Exercise5\images\uruguay.png"/>
+                    <TextBlock Text="Uruguay"/>
+                </StackPanel>
+
+                    </TreeViewItem.Header>
+                </TreeViewItem>
+
+            </TreeViewItem>
+        </TreeView>
     </Grid>
 </Window>

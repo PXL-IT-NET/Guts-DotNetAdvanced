@@ -6,7 +6,43 @@
         xmlns:local="clr-namespace:Exercise2"
         mc:Ignorable="d"
         Title="Buttons with style" Height="350" Width="525">
+    <Window.Resources>
+        <Style x:Key="buttonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Margin" Value="5"/>
+            
+            <Setter Property="Background">
+         
+                <Setter.Value>
+                    <LinearGradientBrush  StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="LimeGreen" Offset="0"/>
+                        <GradientStop Color="Green" Offset="0.50"/>
+                        <GradientStop Color="LimeGreen" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ControlTemplate x:Key="buttonTemplate" TargetType="{x:Type Button}">
+            
+        </ControlTemplate>
+    </Window.Resources>
+  
     <Grid>
+        <Grid.Resources>
+            <Style TargetType="Border">
+                <Setter Property="Padding" Value="50,50,50,50"/>
+            </Style>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition  Height="auto"/>
+            <RowDefinition  Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Button x:Name="button1"  Content="Hello" Grid.Row="0" Style="{StaticResource buttonStyle}"/>
+        <Button x:Name="button2" Content="BIG BUTTON" FontWeight="Bold" FontSize="22" Grid.Row="1"  Style="{StaticResource buttonStyle}"/>
 
+        <Button x:Name="button3" IsEnabled="False" Content="DISABLED" Grid.Row="2"  Style="{StaticResource buttonStyle}" />
     </Grid>
 </Window>

@@ -6,10 +6,11 @@
         xmlns:local="clr-namespace:Exercise6"
         mc:Ignorable="d"
         Title="Bubbling an tunneling" Height="450" Width="300">
-    <StackPanel Margin="10">
-        <TextBox x:Name="numberTextBox" 
+    <StackPanel Margin="10" ButtonBase.Click="StackPanel_Click" TextBox.PreviewTextInput="NumberTextBox_PreviewTextInput" >
+        <TextBox x:Name="numberTextBox"   
                  Margin="12" Padding="2" FontSize="16" HorizontalAlignment="Center" Width="200"></TextBox>
-        <StackPanel Background="LightCyan" HorizontalAlignment="Center">
+        <StackPanel Background="LightCyan" HorizontalAlignment="Center"  >
+            
             <StackPanel Orientation="Horizontal">
                 <Button Padding="5" FontSize="24" Width="60" Height="60" Margin="8">1</Button>
                 <Button Padding="5" FontSize="24" Width="60" Height="60" Margin="8">2</Button>
@@ -30,4 +31,5 @@
             </StackPanel>
         </StackPanel>
     </StackPanel>
+
 </Window>

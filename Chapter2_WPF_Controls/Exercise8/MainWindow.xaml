@@ -7,6 +7,32 @@
         mc:Ignorable="d"
         Title="Round button" Height="250" Width="250">
     <Grid>
- 
+        <!--<Border CornerRadius="180" BorderThickness="50">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="Green" Offset="0.05"/>
+                    <GradientStop Color="Purple" Offset="0.95"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <Border Padding="10" BorderThickness="10" CornerRadius="180">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="LightBlue" Offset="0.01"/>
+                        <GradientStop Color="Blue" Offset="0.99"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Button   BorderBrush="Transparent" Background="Transparent" Foreground="White" FontSize="22" FontWeight="Bold">Button</Button>
+            </Border>
+           
+        </Border>-->
+
+
+        <Button  Template="{StaticResource roundButton}" 
+                 FontSize="32"
+                 FontWeight="Black"
+                 Foreground="white">
+            Button
+        </Button>
     </Grid>
+    
 </Window>
