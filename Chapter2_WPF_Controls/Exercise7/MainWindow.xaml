@@ -6,7 +6,28 @@
         xmlns:local="clr-namespace:Exercise7"
         mc:Ignorable="d"
         Title="Color ListView" Height="300" Width="300">
+   
     <Grid>
-        
+        <ListView BorderThickness="1" BorderBrush="Black" Height="200" Width="250">
+            <ListViewItem>
+                <StackPanel Orientation="Horizontal">
+                <Image Source="images/Red.png" Width="10" Margin="5"/>
+                    <TextBlock>Red</TextBlock>    
+                </StackPanel>
+            </ListViewItem>
+
+            <ListViewItem>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="images/Yellow.png" Width="10" Margin="5"/>
+                    <TextBlock>Yellow</TextBlock>
+                </StackPanel>
+            </ListViewItem>
+            <ListViewItem >
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="images/Green.png" Width="10" Margin="5"/>
+                    <TextBlock>Green</TextBlock>
+                </StackPanel>
+            </ListViewItem>
+        </ListView>
     </Grid>
 </Window>

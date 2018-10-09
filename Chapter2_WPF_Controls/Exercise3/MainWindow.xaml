@@ -7,6 +7,20 @@
         mc:Ignorable="d"
         Title="Grow and shrink" Height="250" Width="730">
     <Grid>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <RepeatButton x:Name="growButton" Content="Grow" Width="80" Interval="1" Delay="0"  Click="GrowButton_Click"/>
+        <RepeatButton x:Name="shrinkButton" Content="Shrink" Width="80" Margin="10"  Interval="1" Delay="0" Click="ShrinkButton_Click" Grid.Column="1"/>
+        <Canvas x:Name="paperCanvas" Background="Gray" Grid.Row="1" Grid.ColumnSpan="3" Margin="10" Width="703" Height="160">
+            <Rectangle x:Name="rectangle" Height="50"  Fill="Orange" Canvas.Left="10" Canvas.Top="10" />
+        </Canvas>
     </Grid>
 </Window>

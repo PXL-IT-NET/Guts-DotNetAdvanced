@@ -6,7 +6,46 @@
         xmlns:local="clr-namespace:Exercise4"
         mc:Ignorable="d"
         Title="Toggle and group" Height="350" Width="200">
-    <Canvas HorizontalAlignment="Left" Height="300" VerticalAlignment="Top" Width="190">
+    <Window.Resources>
+        <Style x:Key="myToggleButton" TargetType="{x:Type ToggleButton}">
+            <Setter Property="Padding" Value="10"/>
+            <Setter>
+                <Setter.Property>
+                    Canvas.Top
+                </Setter.Property>
+                <Setter.Value>
+                    10
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Margin" Value="20"/>
+            <Setter Property="Content" Value="Aan"/>
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="False">
+                    <Setter Property="Content" Value="Uit"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+   
+    <Canvas x:Name="paperCanvas" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="auto" Height="auto">
+       <ToggleButton x:Name="toggleButton"
+                Style="{StaticResource myToggleButton}"
+              Canvas.Top="10"/>
+       
+            <GroupBox Header="Leeftijd" Canvas.Top="80" Canvas.Left="20">
+                <StackPanel>
+                    <CheckBox Content="0-18" IsChecked="True"/>
+                    <CheckBox Content="19-50"/>
+                    <CheckBox Content="50-80"/>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Geslacht" Canvas.Top="160" Canvas.Left="20">
+                <StackPanel>
+                    <RadioButton Content="Man" IsChecked="True"/>
+                    <RadioButton Content="Vrouw"/>
+                </StackPanel>
+            </GroupBox>
+        
         
     </Canvas>
 </Window>

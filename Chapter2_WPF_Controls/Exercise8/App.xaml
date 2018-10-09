@@ -5,5 +5,44 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         
+            <ControlTemplate x:Key="roundButton" TargetType="Button">
+                <Grid>
+                    <Ellipse x:Name="BuitenRing" Width="auto" Height="auto">
+                        <Ellipse.Fill>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="Green" Offset="0.05"/>
+                                <GradientStop Color="Purple" Offset="0.95"/>
+                            </LinearGradientBrush>
+                        </Ellipse.Fill>
+
+
+                    </Ellipse>
+                    <Ellipse x:Name="BinnenRing" Margin="15">
+                        <Ellipse.Fill>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="LightBlue" Offset="0.01"/>
+                                <GradientStop Color="Blue" Offset="0.99"/>
+                            </LinearGradientBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Grid>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter TargetName="BuitenRing" Property="Fill" Value="Black"/>
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="true">
+                        <Setter TargetName="BinnenRing" Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                        <Setter TargetName="BinnenRing" Property="RenderTransform">
+
+                            <Setter.Value>
+                                <ScaleTransform ScaleX="0.8" ScaleY="0.8"/>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+        
+
     </Application.Resources>
 </Application>
