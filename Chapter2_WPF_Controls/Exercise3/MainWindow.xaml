@@ -6,7 +6,78 @@
         xmlns:local="clr-namespace:Exercise3"
         mc:Ignorable="d"
         Title="Grow and shrink" Height="250" Width="730">
-    <Grid>
 
-    </Grid>
+    <StackPanel>
+
+        <StackPanel Orientation="Horizontal">
+
+            <RepeatButton Click="Grow" >
+                <RepeatButton.Content>
+                    Grow
+                </RepeatButton.Content>
+                <RepeatButton.Margin>
+                    10
+                </RepeatButton.Margin>
+
+                <RepeatButton.HorizontalAlignment>
+                    Left
+                </RepeatButton.HorizontalAlignment>
+
+                <RepeatButton.MinHeight>
+                    1
+                </RepeatButton.MinHeight>
+
+                <RepeatButton.MinWidth>
+                    115
+                </RepeatButton.MinWidth>
+                
+                
+
+            </RepeatButton>
+
+            <RepeatButton Click="Shrink">
+                <RepeatButton.Content>
+                    Shrink
+                </RepeatButton.Content>
+                <RepeatButton.Margin>
+                    10
+                </RepeatButton.Margin>
+
+                <RepeatButton.HorizontalAlignment>
+                    Left
+                </RepeatButton.HorizontalAlignment>
+
+                <RepeatButton.MinHeight>
+                    1
+                </RepeatButton.MinHeight>
+
+                <RepeatButton.MinWidth>
+                    115
+                </RepeatButton.MinWidth>
+            </RepeatButton>
+        
+            
+        </StackPanel>
+
+
+        <Canvas x:Name="canvas">
+            <Canvas.Margin>5</Canvas.Margin>
+            <Canvas.MaxHeight>100</Canvas.MaxHeight>
+            <Canvas.MaxWidth>100</Canvas.MaxWidth>
+            <Canvas.HorizontalAlignment>Left</Canvas.HorizontalAlignment>
+            
+           
+            <Rectangle x:Name="oranje_rectangle">
+                <Rectangle.Width>50</Rectangle.Width>
+                <Rectangle.Height>50</Rectangle.Height>
+                <Rectangle.Fill>Orange</Rectangle.Fill>
+                <Rectangle.Margin>10</Rectangle.Margin>
+            </Rectangle>
+        </Canvas>
+
+
+    </StackPanel>
+    
+    
+
 </Window>

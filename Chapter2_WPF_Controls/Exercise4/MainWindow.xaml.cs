@@ -8,5 +8,15 @@ namespace Exercise4
         {
             InitializeComponent();
         }
+
+        private void ToggleChecked(object sender, RoutedEventArgs e)
+        {
+           
+        }
+
+        private void ToggleUnChecked(object sender, RoutedEventArgs e)
+        {
+           
+        }
     }
 }

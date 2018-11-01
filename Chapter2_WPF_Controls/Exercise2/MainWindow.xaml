@@ -6,7 +6,131 @@
         xmlns:local="clr-namespace:Exercise2"
         mc:Ignorable="d"
         Title="Buttons with style" Height="350" Width="525">
-    <Grid>
+     <Window.Resources>
+        <Style TargetType="{x:Type Button }" x:Key= "Style">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <!--voor lineair dus alleen over de x as AKA van links naar rechts : startpoint 0,0 en endpoint 1,0-->
+                        <!--voor verticaal dus boven naar onder startpoint 0,0 en endpoint 0,1-->
+                        <!--voor schuin start 0,0 en schuin 1,1-->
 
-    </Grid>
+
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStop Color="LimeGreen" Offset="0.0"></GradientStop>
+
+                            <GradientStop Color="Green" Offset="0.5"></GradientStop>
+
+                            <GradientStop Color="LimeGreen" Offset="1"></GradientStop>
+
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+    </Window.Resources>
+    
+    
+
+    <StackPanel>
+        
+
+
+        <Button Style="{StaticResource Style}">
+           
+
+            <Button.Content>
+                Hello
+            </Button.Content>
+            <Button.Margin>
+                10
+            </Button.Margin>
+
+            <Button.HorizontalAlignment>
+                Center
+            </Button.HorizontalAlignment>
+
+            <Button.MinHeight>
+                25
+            </Button.MinHeight>
+
+            <Button.MinWidth>
+                115
+            </Button.MinWidth>
+
+
+          
+
+          
+           
+           
+
+        </Button>
+
+
+        <Button Style="{StaticResource Style}">
+
+
+            <Button.Content>
+                Big Button
+            </Button.Content>
+            <Button.Margin>
+                10
+            </Button.Margin>
+
+            <Button.HorizontalAlignment>
+                Center
+            </Button.HorizontalAlignment>
+
+            <Button.MinHeight>
+                25
+            </Button.MinHeight>
+
+            <Button.MinWidth>
+                115
+            </Button.MinWidth>
+            
+            <Button.FontSize>
+                38
+            </Button.FontSize>
+
+            
+
+        </Button>
+
+
+
+        <Button Style="{StaticResource Style}">
+            <Button.Content>
+                Disabled
+            </Button.Content>
+            <Button.Margin>
+                10
+            </Button.Margin>
+
+            <Button.HorizontalAlignment>
+                Center
+            </Button.HorizontalAlignment>
+
+            <Button.MinHeight>
+                25
+            </Button.MinHeight>
+
+            <Button.MinWidth>
+                115
+            </Button.MinWidth>
+
+         
+
+            <Button.IsEnabled>
+                False
+            </Button.IsEnabled>
+
+         
+
+        </Button>
+
+    </StackPanel>
 </Window>

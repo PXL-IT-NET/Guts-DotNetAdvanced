@@ -6,7 +6,42 @@
         xmlns:local="clr-namespace:Exercise4"
         mc:Ignorable="d"
         Title="Toggle and group" Height="350" Width="200">
+    
+
     <Canvas HorizontalAlignment="Left" Height="300" VerticalAlignment="Top" Width="190">
-        
+        <StackPanel>
+
+            <StackPanel>
+                <ToggleButton x:Name="AanUitToggleButton" Content="Uit" Checked="ToggleChecked" Unchecked="ToggleUnChecked">
+                    <ToggleButton.MinHeight>25</ToggleButton.MinHeight>
+                    <ToggleButton.MinWidth>60</ToggleButton.MinWidth>
+                </ToggleButton>
+
+
+
+
+                <GroupBox Header="Leeftijd">
+
+                    <StackPanel>
+                        <CheckBox IsChecked="True">0-18</CheckBox>
+                        <CheckBox>19-50</CheckBox>
+                        <CheckBox>50-80</CheckBox>
+                    </StackPanel>
+
+                </GroupBox>
+
+                <GroupBox Header="Geslacht">
+
+                    <StackPanel>
+                        <RadioButton IsChecked="True">Man</RadioButton>
+                        <RadioButton>Vrouw</RadioButton>
+                    </StackPanel>
+
+                </GroupBox>
+
+            </StackPanel>
+
+
+        </StackPanel>
     </Canvas>
 </Window>

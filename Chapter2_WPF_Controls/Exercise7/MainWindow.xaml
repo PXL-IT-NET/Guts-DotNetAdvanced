@@ -7,6 +7,46 @@
         mc:Ignorable="d"
         Title="Color ListView" Height="300" Width="300">
     <Grid>
-        
+
+        <ListView Margin="10">
+            <ListViewItem>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="images/red.png">
+                        <Image.MaxWidth>
+                            15
+                        </Image.MaxWidth>
+                    </Image>
+                    <TextBlock>Red</TextBlock>
+                </StackPanel>
+            </ListViewItem>
+
+            <ListViewItem>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="images/yellow.png">
+                        <Image.MaxWidth>
+                            15
+                        </Image.MaxWidth>
+                    </Image>
+                    <TextBlock>Yellow</TextBlock>
+                </StackPanel>
+            </ListViewItem>
+
+
+            <ListViewItem>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="images/green.png">
+                        <Image.MaxWidth>
+                            15
+                        </Image.MaxWidth>
+                    </Image>
+                    <TextBlock>Green</TextBlock>
+                </StackPanel>
+            </ListViewItem>
+
+
+        </ListView>
+
+
+
     </Grid>
 </Window>

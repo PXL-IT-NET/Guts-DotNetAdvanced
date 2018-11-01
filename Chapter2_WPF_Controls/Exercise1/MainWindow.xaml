@@ -6,7 +6,123 @@
         xmlns:local="clr-namespace:Exercise1"
         mc:Ignorable="d"
         Title="Button variations" Width="300" Height="300">
-    <Grid>
-        
-    </Grid>
+
+    <StackPanel>
+        <Button>
+            <Button.Content>
+                Simple Button
+            </Button.Content>
+            <Button.Margin>
+                10
+            </Button.Margin>
+
+            <Button.HorizontalAlignment>
+                Left
+            </Button.HorizontalAlignment>
+
+            <Button.MinHeight>
+                25
+            </Button.MinHeight>
+            
+            <Button.MinWidth>
+                115
+            </Button.MinWidth>  
+
+        </Button>
+
+        <Button>
+            
+
+            <Button.Margin>
+                10
+            </Button.Margin>
+
+            <Button.HorizontalAlignment>
+                Left
+            </Button.HorizontalAlignment>
+
+            <Button.MinHeight>
+                25
+            </Button.MinHeight>
+
+            <Button.MinWidth>
+                115
+            </Button.MinWidth>
+                
+            <StackPanel>
+                <StackPanel.Children>
+                    <Image HorizontalAlignment="Center"  Source="images/banner.png"></Image>
+
+                    <TextBlock FontSize="16" FontWeight="Bold"  TextAlignment="Center">Image and text button</TextBlock>
+                </StackPanel.Children>
+              
+            </StackPanel>
+           
+
+        </Button>
+
+        <Button>
+            <Button.Foreground>
+                white
+            </Button.Foreground>
+            <Button.FontWeight>
+                Bold
+            </Button.FontWeight>
+            <Button.Content>
+                Brush Button
+
+            </Button.Content>
+
+
+
+            <Button.Margin>
+                10
+            </Button.Margin>
+
+            <Button.HorizontalAlignment>
+                Left
+            </Button.HorizontalAlignment>
+
+            <Button.MinHeight>
+                25
+            </Button.MinHeight>
+
+            <Button.MinWidth>
+                115
+            </Button.MinWidth>
+
+
+
+
+
+
+            <Button.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <!--voor lineair dus alleen over de x as AKA van links naar rechts : startpoint 0,0 en endpoint 1,0-->
+                    <!--voor verticaal dus boven naar onder startpoint 0,0 en endpoint 0,1-->
+                    <!--voor schuin start 0,0 en schuin 1,1-->
+
+
+                    <LinearGradientBrush.GradientStops>
+                        <GradientStop Color="Yellow" Offset="0"></GradientStop>
+                 
+                        <GradientStop Color="Red" Offset="0.25"></GradientStop>
+                   
+                        <GradientStop Color="Blue" Offset="0.75"></GradientStop>
+
+                        <GradientStop Color="Green" Offset="1"></GradientStop>
+                    </LinearGradientBrush.GradientStops>
+                </LinearGradientBrush>
+            </Button.Background>
+            
+
+        </Button>
+    </StackPanel>
+
+
+
+
+
+
+
 </Window>

@@ -8,5 +8,132 @@
         Title="Countries treeview" Height="350" Width="500">
     <Grid>
 
+        <StackPanel>
+            <TreeView>
+                <TreeViewItem Header="North America" IsExpanded="True" >
+
+
+                    <TreeViewItem Margin="3">
+                        <TreeViewItem.Header>
+                            <StackPanel Orientation="Horizontal">
+
+                                <Image Source="images/canada.png">
+                                    <Image.MaxWidth>
+                                        25
+                                    </Image.MaxWidth>
+                                    <Image.Margin>6</Image.Margin>
+
+                                </Image>
+                                <TextBlock Text="Canada" ></TextBlock>
+                            </StackPanel>
+                        </TreeViewItem.Header>
+                    </TreeViewItem>
+
+
+                    <TreeViewItem Margin="3">
+                        <TreeViewItem.Header>
+                            <StackPanel Orientation="Horizontal">
+
+                                <Image Source="images/mexico.png">
+                                    <Image.MaxWidth>
+                                        25
+                                    </Image.MaxWidth>
+                                    <Image.Margin>6</Image.Margin>
+
+                                </Image>
+                                <TextBlock Text="Mexico" ></TextBlock>
+                            </StackPanel>
+                        </TreeViewItem.Header>
+                    </TreeViewItem>
+
+
+
+                    <TreeViewItem Margin="3">
+                        <TreeViewItem.Header>
+                            <StackPanel Orientation="Horizontal">
+
+                                <Image Source="images/usa.png">
+                                    <Image.MaxWidth>
+                                        25
+                                    </Image.MaxWidth>
+                                    <Image.Margin>6</Image.Margin>
+
+                                </Image>
+                                <TextBlock Text="USA" ></TextBlock>
+                            </StackPanel>
+                        </TreeViewItem.Header>
+                    </TreeViewItem>
+                </TreeViewItem>
+
+
+
+
+
+
+
+
+                <TreeViewItem Header="South America" IsExpanded="True" Margin="10">
+
+
+                    <TreeViewItem Margin="3">
+                        <TreeViewItem.Header>
+                            <StackPanel Orientation="Horizontal">
+
+                                <Image Source="images/argentina.png">
+                                    <Image.MaxWidth>
+                                        25
+                                    </Image.MaxWidth>
+                                    <Image.Margin>6</Image.Margin>
+
+                                </Image>
+                                <TextBlock Text="Argentina" ></TextBlock>
+                            </StackPanel>
+                        </TreeViewItem.Header>
+                    </TreeViewItem>
+
+
+                    <TreeViewItem Margin="3">
+                        <TreeViewItem.Header>
+                            <StackPanel Orientation="Horizontal">
+
+                                <Image Source="images/brazil.png">
+                                    <Image.MaxWidth>
+                                        25
+                                    </Image.MaxWidth>
+                                    <Image.Margin>6</Image.Margin>
+
+                                </Image>
+                                <TextBlock Text="Brazil" ></TextBlock>
+                            </StackPanel>
+                        </TreeViewItem.Header>
+                    </TreeViewItem>
+
+
+
+                    <TreeViewItem Margin="3">
+                        <TreeViewItem.Header>
+                            <StackPanel Orientation="Horizontal">
+
+                                <Image Source="images/uruguay.png">
+                                    <Image.MaxWidth>
+                                        25
+                                    </Image.MaxWidth>
+                                    <Image.Margin>6</Image.Margin>
+
+                                </Image>
+                                <TextBlock Text="Uruguay" ></TextBlock>
+                            </StackPanel>
+                        </TreeViewItem.Header>
+                    </TreeViewItem>
+                </TreeViewItem>
+
+            </TreeView>
+        </StackPanel>
+
+
+
+
+
+
     </Grid>
 </Window>
