@@ -9,15 +9,18 @@ using NUnit.Framework;
 
 namespace Lottery.Tests
 {
-    [ExerciseTestFixture("dotnet2", 14, "1", @"Lottery.Data\LotteryContext.cs;Lottery.Data\LotteryGameRepository.cs;Lottery.Data\DrawRepository.cs;Lottery.Business\DrawService.cs;Lottery.UI\LotteryWindow.xaml;Lottery.UI\LotteryWindow.xaml.cs;Lottery.UI\Converters\DrawNumbersConverter.cs;")]
+    [ExerciseTestFixture("dotnet2", 14, "1",
+        @"Lottery.Data\LotteryContext.cs;Lottery.Data\LotteryGameRepository.cs;Lottery.Data\DrawRepository.cs;Lottery.Business\DrawService.cs;Lottery.UI\LotteryWindow.xaml;Lottery.UI\LotteryWindow.xaml.cs;Lottery.UI\Converters\DrawNumbersConverter.cs;")]
     public class DrawNumbersConverterTests
     {
         private DrawNumbersConverter _converter;
+        private Random _random;
 
         [SetUp]
         public void Setup()
         {
             _converter = new DrawNumbersConverter();
+            _random = new Random();
         }
 
         [MonitoredTest("DrawNumbersConverter - Convert should create a comma seperated string of numbers"), Order(1)]
@@ -26,9 +29,9 @@ namespace Lottery.Tests
             //Arrange
             var drawedNumbers = new List<DrawNumber>
             {
-                new DrawNumberBuilder().Build(),
-                new DrawNumberBuilder().Build(),
-                new DrawNumberBuilder().Build()
+                new DrawNumberBuilder(_random).Build(),
+                new DrawNumberBuilder(_random).Build(),
+                new DrawNumberBuilder(_random).Build()
             };
 
             //Act
@@ -38,7 +41,7 @@ namespace Lottery.Tests
             Assert.That(result, Is.Not.Null, () => "The converted object should not be null.");
             Assert.That(result, Is.TypeOf<string>(),
                 () => $"The converted object should be a string, but was '{result.GetType().FullName}'.");
-            var numberString = (string) result;
+            var numberString = (string)result;
             Assert.That(drawedNumbers.All(d => numberString.Contains(d.Number.ToString())), Is.True,
                 () => "The converted string does not contain all the numbers.");
             Assert.That(numberString.Count(c => c == ','), Is.EqualTo(drawedNumbers.Count - 1),
@@ -54,10 +57,10 @@ namespace Lottery.Tests
             //Arrange
             var drawedNumbers = new List<DrawNumber>
             {
-                new DrawNumberBuilder().WithPosition(5).Build(),
-                new DrawNumberBuilder().WithPosition(10).Build(),
-                new DrawNumberBuilder().WithPosition(1).Build(),
-                new DrawNumberBuilder().Build()
+                new DrawNumberBuilder(_random).WithPosition(5).Build(),
+                new DrawNumberBuilder(_random).WithPosition(10).Build(),
+                new DrawNumberBuilder(_random).WithPosition(1).Build(),
+                new DrawNumberBuilder(_random).Build()
             };
 
             //Act
@@ -71,14 +74,18 @@ namespace Lottery.Tests
             List<int> numbers = null;
             try
             {
-                numbers = numberString.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).Select(n => int.Parse(n.Trim())).ToList();
+                numbers = numberString.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(n => int.Parse(n.Trim())).ToList();
             }
             catch (Exception)
             {
                 Assert.Fail("The converted string is not a list of numbers seperated by a comma.");
             }
-            Assert.That(numbers, Has.Count.EqualTo(drawedNumbers.Count), () => "The converted string does not contain all the numbers.");
-            Assert.That(numbers[0], Is.EqualTo(drawedNumbers[3].Number), () => "Incorrect order. Numbers without a position should be first.");
+
+            Assert.That(numbers, Has.Count.EqualTo(drawedNumbers.Count),
+                () => "The converted string does not contain all the numbers.");
+            Assert.That(numbers[0], Is.EqualTo(drawedNumbers[3].Number),
+                () => "Incorrect order. Numbers without a position should be first.");
             Assert.That(numbers[1], Is.EqualTo(drawedNumbers[2].Number), () => "Incorrect order.");
             Assert.That(numbers[2], Is.EqualTo(drawedNumbers[0].Number), () => "Incorrect order.");
             Assert.That(numbers[3], Is.EqualTo(drawedNumbers[1].Number), () => "Incorrect order.");

@@ -7,6 +7,8 @@ using Moq;
 using NUnit.Framework;
 using System;
 using System.Linq;
+using Guts.Client.Shared.TestTools;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace Lottery.Tests
 {
@@ -16,6 +18,13 @@ namespace Lottery.Tests
         private Mock<IDrawRepository> _drawRepositoryMock;
         private DrawService _service;
         private Draw _previousDraw;
+        private string _drawServiceClassContent;
+
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            _drawServiceClassContent = Solution.Current.GetFileContent(@"Lottery.Business\DrawService.cs");
+        }
 
         [SetUp]
         public void Setup()
@@ -67,6 +76,20 @@ namespace Lottery.Tests
                 }
             }
             Assert.That(generatesRandomNumbers, Is.True, () => "The service does not seem to use random numbers to create a draw.");
+        }
+
+        [MonitoredTest("DrawService - Should not have unnecessary comments")]
+        public void ShouldNotHaveUnnecessaryComments()
+        {
+            var syntaxtTree = CSharpSyntaxTree.ParseText(_drawServiceClassContent);
+            var root = syntaxtTree.GetRoot();
+            var commentCount = root
+                .DescendantTrivia()
+                .Count(trivia => trivia.Kind() == SyntaxKind.SingleLineCommentTrivia ||
+                                 trivia.Kind() == SyntaxKind.MultiLineCommentTrivia);
+
+            Assert.That(commentCount, Is.Zero, () => "Clean up code that is commented out " +
+                                                                     "and/or replace comments with meaningful method calls.");
         }
 
         private bool AssertIsValidDraw(Draw draw, LotteryGame game, DateTime now)

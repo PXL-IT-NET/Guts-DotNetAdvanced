@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System.CodeDom;
+using System.Collections.Generic;
 using System.Linq;
 using Guts.Client.Classic;
 using Guts.Client.Shared;
 using Guts.Client.Shared.TestTools;
 using Lottery.Domain;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -66,7 +68,7 @@ namespace Lottery.Tests
             {
                 var drawNumberEntityType = context.Model.FindEntityType(typeof(DrawNumber).FullName);
                 var primaryKey = drawNumberEntityType.FindPrimaryKey();
-                
+
                 Assert.That(primaryKey.Properties, Has.One.Matches((IProperty p) => p.Name == "DrawId"));
                 Assert.That(primaryKey.Properties, Has.One.Matches((IProperty p) => p.Name == "Number"));
             }
@@ -103,6 +105,20 @@ namespace Lottery.Tests
                                                                                      "Otherwise the database is migrated to the latest version.");
         }
 
+        [MonitoredTest("LotteryContext - Should not have unnecessary comments")]
+        public void ShouldNotHaveUnnecessaryComments()
+        {
+            var syntaxtTree = CSharpSyntaxTree.ParseText(_lotterContextClassContent);
+            var root = syntaxtTree.GetRoot();
+            var commentCount = root
+                .DescendantTrivia()
+                .Count(trivia => trivia.Kind() == SyntaxKind.SingleLineCommentTrivia ||
+                    trivia.Kind() == SyntaxKind.MultiLineCommentTrivia);
+
+            Assert.That(commentCount, Is.LessThanOrEqualTo(4), () => "Clean up code that is commented out " +
+                                                                     "and/or replace comments with meaningful method calls.");
+        }
+
         private BlockSyntax GetMethodBody(string methodName)
         {
             var syntaxtTree = CSharpSyntaxTree.ParseText(_lotterContextClassContent);
@@ -128,7 +144,7 @@ namespace Lottery.Tests
                     if (!(p.Type is GenericNameSyntax genericName)) return false;
                     return genericName.Identifier.ValueText == "DbSet";
                 });
-            
+
             return properties.ToList();
         }
     }

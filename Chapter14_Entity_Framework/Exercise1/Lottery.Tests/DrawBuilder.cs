@@ -36,7 +36,7 @@ namespace Lottery.Tests
             var amountOfNumbers = _random.Next(minimumAmount, maximumAmount + 1);
             for (int i = 0; i < amountOfNumbers; i++)
             {
-                var drawNumber = new DrawNumberBuilder().WithNumber(i + 1).Build();
+                var drawNumber = new DrawNumberBuilder(_random).WithNumber(i + 1).Build();
                 _draw.DrawNumbers.Add(drawNumber);
             }
             return this;

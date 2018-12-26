@@ -8,9 +8,9 @@ namespace Lottery.Tests
         private readonly DrawNumber _drawNumber;
         private readonly Random _random;
 
-        public DrawNumberBuilder()
+        public DrawNumberBuilder(Random random)
         {
-            _random = new Random();
+            _random = random ?? new Random();
             _drawNumber = new DrawNumber
             {
                 Number = _random.Next(1, int.MaxValue),
