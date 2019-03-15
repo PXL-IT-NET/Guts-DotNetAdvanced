@@ -11,7 +11,7 @@ using NUnit.Framework;
 
 namespace Exercise4.Tests
 {
-    [ExerciseTestFixture("dotNet2", 2, "4", @"Exercise4\MainWindow.xaml"),
+    [ExerciseTestFixture("dotNet2", "H02", "Exercise04", @"Exercise4\MainWindow.xaml"),
      Apartment(ApartmentState.STA)]
     public class MainWindowTests
     {

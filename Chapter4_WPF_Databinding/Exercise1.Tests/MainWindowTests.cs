@@ -10,7 +10,7 @@ using Guts.Client.Shared;
 
 namespace Exercise1.Tests
 {
-    [ExerciseTestFixture("dotnet2", 4, "1", @"Exercise1\MainWindow.xaml;Exercise1\MainWindow.xaml.cs"), 
+    [ExerciseTestFixture("dotnet2", "H04", "Exercise01", @"Exercise1\MainWindow.xaml;Exercise1\MainWindow.xaml.cs"), 
      Apartment(ApartmentState.STA)]
     public class MainWindowTests
     {

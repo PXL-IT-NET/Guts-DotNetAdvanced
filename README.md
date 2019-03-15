@@ -38,8 +38,8 @@ PS2: **Do not fork the repository**.
 The forked repo will be publicly visible enabling other students to copy your work. 
 **Forking a repo will be considered as commiting fraude**.
 
-#### Register on [guts-web.appspot.com](https://guts-web.appspot.com)
-To be able to send your tests results to the Guts servers you need to register via [guts-web.appspot.com](https://guts-web.appspot.com/register).
+#### Register on [guts-web.pxl.be](https://guts-web.pxl.be)
+To be able to send your tests results to the Guts servers you need to register via [guts-web.pxl.be](https://guts-web.pxl.be/register).
 After registration you will have the credentials you need to succesfully run automated tests for an exercise.
 
 #### Start working on an exercise
@@ -57,7 +57,7 @@ Let's assume you are working on exercise 5 of chapter 5.
 2. In the top left corner, right click on the down arrow of the *group by* button and group the automated tests by project. (If you don't see any tests appearing, you probably should (re)build your solution)
 ![alt text][img_group_tests]
 3. Right click on the project that matches your exercise and click on *Run selected tests*
-4. The first time you run a test a popup may appear thats asks you to log in. You should fill in your credentials from [guts-web.appspot.com](https://guts-web.appspot.com).
+4. The first time you run a test a popup may appear thats asks you to log in. You should fill in your credentials from [guts-web.pxl.be](https://guts-web.pxl.be).
 ![alt text][img_login_vs]
 
 **Attention**: your results will only be sent to the GUTS server when you run all the tests of a test fixture.
@@ -74,11 +74,11 @@ Although it is not a guarantee, having all tests green is a good indication that
 
 Once you finished an exercise it is recommended to **create a local commit** that stores your changes.
 
-In case of disaster (e.g. a laptop crash) you can still recover the source code of your solutions by navigating to the details of an exercise via [guts-web.appspot.com](https://guts-web.appspot.com).
+In case of disaster (e.g. a laptop crash) you can still recover the source code of your solutions by navigating to the details of an exercise via [guts-web.pxl.be](https://guts-web.pxl.be).
 
 #### Check your results online
 Test results of all students are sent to the Guts servers.
-You can check your progress and compare with the averages of other students via [guts-web.appspot.com](https://guts-web.appspot.com).
+You can check your progress and compare with the averages of other students via [guts-web.pxl.be](https://guts-web.pxl.be).
 Login, go to ".NET Advanced" in the navigation bar and select the chapter you want to view.
 ![alt text][img_chapter_contents]
 

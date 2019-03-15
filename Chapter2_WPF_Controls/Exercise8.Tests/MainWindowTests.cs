@@ -13,7 +13,7 @@ using NUnit.Framework;
 
 namespace Exercise8.Tests
 {
-    [ExerciseTestFixture("dotNet2", 2, "8", @"Exercise8\App.xaml;Exercise8\MainWindow.xaml"),
+    [ExerciseTestFixture("dotNet2", "H02", "Exercise08", @"Exercise8\App.xaml;Exercise8\MainWindow.xaml"),
      Apartment(ApartmentState.STA)]
     public class MainWindowTests
     {

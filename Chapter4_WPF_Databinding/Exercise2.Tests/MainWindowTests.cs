@@ -14,7 +14,7 @@ using Guts.Client.Shared;
 
 namespace Exercise2.Tests
 {
-    [ExerciseTestFixture("dotnet2", 4, "2", @"Exercise2\MainWindow.xaml;Exercise2\MainWindow.xaml.cs;Exercise2\Game.cs;Exercise2\Converters\RatingConverter.cs"),
+    [ExerciseTestFixture("dotnet2", "H04", "Exercise02", @"Exercise2\MainWindow.xaml;Exercise2\MainWindow.xaml.cs;Exercise2\Game.cs;Exercise2\Converters\RatingConverter.cs"),
      Apartment(ApartmentState.STA)]
     public class MainWindowTests
     {

@@ -9,7 +9,7 @@ using Guts.Client.Shared.TestTools;
 
 namespace Guts.Tests
 {
-    [ExerciseTestFixture("dotnet2", 11, "1", 
+    [ExerciseTestFixture("dotnet2", "H11", "Exercise01", 
         @"LinqExamples\SelectExamples.cs;LinqExamples\WhereExamples.cs;LinqExamples\OrderByExamples.cs;LinqExamples\GroupExamples.cs;LinqExamples\JoinExamples.cs;")]
     public class ExampleTestsTests
     {

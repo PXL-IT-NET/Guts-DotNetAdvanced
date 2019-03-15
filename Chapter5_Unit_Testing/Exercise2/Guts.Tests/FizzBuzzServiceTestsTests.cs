@@ -15,7 +15,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Guts.Tests
 {
-    [ExerciseTestFixture("dotnet2", 5, "2", @"FizzBuzz.Business\FizzBuzzService.cs;FizzBuzz.Business.Tests\FizzBuzzServiceTests.cs")]
+    [ExerciseTestFixture("dotnet2", "H05", "Exercise02", @"FizzBuzz.Business\FizzBuzzService.cs;FizzBuzz.Business.Tests\FizzBuzzServiceTests.cs")]
     public class FizzBuzzServiceTestsTests
     {
         private const string GenerateFizzBuzzWithCorrectParamtersTestMethodName = "ReturnsCorrectFizzBuzzTextWhenParametersAreValid";

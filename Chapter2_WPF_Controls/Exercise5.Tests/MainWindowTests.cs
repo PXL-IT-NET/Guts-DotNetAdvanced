@@ -10,7 +10,7 @@ using NUnit.Framework;
 
 namespace Exercise5.Tests
 {
-    [ExerciseTestFixture("dotNet2", 2, "5", @"Exercise5\MainWindow.xaml"),
+    [ExerciseTestFixture("dotNet2", "H02", "Exercise05", @"Exercise5\MainWindow.xaml"),
      Apartment(ApartmentState.STA)]
     public class MainWindowTests
     {
