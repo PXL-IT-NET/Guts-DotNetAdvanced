@@ -12,8 +12,9 @@ using NUnit.Framework;
 
 namespace Exercise6.Tests
 {
-    [ExerciseTestFixture("dotNet2", "H02", "Exercise06", @"Exercise6\MainWindow.xaml;Exercise6\MainWindow.xaml.cs"),
-     Apartment(ApartmentState.STA)]
+    [ExerciseTestFixture("dotNet2", "H02", "Exercise06", 
+        @"Exercise6\MainWindow.xaml;Exercise6\MainWindow.xaml.cs")]
+    [Apartment(ApartmentState.STA)]
     public class MainWindowTests
     {
         private TestWindow<MainWindow> _window;

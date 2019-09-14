@@ -7,6 +7,6 @@
         mc:Ignorable="d"
         Title="Color ListView" Height="300" Width="300">
     <Grid>
-        
+       
     </Grid>
 </Window>

@@ -11,8 +11,8 @@ using NUnit.Framework;
 
 namespace Exercise2.Tests
 {
-    [ExerciseTestFixture("dotNet2", "H02", "Exercise02", @"Exercise2\MainWindow.xaml"),
-     Apartment(ApartmentState.STA)]
+    [ExerciseTestFixture("dotNet2", "H02", "Exercise02", @"Exercise2\MainWindow.xaml")]
+    [Apartment(ApartmentState.STA)]
     public class MainWindowTests
     {
         private TestWindow<MainWindow> _window;
@@ -26,7 +26,12 @@ namespace Exercise2.Tests
         {
             _window = new TestWindow<MainWindow>();
 
-            var allButtons = _window.GetUIElements<Button>().OrderBy(button => button.Margin.Top).ToList();
+            var allButtons = _window.GetUIElements<Button>().ToList();
+            if (allButtons.All(button => button.Parent is Grid && button.VerticalAlignment == VerticalAlignment.Top))
+            {
+                allButtons = allButtons.OrderBy(button => button.Margin.Top).ToList();
+            }
+
             if (allButtons.Count >= 1)
             {
                 _normalButton = allButtons.ElementAt(0);

@@ -13,8 +13,9 @@ using NUnit.Framework;
 
 namespace Exercise8.Tests
 {
-    [ExerciseTestFixture("dotNet2", "H02", "Exercise08", @"Exercise8\App.xaml;Exercise8\MainWindow.xaml"),
-     Apartment(ApartmentState.STA)]
+    [ExerciseTestFixture("dotNet2", "H02", "Exercise08", 
+        @"Exercise8\App.xaml;Exercise8\MainWindow.xaml")]
+    [Apartment(ApartmentState.STA)]
     public class MainWindowTests
     {
         private TestWindow<MainWindow> _window;
@@ -47,10 +48,10 @@ namespace Exercise8.Tests
         public void _1_ShouldNotHaveChangedTheCodebehindFile()
         {
             var codeBehindFilePath = @"Exercise8\MainWindow.xaml.cs";
-            var fileContent = Solution.Current.GetFileContent(codeBehindFilePath);
-            Assert.That(fileContent.Length, Is.LessThanOrEqualTo(200), () => $"The file '{codeBehindFilePath}' has changed. " +
-                                                                             "Undo your changes on the file to make this test pass. " +
-                                                                             "This exercise can be completed by purely working with XAML.");
+            var fileHash = Solution.Current.GetFileHash(codeBehindFilePath);
+            Assert.That(fileHash, Is.EqualTo("78-BB-A0-13-AB-4A-3C-27-E9-41-7B-98-17-18-BD-A4"), () =>
+                $"The file '{codeBehindFilePath}' has changed. " +
+                "Undo your changes on the file to make this test pass.");
         }
 
         [MonitoredTest("Should have a button with a custom template"), Order(2)]

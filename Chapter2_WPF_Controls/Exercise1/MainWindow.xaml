@@ -7,6 +7,6 @@
         mc:Ignorable="d"
         Title="Button variations" Width="300" Height="300">
     <Grid>
-        
+       
     </Grid>
 </Window>

@@ -10,8 +10,8 @@ using NUnit.Framework;
 
 namespace Exercise5.Tests
 {
-    [ExerciseTestFixture("dotNet2", "H02", "Exercise05", @"Exercise5\MainWindow.xaml"),
-     Apartment(ApartmentState.STA)]
+    [ExerciseTestFixture("dotNet2", "H02", "Exercise05", @"Exercise5\MainWindow.xaml")]
+    [Apartment(ApartmentState.STA)]
     public class MainWindowTests
     {
         private TestWindow<MainWindow> _window;

@@ -11,8 +11,8 @@ using NUnit.Framework;
 
 namespace Exercise4.Tests
 {
-    [ExerciseTestFixture("dotNet2", "H02", "Exercise04", @"Exercise4\MainWindow.xaml"),
-     Apartment(ApartmentState.STA)]
+    [ExerciseTestFixture("dotNet2", "H02", "Exercise04", @"Exercise4\MainWindow.xaml")]
+    [Apartment(ApartmentState.STA)]
     public class MainWindowTests
     {
         private TestWindow<MainWindow> _window;
@@ -43,8 +43,8 @@ namespace Exercise4.Tests
         public void _1_ShouldNotHaveChangedTheCodebehindFile()
         {
             var codeBehindFilePath = @"Exercise4\MainWindow.xaml.cs";
-            var fileContent = Solution.Current.GetFileContent(codeBehindFilePath);
-            Assert.That(fileContent.Length, Is.LessThanOrEqualTo(200), () => $"The file '{codeBehindFilePath}' has changed. " +
+            var fileHash = Solution.Current.GetFileHash(codeBehindFilePath);
+            Assert.That(fileHash, Is.EqualTo("0B-07-EE-97-8C-90-C0-82-8D-CF-E1-10-81-B4-E6-84"), () => $"The file '{codeBehindFilePath}' has changed. " +
                                                                              "Undo your changes on the file to make this test pass. " +
                                                                              "This exercise can be completed by purely working with XAML.");
         }

@@ -12,8 +12,8 @@ using Guts.Client.Shared.TestTools;
 
 namespace Exercise1.Tests
 {
-    [ExerciseTestFixture("dotNet2", "H02", "Exercise01", @"Exercise1\MainWindow.xaml"),
-     Apartment(ApartmentState.STA)]
+    [ExerciseTestFixture("dotNet2", "H02", "Exercise01", @"Exercise1\MainWindow.xaml")]
+    [Apartment(ApartmentState.STA)]
     public class MainWindowTests
     {
         private TestWindow<MainWindow> _window;
