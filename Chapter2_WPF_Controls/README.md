@@ -32,7 +32,7 @@ The bottom button should be disabled. Notice how a different background is appli
 
 Do all of this **purely in XAML**. Do not change MainWindow.xaml.cs.
 
-## Exercie 3
+## Exercise 3
 Create an application that looks like the image below:
 
 ![alt text][img_exercise3]
@@ -45,7 +45,7 @@ Also make sure the width of the rectangle does not exceed the edge of the canvas
 
 Tip: use instances of *RepeatButton*.
 
-## Exercie 4
+## Exercise 4
 Create a WPF application that resembles the following screenshot:
 
 ![alt text][img_exercise4]
@@ -61,7 +61,7 @@ All controls should be positioned in a *Canvas*.
 
 Do all of this **purely in XAML**. Do not change MainWindow.xaml.cs.
 
-## Exercie 5
+## Exercise 5
 Create a WPF application that resembles the following screenshot:
 
 ![alt text][img_exercise5]
@@ -71,7 +71,7 @@ Use a *TreeView* control.
 
 Do this **purely in XAML**. Do not change MainWindow.xaml.cs.
  
-## Exercie 6
+## Exercise 6
 This exercise is about event bubbling and tunneling.
 
 The application (already) contains a button for each digit. When a digit button is pressed the matching digit should be appended in the textbox at the top.
@@ -83,7 +83,7 @@ Tip: you can use the static *Char.IsDigit* method to check if a character is a d
 
 ![alt text][img_exercise6]
 
-## Exercie 7
+## Exercise 7
 Create a WPF application with a *ListView* that resembles the following screenshot:
 
 ![alt text][img_exercise7]
@@ -92,7 +92,7 @@ The necessary images can be found in the *images* folder in the project for this
 
 Do this **purely in XAML**. Do not change MainWindow.xaml.cs.
 
-## Exercie 8
+## Exercise 8
 Create a round button like in the screenshot below:
 
 ![alt text][img_exercise8]
@@ -112,7 +112,79 @@ When you click on the button a push effect should be simulated by shrinking the 
 When the button is released its size grows back to 100%. This can also be achieved with a *Trigger* that applies a *ScaleTransform* that originates in the center of the button.
 
 Do all of this **purely in XAML**. Do not change MainWindow.xaml.cs.
- 
+
+## Exercise 9
+Create a WPF application that resembles the following screenshot:
+
+![Exercise9 Mainwindow](images/exercise9_mainwindow.png)
+
+The window contains a *Grid* that holds 3 checkboxes in a single cell.
+
+The first *CheckBox* is a standard checkbox.
+
+The second *CheckBox* has a *StackPanel* as content. 
+The *StackPanel* shows an image of a kameleon and some bigger, bold text next to it. 
+The image can be found in de *Images* folder of the project.
+
+The *CheckBox* at the bottom has a *Yellow* *Background*. 
+The *Content* of the *CheckBox* is some bold, white colored text with a linear gradient brush as background. 
+The gradient brush should be *Red* on the left, *Blue* in the middle and *Green* at the right.
+
+Do all of this **purely in XAML**. Do not change MainWindow.xaml.cs.
+
+## Exercise 10
+In this exercise you'll have to apply styles on buttons.
+
+Add a style for buttons to your window resources so you can use it on multiple buttons in the window. 
+Add 3 buttons to the window and try to make them resemble the screenshot as good as possible by applying your custom style.
+The background of the buttons should be a circular (radial) gradient. 
+It should alternate 2 colors. The first color starts in the center. Then at 40% the color should be the second color. At the end the gradient should be the first color again.
+
+The middle button should have a bigger font size.
+
+The bottom button should be disabled. Notice how a different background is applied when the button is disabled (this is baked in the *Template* of the *Button* control).
+
+![Exercise10 Mainwindow](images/exercise10_mainwindow.png)
+
+Do all of this **purely in XAML**. Do not change MainWindow.xaml.cs.
+
+## Exercise 11
+Create a triangle button like in the screenshot below:
+
+![Exercise11 Mainwindow](images/exercise11_mainwindow.gif)
+
+To achieve this you need to create a custom template for button controls. 
+Define this template as an application resource so that you can have triangle buttons in all future windows of the application. 
+
+The content of the template should be a grid with one cell that holds a *Polygon* (the triangle) and a *ContentPresenter*. 
+The color of the *Polygon* should be *LightGray*.
+Define the *Points* of the *Polygon* as if the triangle should be in a square with the top left corner at position (0.0, 0.0) and the bottom right corner at position (1.0, 1.0). 
+Set the 'Stretch' property of the *Polygon* to fill the available space of the grid cell.
+Position the *ContentPresenter* in the horizontal center and the vertical bottom of the grid cell (this is where the *Content* of the triangle buttons will be placed). 
+Use some *Margin* to have a little bit of space between the bottom and the content.
+
+When the button is clicked the *Grid* (and the triangle inside it) should do one clockwise rotation in 250 milliseconds. 
+
+Do all of this **purely in XAML**. Do not change MainWindow.xaml.cs.
+
+## Exercise 12
+Create a WPF application that resembles the following screenshot:
+
+![Exercise12 Mainwindow](images/exercise12_mainwindow.png)
+
+Add a group of three radiobuttons that enables the user to select a favorite programming language. 
+Make sure the first radiobuttion is checked by default (when the application starts).
+
+All *RadioButtons* in the window should automatically have a custom *Style* applied to it (without having to specifiy the style for each radiobutton). 
+The *Style* should change the *Background* to *Yellow* and the *FontWeight* to *Bold* when the radiobutton is checked.
+
+Ass a *ListView* that shows at least 3 colors.
+Each color should be displayed with a colored circle and the name of the color next to it. Make sure there is some space between the circle and the text. 
+
+All controls should be positioned in an outer *StackPanel* (=*Content* element of the window).
+
+Do all of this **purely in XAML**. Do not change MainWindow.xaml.cs.
+
 [img_exercise1]:images/exercise1_mainwindow.png "Main window of exercise 1"
 [img_exercise2]:images/exercise2_mainwindow.png "Main window of exercise 2"
 [img_exercise3]:images/exercise3_mainwindow.png "Main window of exercise 3"
