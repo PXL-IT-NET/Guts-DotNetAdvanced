@@ -1,0 +1,25 @@
+﻿<Window x:Class="NumberConverter.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NumberConverter.UI"
+        xmlns:converter="clr-namespace:NumberConverter.UI.Converters"
+        mc:Ignorable="d"
+        Title="Number converter" Height="150" Width="350">
+    <Window.Resources>
+        <converter:RomanNumberConverter x:Key="RomanNumberConverter"></converter:RomanNumberConverter>
+    </Window.Resources>
+    <StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <Label MinWidth="80" Target="{Binding ElementName=numberTextBox}">Number</Label>
+            <TextBox x:Name="numberTextBox" Text="{Binding Path=NumberAsText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     MinWidth="200"></TextBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock MinWidth="80">Roman notation:</TextBlock>
+            <TextBlock x:Name="romanTextBlock" Text="{Binding Path=NumberAsText, Converter={StaticResource RomanNumberConverter}}"
+                       MinWidth="200" Background="Azure" Margin="10 0 0 0" Padding="5"></TextBlock>
+        </StackPanel>
+    </StackPanel>
+</Window>

@@ -5,6 +5,7 @@ namespace FizzBuzz.Business.Tests
 {
     public class FizzBuzzServiceTests
     {
+
         public void ReturnsCorrectFizzBuzzTextWhenParametersAreValid(int fizzFactor, int buzzFactor, int lastNumber, string expected)
         {
             Assert.Fail("Test not implemented yet");

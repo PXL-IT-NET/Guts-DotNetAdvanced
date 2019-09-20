@@ -15,7 +15,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Guts.Tests
 {
-    [ExerciseTestFixture("dotnet2", "H05", "Exercise02", @"FizzBuzz.Business\FizzBuzzService.cs;FizzBuzz.Business.Tests\FizzBuzzServiceTests.cs")]
+    [ExerciseTestFixture("dotnet2", "H05", "Exercise02",
+        @"FizzBuzz.Business\FizzBuzzService.cs;FizzBuzz.Business.Tests\FizzBuzzServiceTests.cs")]
     public class FizzBuzzServiceTestsTests
     {
         private const string GenerateFizzBuzzWithCorrectParamtersTestMethodName = "ReturnsCorrectFizzBuzzTextWhenParametersAreValid";
@@ -88,7 +89,7 @@ namespace Guts.Tests
                 Has.All.Matches((TestCaseAttribute testCase) => testCase.Arguments?.Length == 4),
                 () => "All test cases must have 4 arguments (fizzFactor, buzzFactor, lastNumber, expected)");
 
-            var methodBody = GetMethodBody(GenerateFizzBuzzWithCorrectParamtersTestMethodName);
+            var methodBody = GetMethodBodyWithoutComments(GenerateFizzBuzzWithCorrectParamtersTestMethodName);
             AssertCallsSutMethodAndUsesAssertThatSyntax(methodBody);
         }
 
@@ -131,7 +132,7 @@ namespace Guts.Tests
 
             AssertFactorOutOfRangeTestCases(testCaseAttributes, "fizzFactor");
 
-            var methodBody = GetMethodBody(CheckExceptionThrowingWhenFizzIsOutOfRangeMethodName);
+            var methodBody = GetMethodBodyWithoutComments(CheckExceptionThrowingWhenFizzIsOutOfRangeMethodName);
             AssertCallsSutMethodAndUsesAssertThatSyntax(methodBody);
             AssertUsesThrowsForFizzBuzzValidationException(methodBody);
         }
@@ -163,7 +164,7 @@ namespace Guts.Tests
 
             AssertFactorOutOfRangeTestCases(testCaseAttributes, "buzzFactor");
 
-            var methodBody = GetMethodBody(CheckExceptionThrowingWhenBuzzIsOutOfRangeMethodName);
+            var methodBody = GetMethodBodyWithoutComments(CheckExceptionThrowingWhenBuzzIsOutOfRangeMethodName);
             AssertCallsSutMethodAndUsesAssertThatSyntax(methodBody);
             AssertUsesThrowsForFizzBuzzValidationException(methodBody);
         }
@@ -208,7 +209,7 @@ namespace Guts.Tests
                       "Tip: The range is determined by the constants " +
                       "FizzBuzzService.MinimumLastNumber and FizzBuzzService.MaximumLastNumber");
 
-            var methodBody = GetMethodBody(CheckExceptionThrowingWhenLastNumberIsOutOfRangeMethodName);
+            var methodBody = GetMethodBodyWithoutComments(CheckExceptionThrowingWhenLastNumberIsOutOfRangeMethodName);
             AssertCallsSutMethodAndUsesAssertThatSyntax(methodBody);
             AssertUsesThrowsForFizzBuzzValidationException(methodBody);
         }
@@ -276,7 +277,7 @@ namespace Guts.Tests
                 () => $"Could not find test method with name '{methodName}'.");
 
             Assert.That(testMethod.GetParameters().Length, Is.EqualTo(expectedParameterCount),
-                () => $"The method '{methodName}' should have {expectedParameterCount} parameter(s).: ");
+                () => $"The method '{methodName}' should have {expectedParameterCount} parameter(s).");
 
             var testAttribute = testMethod.GetCustomAttributes()
                 .OfType<TestAttribute>().FirstOrDefault();
@@ -337,16 +338,23 @@ namespace Guts.Tests
             return builder.ToString();
         }
 
-        private string GetMethodBody(string methodName)
+        private string GetMethodBodyWithoutComments(string methodName)
         {
-            var syntaxtTree = CSharpSyntaxTree.ParseText(_testClassContent);
-            var root = syntaxtTree.GetRoot();
+            var syntaxTree = CSharpSyntaxTree.ParseText(_testClassContent);
+            var root = syntaxTree.GetRoot();
             var method = root
                 .DescendantNodes()
                 .OfType<MethodDeclarationSyntax>()
                 .FirstOrDefault(md => md.Identifier.ValueText.Equals(methodName));
-            if (method != null) return method.Body.ToString();
-            return String.Empty;
+
+            if (method == null) return string.Empty;
+
+            var bodyBuilder = new StringBuilder(); //no pun intended :)
+            foreach (var statement in method.Body.Statements)
+            {
+                bodyBuilder.AppendLine(statement.ToString());
+            }
+            return bodyBuilder.ToString();
         }
 
         private void AssertCallsSutMethodAndUsesAssertThatSyntax(string methodBody)
