@@ -1,5 +1,50 @@
 # Exercises - Chapter 5 - Unit Testing
 
+## Exercise 1
+Make an application that converts numbers to there Roman notation:
+
+![Exercise01 Mainwindow](images/exercise01_mainwindow.gif)
+
+You can type a number in a *TextBox*. With each character you type the Roman notation is calculated and shown. 
+The application achieves this using two-way binding and a custom converter (*RomanNumberConverter*). 
+The XAML and the databinding is already implemented. 
+
+What you need to do is to implement the *Convert* method of the *RomanNumberConverter* and write the necessary unit tests that verifies the implementation of the *Convert* method. 
+
+Complete the *RomanNumberConverterTests* class (in the test project) by implementing the following tests:
+* Convert_ShouldThrowArgumentExceptionWhenValueIsNotAString
+     * The code should throw an *ArgumentException* when the source object is not of type *string*. The converter should only be used in bindings for a string property (e.g. the *Text* property of a *TextBlock*). 
+     * Use an instance of *object* (*new object()*) to represent a value of a non-string type.
+     * When you test the *Convert* method, you can pass *null* for the last 3 parameters.
+     * Also test if the *Message* of the *ArgumentException* contains the word "string" or "String" (case insensitive).
+* Convert_ShouldReturnInvalidNumberWhenTheValueCannotBeParsedAsAnInteger
+     * The code should try to parse the value to an integer. When is does not succeed, the converted value should be the string *"Invalid number"*.  
+     * Define some test cases (3 or more) to test different invalid inputs. 
+     * There should be one test case for a value that does not contain any digits.
+     * There should be one test case for an empty string.
+* Convert_ShouldReturnOutOfRangeWhenTheValueIsNotBetweeOneAnd3999
+     * It is only possible to covert numbers between 1 and 3999. When the number to convert is out of bounds, the converted value should be the string *"Out of Roman range (1-3999)"*. 
+     * Define some test cases (2 or more). At least one test case for a value that is too small and at least one test case for a value that is too big.
+* Convert_ShouldCorrectlyConvertValidNumbers
+     * Define some test castes (4 or more) to test a valid conversion. 
+     * You can use the following (recursive) algorithm to implement the conversion:
+          * If *number >= 1000* the result is *M* followed by the conversion of *number - 1000*. 
+          * If *number >= 900* the result is *CM* followed by the conversion of *number - 900*. 
+          * If *number >= 500* the result is *D* followed by the conversion of *number - 500*. 
+          * If *number >= 400* the result is *CD* followed by the conversion of *number - 400*. 
+          * If *number >= 100* the result is *C* followed by the conversion of *number - 1000*. 
+          * If *number >= 90* the result is *XC* followed by the conversion of *number - 90*. 
+          * If *number >= 50* the result is *L* followed by the conversion of *number - 50*. 
+          * If *number >= 40* the result is *XL* followed by the conversion of *number - 40*. 
+          * If *number >= 10* the result is *X* followed by the conversion of *number - 10*. 
+          * If *number >= 9* the result is *IX* followed by the conversion of *number - 9*. 
+          * If *number >= 5* the result is *V* followed by the conversion of *number - 5*. 
+          * If *number >= 4* the result is *IV* followed by the conversion of *number - 4*. 
+          * If *number >= 1* the result is *I* followed by the conversion of *number - 1*.
+
+Write the test first and then try to make it green by altering the production code.
+Use a setup method.
+
 ## Exercise 2
 Fizz buzz is a group word game for children to teach them about division. 
 Players take turns to count incrementally, replacing any number divisible by three (the fizz factor) with the word **Fizz**, 
