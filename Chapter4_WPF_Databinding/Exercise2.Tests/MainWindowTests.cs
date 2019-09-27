@@ -11,11 +11,13 @@ using System.Windows.Data;
 using Exercise2.Converters;
 using Guts.Client.Classic;
 using Guts.Client.Shared;
+using TestUtils;
 
 namespace Exercise2.Tests
 {
-    [ExerciseTestFixture("dotnet2", "H04", "Exercise02", @"Exercise2\MainWindow.xaml;Exercise2\MainWindow.xaml.cs;Exercise2\Game.cs;Exercise2\Converters\RatingConverter.cs"),
-     Apartment(ApartmentState.STA)]
+    [ExerciseTestFixture("dotnet2", "H04", "Exercise02",
+         @"Exercise2\MainWindow.xaml;Exercise2\MainWindow.xaml.cs;Exercise2\Game.cs;Exercise2\Converters\RatingConverter.cs")]
+    [Apartment(ApartmentState.STA)]
     public class MainWindowTests
     {
         private TestWindow<MainWindow> _window;
@@ -133,12 +135,12 @@ namespace Exercise2.Tests
         {
             AssertHasSixTextBoxesACheckBoxAndTwoButtons();
 
-            AssertTwoWayBinding(_gameIdTextBox, TextBox.TextProperty, "GameId");
-            AssertTwoWayBinding(_nameTextBox, TextBox.TextProperty, "Name");
-            AssertTwoWayBinding(_typeTextBox, TextBox.TextProperty, "Type");
-            AssertTwoWayBinding(_releaseDateTextBox, TextBox.TextProperty, "ReleaseDate");
-            AssertTwoWayBinding(_descriptionTextBox, TextBox.TextProperty, "Description");
-            AssertTwoWayBinding(_ageCheckBox, ToggleButton.IsCheckedProperty, "IsUnder18");
+            BindingUtil.AssertBinding(_gameIdTextBox, TextBox.TextProperty, "GameId", BindingMode.TwoWay);
+            BindingUtil.AssertBinding(_nameTextBox, TextBox.TextProperty, "Name", BindingMode.TwoWay);
+            BindingUtil.AssertBinding(_typeTextBox, TextBox.TextProperty, "Type", BindingMode.TwoWay);
+            BindingUtil.AssertBinding(_releaseDateTextBox, TextBox.TextProperty, "ReleaseDate", BindingMode.TwoWay);
+            BindingUtil.AssertBinding(_descriptionTextBox, TextBox.TextProperty, "Description", BindingMode.TwoWay);
+            BindingUtil.AssertBinding(_ageCheckBox, ToggleButton.IsCheckedProperty, "IsUnder18", BindingMode.TwoWay);
         }
 
         [MonitoredTest("Should implement INotifyPropertyChanged interface in Game class"), Order(5)]
@@ -253,15 +255,6 @@ namespace Exercise2.Tests
                 () => $"When game {selectedIndex + 1} is selected, it is not set as DataContext of the window.");
         }
 
-        private void AssertTwoWayBinding(Control targetControl, DependencyProperty targetProperty, string expectedBindingPath)
-        {
-            BindingExpression binding = targetControl.GetBindingExpression(targetProperty);
-            Assert.That(binding, Is.Not.Null, () => $"Could not find a 'Binding' for the '{targetProperty.Name}' property of {targetControl.Name}.");
-            Assert.That(binding.ParentBinding.Path.Path, Is.EqualTo(expectedBindingPath),
-                () =>
-                    $"The source property of the databinding statement of {targetControl.Name} should be the {expectedBindingPath} property of the source object.");
-            Assert.That(binding.ParentBinding.Mode, Is.AnyOf(BindingMode.Default, BindingMode.TwoWay), () => $"The binding mode should be 'TwoWay' for {targetControl.Name}.");
-        }
 
         private IValueConverter AssertUsesRatingConverterInBindingAndGetTheConverter()
         {

@@ -2,16 +2,17 @@
 using NUnit.Framework;
 using System.Linq;
 using System.Threading;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Guts.Client.Classic;
 using Guts.Client.Shared;
+using TestUtils;
 
 namespace Exercise1.Tests
 {
-    [ExerciseTestFixture("dotnet2", "H04", "Exercise01", @"Exercise1\MainWindow.xaml;Exercise1\MainWindow.xaml.cs"), 
-     Apartment(ApartmentState.STA)]
+    [ExerciseTestFixture("dotnet2", "H04", "Exercise01", 
+        @"Exercise1\MainWindow.xaml;Exercise1\MainWindow.xaml.cs")]
+    [Apartment(ApartmentState.STA)]
     public class MainWindowTests
     {
         private TestWindow<MainWindow> _window;
@@ -71,22 +72,13 @@ namespace Exercise1.Tests
         {
             AssertHasFiveTextBoxes();
 
-            AssertOnWayBinding(_gameIdTextBox, TextBox.TextProperty, "GameId");
-            AssertOnWayBinding(_nameTextBox, TextBox.TextProperty, "Name");
-            AssertOnWayBinding(_typeTextBox, TextBox.TextProperty, "Type");
-            AssertOnWayBinding(_releaseDateTextBox, TextBox.TextProperty, "ReleaseDate");
-            AssertOnWayBinding(_descriptionTextBox, TextBox.TextProperty, "Description");
+            BindingUtil.AssertBinding(_gameIdTextBox, TextBox.TextProperty, "GameId", BindingMode.OneWay);
+            BindingUtil.AssertBinding(_nameTextBox, TextBox.TextProperty, "Name", BindingMode.OneWay);
+            BindingUtil.AssertBinding(_typeTextBox, TextBox.TextProperty, "Type", BindingMode.OneWay);
+            BindingUtil.AssertBinding(_releaseDateTextBox, TextBox.TextProperty, "ReleaseDate", BindingMode.OneWay);
+            BindingUtil.AssertBinding(_descriptionTextBox, TextBox.TextProperty, "Description", BindingMode.OneWay);
         }
 
-        private void AssertOnWayBinding(Control targetControl, DependencyProperty targetProperty, string expectedBindingPath)
-        {
-            BindingExpression binding = targetControl.GetBindingExpression(targetProperty);
-            Assert.That(binding, Is.Not.Null, () => $"Could not find a 'Binding' for the '{targetProperty.Name}' property of {targetControl.Name}.");
-            Assert.That(binding.ParentBinding.Path.Path, Is.EqualTo(expectedBindingPath),
-                () =>
-                    $"The source property of the databinding statement of {targetControl.Name} should be the {expectedBindingPath} property of the source object");
-            Assert.That(binding.ParentBinding.Mode, Is.AnyOf(BindingMode.Default, BindingMode.OneWay));
-        }
 
         private void AssertHasFiveTextBoxes()
         {

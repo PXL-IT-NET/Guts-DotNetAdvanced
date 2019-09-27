@@ -6,16 +6,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{53E891A3-C83B-4C57-8862-178EBC83A86C}</ProjectGuid>
+    <ProjectGuid>{3EC89B44-CAAD-4D60-A6E1-055428C93D48}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Exercise1.Tests</RootNamespace>
-    <AssemblyName>Exercise1.Tests</AssemblyName>
+    <RootNamespace>Exercise3.Tests</RootNamespace>
+    <AssemblyName>Exercise3.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -75,12 +75,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Exercise1\Exercise1.csproj">
-      <Project>{1a192748-8b05-473b-b5c8-d5df8aad8b01}</Project>
-      <Name>Exercise1</Name>
+    <ProjectReference Include="..\Exercise3\Exercise3.csproj">
+      <Project>{0249E9D4-42CD-47F4-B0B8-4803BA068D32}</Project>
+      <Name>Exercise3</Name>
     </ProjectReference>
     <ProjectReference Include="..\TestUtils\TestUtils.csproj">
       <Project>{67DAA258-4DA5-48FF-90DF-8E663752613C}</Project>
