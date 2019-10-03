@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 using Guts.Client.Classic;
@@ -88,11 +89,24 @@ namespace Exercise1.Tests
             Assert.That(imageControl.Source, Is.Not.Null,
                 () => "The 'Image' must have a (valid) 'Source'.");
 
-            var bitmapSource = imageControl.Source as BitmapFrame;
+            var bitmapSource = imageControl.Source as BitmapSource;
             Assert.That(bitmapSource, Is.Not.Null,
                 () => "The 'Source' of 'Image' must be a valid (bitmap) image.");
 
-            Assert.That(bitmapSource.BaseUri, Is.Not.Null,
+            Uri baseUri = null;
+            if (bitmapSource is BitmapFrame bitmapFrame)
+            {
+                baseUri = bitmapFrame.BaseUri;
+            }
+            else
+            {
+                if (bitmapSource is BitmapImage bitmapImage)
+                {
+                    baseUri = bitmapImage.BaseUri;
+                }
+            }
+
+            Assert.That(baseUri, Is.Not.Null,
                 () => "The 'Source' of the 'Image' in the middle should be a relative path.");
 
             Assert.That(bitmapSource.ToString(), Contains.Substring("banner.png").IgnoreCase,
