@@ -151,7 +151,7 @@ namespace Exercise11.Tests
             Assert.That(angleProperty.Path, Is.EqualTo("Angle"), "The 'StoryBoard.TargetProperty' attached property should be set to 'Angle' for the 'DoubleAnimation'.");
 
             Assert.That(doubleAnimation.From, Is.EqualTo(0.0), "The animation should start 'From' 0.0 degrees.");
-            Assert.That(doubleAnimation.From, Is.EqualTo(0.0), "The animation should go 'To' 360.0 degrees.");
+            Assert.That(doubleAnimation.To, Is.EqualTo(360.0), "The animation should go 'To' 360.0 degrees.");
             Assert.That(doubleAnimation.Duration.TimeSpan.TotalMilliseconds, Is.EqualTo(250), "The 'Duration' of the animation should be 250 milliseconds.");
             Assert.That(doubleAnimation.RepeatBehavior.Count, Is.EqualTo(1), "The animation should not repeat.");
         }
