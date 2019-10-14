@@ -71,11 +71,11 @@ namespace Exercise1.Tests
 
             Assert.That(allButtons,
                 Has.None.Matches((Button button) => button.HorizontalAlignment == HorizontalAlignment.Left),
-                () => "There is at least one 'Button' that has 'HorizontalAlignment' left.");
+                "There is at least one 'Button' that has 'HorizontalAlignment' left.");
 
             Assert.That(allButtons,
                 Has.None.Matches((Button button) => button.VerticalAlignment == VerticalAlignment.Top),
-                () => "There is at least one 'Button' that has 'VerticalAlignment' top.");
+                "There is at least one 'Button' that has 'VerticalAlignment' top.");
         }
 
         [MonitoredTest("Should have a dockpanel with a button and a grid"), Order(4)]
@@ -85,8 +85,9 @@ namespace Exercise1.Tests
             Assert.That(_dockPanel.Parent, Is.EqualTo(_window.Window),
                 () => "The 'DockPanel' should be the child element (content) of 'Window'.");
 
-            var button = _dockPanel.Children.OfType<Button>().FirstOrDefault();
-            Assert.That(button, Is.Not.Null, "The 'DockPanel' should have a 'Button' child element.");
+            var buttons = _dockPanel.Children.OfType<Button>().ToList();
+            Assert.That(buttons, Has.Count.EqualTo(1), "The 'DockPanel' should have exactly one 'Button' child element.");
+            var button = buttons.First();
             Assert.That(DockPanel.GetDock(button), Is.EqualTo(Dock.Right),
                 () => "The 'Button' should be docked on the right.");
             Assert.That(button.HorizontalAlignment, Is.EqualTo(HorizontalAlignment.Stretch),
@@ -97,7 +98,7 @@ namespace Exercise1.Tests
             var grid = _dockPanel.Children.OfType<Grid>().FirstOrDefault();
             Assert.That(grid, Is.Not.Null, "The 'DockPanel' should have a 'Grid' child element.");
             Assert.That(grid, Is.EqualTo(_grid),
-                "Multiple 'Grid' elements are found. There shoul be only one 'Grid' in the XAML.");
+                "Multiple 'Grid' elements are found. There should be only one 'Grid' in the XAML.");
         }
 
         [MonitoredTest("Should have a stackpanel in the right button"), Order(5)]
@@ -122,6 +123,10 @@ namespace Exercise1.Tests
                 Has.All.Matches((TextBlock textBlock) => HasMargin(textBlock)),
                 () => "All 'TextBlock' elements inside the 'StackPanel' should have some margin on all sides. " +
                       "E.g. 'Margin=\"4\"'");
+
+            Assert.That(textBlocks,
+                Has.All.Matches((TextBlock textBlock) => !string.IsNullOrEmpty(textBlock.Text)),
+                "All 'TextBlock' elements inside the 'StackPanel' should have a non empty Text.");
         }
 
         [MonitoredTest("Should have a grid with 4 cells arranged correctly"), Order(6)]
@@ -152,13 +157,27 @@ namespace Exercise1.Tests
             AssertGridHas4Cells();
 
             var allGridButtons = _grid.Children.OfType<Button>().ToList();
+
+            Assert.That(allGridButtons, Has.Count.EqualTo(3), "There should be exactly 3 buttons in the Grid.");
+
             AssertCellHasButton(allGridButtons, 0, 0);
             AssertCellHasButton(allGridButtons, 0, 1);
             AssertCellHasButton(allGridButtons, 1, 0);
 
-            var button01 = allGridButtons.First(button => Grid.GetRow(button) == 1 && Grid.GetColumn(button) == 0);
-            Assert.That(button01.VerticalAlignment, Is.EqualTo(VerticalAlignment.Center),
+            Assert.That(allGridButtons, Has.All.Matches((Button b) =>
+            {
+                var content = b.Content as string;
+                return !string.IsNullOrEmpty(content);
+            }), "All the buttons in the Grid must have a non-empty string as Content");
+
+            var button10 = allGridButtons.First(button => Grid.GetRow(button) == 1 && Grid.GetColumn(button) == 0);
+            Assert.That(button10.VerticalAlignment, Is.EqualTo(VerticalAlignment.Center),
                 () => "The button in cell (1,0) should be vertically aligned in the center of the grid cell.");
+
+            Assert.That(allGridButtons, Has.Exactly(2).Matches((Button b) =>
+                    b.HorizontalAlignment == HorizontalAlignment.Stretch &&
+                    b.VerticalAlignment == VerticalAlignment.Stretch),
+                "The buttons in cells (0,0) and (0,1) should stretch in both directions.");
 
             var wrapPanel = _grid.Children.OfType<WrapPanel>().FirstOrDefault();
             Assert.That(wrapPanel, Is.Not.Null, () => "No 'WrapPanel' found in the 'Grid'.");
@@ -175,6 +194,12 @@ namespace Exercise1.Tests
             var wrapPanelButtons = _wrapPanel.Children.OfType<Button>().ToList();
             Assert.That(wrapPanelButtons, Has.Count.GreaterThanOrEqualTo(5),
                 () => "There should at least 5 'Button' elements directly inside the 'WrapPanel'.");
+
+            Assert.That(wrapPanelButtons, Has.All.Matches((Button b) =>
+            {
+                var content = b.Content as string;
+                return !string.IsNullOrEmpty(content);
+            }), "All the buttons in the WrapPanel must have a non-empty string as Content");
 
             Assert.That(wrapPanelButtons, Has.All.Matches((Button button) => HasPadding(button)),
                 () => "Not all 'Button' elements inside the 'WrapPanel' have some padding on each side.");
