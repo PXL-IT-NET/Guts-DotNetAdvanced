@@ -11,6 +11,8 @@ using Guts.Client.Classic;
 using Guts.Client.Classic.TestTools.WPF;
 using Guts.Client.Shared;
 using Guts.Client.Shared.TestTools;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using NUnit.Framework;
 using TestUtils;
 
@@ -29,7 +31,6 @@ namespace Exercise3.Tests
         private TextBox _descriptionTextBox;
         private Button _addNewGameButton;
         private TextBlock _errorMessageTextBlock;
-
 
         [SetUp]
         public void Setup()
@@ -262,6 +263,8 @@ namespace Exercise3.Tests
             AssertHasFormControls();
             AssertHasListView();
 
+            AssertDoesNotReadTextBoxPropertiesInClickEventHandler();
+
             var originalGames = GetGamesFromListView();
             var game = _newGameGroupBox.DataContext as Game;
             Assert.That(game, Is.Not.Null, "No game 'DataContext' found for the 'GroupBox'.");
@@ -287,6 +290,50 @@ namespace Exercise3.Tests
                 games = _listView.ItemsSource.OfType<Game>().ToList();
             }
             return games;
+        }
+
+
+        private void AssertDoesNotReadTextBoxPropertiesInClickEventHandler()
+        {
+            var code = Solution.Current.GetFileContent(@"Exercise3\MainWindow.xaml.cs");
+            var syntaxTree = CSharpSyntaxTree.ParseText(code);
+            var root = syntaxTree.GetRoot();
+            var clickEventHandlerMethods = root
+                .DescendantNodes()
+                .OfType<MethodDeclarationSyntax>()
+                .Where(md =>
+                {
+                    var parameters = md.ParameterList.Parameters;
+                    if (parameters.Count != 2) return false;
+                    if (!(parameters[0] is ParameterSyntax senderParameter)) return false;
+                    if (senderParameter.Type.ToString().ToLower() != "object")
+                    {
+                        return false;
+                    }
+
+                    if (!(parameters[1] is ParameterSyntax eventArgsParameter)) return false;
+                    if (eventArgsParameter.Type.ToString() != "RoutedEventArgs")
+                    {
+                        return false;
+                    }
+
+                    return true;
+                }).ToList();
+
+            Assert.That(clickEventHandlerMethods, Has.Count.LessThanOrEqualTo(1),
+                "Your code contains more than one click event handler.");
+
+            Assert.That(clickEventHandlerMethods, Has.Count.EqualTo(1), "Cannot find a click event handler.");
+
+            var addNewGameButtonClickMethod = clickEventHandlerMethods.First();
+
+            var textPropertyReads = addNewGameButtonClickMethod.Body.DescendantNodes()
+                .OfType<MemberAccessExpressionSyntax>()
+                .Where(ma => ma.ToString().ToLower().Contains("textbox") && ma.Name.ToString() == "Text" && !(ma.Parent is AssignmentExpressionSyntax)).ToList();
+
+            Assert.That(textPropertyReads, Is.Empty,
+                "You should not read the Text property of the name or description TextBox. " +
+                "Since you are using two-way data binding you can access the data source object directly.");
         }
     }
 }
