@@ -9,7 +9,8 @@ using NUnit.Framework;
 
 namespace Bank.Tests
 {
-    public abstract class DatabaseTestsBase
+    //Intentionally obfuscated 
+    internal abstract class DatabaseTestsBase
     {
         [OneTimeSetUp]
         public void BeforeAllTests()
@@ -25,14 +26,14 @@ namespace Bank.Tests
             ExecuteScript(script, "BankConnection");
         }
 
-        protected SqlConnection CreateConnection()
+        protected SqlConnection Cc()
         {
-            return CreateConnection("BankConnection");
+            return Cc("BankConnection");
         }
 
-        private SqlConnection CreateConnection(string connectionStringName)
+        private SqlConnection Cc(string csn)
         {
-            string connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+            string connectionString = ConfigurationManager.ConnectionStrings[csn].ConnectionString;
             return new SqlConnection(connectionString);
         }
 
@@ -40,7 +41,7 @@ namespace Bank.Tests
         {
             var c = script.Split(new string[] { "GO" }, StringSplitOptions.RemoveEmptyEntries);
 
-            using (var a = CreateConnection(connectionStringName))
+            using (var a = Cc(connectionStringName))
             {
                 a.Open();
                 foreach (var d in c)
@@ -56,16 +57,15 @@ namespace Bank.Tests
 
         protected IList<City> GetAllCities()
         {
-            //Intentionally obfuscated 
             var a = new List<City>();
-            using (var b = CreateConnection())
+            using (var b = Cc())
             {
                 b.Open();
-                var c = new SqlCommand("select * from [dbo].[Cities]", b);
-                using (var d = c.ExecuteReader())
+                var c = A(X.A, b);
+                using (var d = C(c))
                 {
-                    int e = d.GetOrdinal("ZipCode");
-                    int f = d.GetOrdinal("Name");
+                    int e = B(d, "ZipCode");
+                    int f = B(d, "Name");
 
                     while (d.Read())
                     {
@@ -83,20 +83,19 @@ namespace Bank.Tests
 
         protected IList<Customer> GetAllCustomers()
         {
-            //Intentionally obfuscated 
             var a = new List<Customer>();
-            using (var b = CreateConnection())
+            using (var b = Cc())
             {
                 b.Open();
-                var c = new SqlCommand("select * from [dbo].[Customers]", b);
-                using (var d = c.ExecuteReader())
+                var c = A(X.B, b);
+                using (var d = C(c))
                 {
-                    int e = d.GetOrdinal("CustomerId");
-                    int f = d.GetOrdinal("Name");
-                    int g = d.GetOrdinal("FirstName");
-                    int h = d.GetOrdinal("Address");
-                    int i = d.GetOrdinal("CellPhone");
-                    int j = d.GetOrdinal("ZipCode");
+                    int e = B(d,"CustomerId");
+                    int f = B(d,"Name");
+                    int g = B(d,"FirstName");
+                    int h = B(d,"Address");
+                    int i = B(d,"CellPhone");
+                    int j = B(d, "ZipCode");
 
                     while (d.Read())
                     {
@@ -118,19 +117,18 @@ namespace Bank.Tests
 
         protected IList<Account> GetAllAccounts()
         {
-            //Intentionally obfuscated 
             var a = new List<Account>();
-            using (var b = CreateConnection())
+            using (var b = Cc())
             {
                 b.Open();
-                var c = new SqlCommand("select * from [dbo].[Accounts]", b);
-                using (var d = c.ExecuteReader())
+                var c = A(X.C, b);
+                using (var d = C(c))
                 {
-                    int e = d.GetOrdinal("Id");
-                    int f = d.GetOrdinal("AccountNumber");
-                    int g = d.GetOrdinal("Balance");
-                    int h = d.GetOrdinal("AccountType");
-                    int i = d.GetOrdinal("CustomerId");
+                    int e = B(d,"Id");
+                    int f = B(d,"AccountNumber");
+                    int g = B(d,"Balance");
+                    int h = B(d,"AccountType");
+                    int i = B(d, "CustomerId");
 
                     while (d.Read())
                     {
@@ -149,6 +147,20 @@ namespace Bank.Tests
             return a;
         }
 
+        private SqlCommand A(string a, SqlConnection b)
+        {
+            return new SqlCommand(a, b);
+        }
+
+        private int B(SqlDataReader a, string b)
+        {
+            return a.GetOrdinal(b);
+        }
+
+        private SqlDataReader C(SqlCommand a)
+        {
+            return a.ExecuteReader();
+        }
         #endregion
     }
 }

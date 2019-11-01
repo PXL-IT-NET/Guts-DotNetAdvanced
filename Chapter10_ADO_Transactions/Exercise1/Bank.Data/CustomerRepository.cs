@@ -10,7 +10,7 @@ namespace Bank.Data
     {
         public CustomerRepository(IConnectionFactory connectionFactory)
         {
-            
+
         }
 
         public IList<Customer> GetAll()

@@ -16,8 +16,9 @@ using Guts.Client.Shared;
 
 namespace Bank.Tests
 {
-    [ExerciseTestFixture("dotnet2", "H10", "Exercise01", @"Bank.Data\DomainClasses\Account.cs;Bank.Data\AccountRepository.cs;Bank.Data\CityRepository.cs;Bank.Data\ConnectionFactory.cs;Bank.Data\CustomerRepository.cs;Bank.UI\AccountsWindow.xaml;Bank.UI\AccountsWindow.xaml.cs;Bank.UI\CustomersWindow.xaml;Bank.UI\CustomersWindow.xaml.cs;Bank.UI\TransferWindow.xaml;Bank.UI\TransferWindow.xaml.cs"), 
-     Apartment(ApartmentState.STA)]
+    [ExerciseTestFixture("dotnet2", "H10", "Exercise01",
+         @"Bank.Data\DomainClasses\Account.cs;Bank.Data\AccountRepository.cs;Bank.Data\CityRepository.cs;Bank.Data\ConnectionFactory.cs;Bank.Data\CustomerRepository.cs;Bank.UI\AccountsWindow.xaml;Bank.UI\AccountsWindow.xaml.cs;Bank.UI\CustomersWindow.xaml;Bank.UI\CustomersWindow.xaml.cs;Bank.UI\TransferWindow.xaml;Bank.UI\TransferWindow.xaml.cs")]
+    [Apartment(ApartmentState.STA)]
     public class TransferWindowTests
     {
         private TransferWindow _window;
@@ -37,7 +38,7 @@ namespace Bank.Tests
             _accountRepositoryMock = new Mock<IAccountRepository>();
             _fromAccount = new AccountBuilder().WithId().Build();
             _toAccount = new AccountBuilder().WithId().Build();
-            _allAccountsOfCustomer = new List<Account> {_fromAccount, _toAccount};
+            _allAccountsOfCustomer = new List<Account> { _fromAccount, _toAccount };
 
             _window = new TransferWindow(_fromAccount, _allAccountsOfCustomer, _accountRepositoryMock.Object);
             _window.Show();

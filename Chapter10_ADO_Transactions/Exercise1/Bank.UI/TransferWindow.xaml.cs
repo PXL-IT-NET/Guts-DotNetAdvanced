@@ -8,8 +8,8 @@ namespace Bank.UI
 {
     public partial class TransferWindow : Window
     {
-        public TransferWindow(Account fromAccount, 
-            IList<Account> allAccountsOfCustomer, 
+        public TransferWindow(Account fromAccount,
+            IList<Account> allAccountsOfCustomer,
             IAccountRepository accountRepository)
         {
             InitializeComponent();

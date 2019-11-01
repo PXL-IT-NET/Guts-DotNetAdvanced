@@ -7,8 +7,8 @@ namespace Bank.UI
 {
     public partial class CustomersWindow : Window
     {
-        public CustomersWindow(ICustomerRepository customerRepository, 
-            ICityRepository cityRepository, 
+        public CustomersWindow(ICustomerRepository customerRepository,
+            ICityRepository cityRepository,
             IWindowDialogService windowDialogService)
         {
             InitializeComponent();

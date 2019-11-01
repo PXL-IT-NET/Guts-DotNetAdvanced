@@ -8,8 +8,9 @@ using NUnit.Framework;
 
 namespace Bank.Tests
 {
-    [ExerciseTestFixture("dotnet2", "H10", "Exercise01", @"Bank.Data\DomainClasses\Account.cs;Bank.Data\AccountRepository.cs;Bank.Data\CityRepository.cs;Bank.Data\ConnectionFactory.cs;Bank.Data\CustomerRepository.cs;Bank.UI\AccountsWindow.xaml;Bank.UI\AccountsWindow.xaml.cs;Bank.UI\CustomersWindow.xaml;Bank.UI\CustomersWindow.xaml.cs;Bank.UI\TransferWindow.xaml;Bank.UI\TransferWindow.xaml.cs")]
-    public class CityRepositoyTests : DatabaseTestsBase
+    [ExerciseTestFixture("dotnet2", "H10", "Exercise01",
+        @"Bank.Data\DomainClasses\Account.cs;Bank.Data\AccountRepository.cs;Bank.Data\CityRepository.cs;Bank.Data\ConnectionFactory.cs;Bank.Data\CustomerRepository.cs;Bank.UI\AccountsWindow.xaml;Bank.UI\AccountsWindow.xaml.cs;Bank.UI\CustomersWindow.xaml;Bank.UI\CustomersWindow.xaml.cs;Bank.UI\TransferWindow.xaml;Bank.UI\TransferWindow.xaml.cs")]
+    internal class CityRepositoyTests : DatabaseTestsBase
     {
         private CityRepository _repository;
 
@@ -17,7 +18,7 @@ namespace Bank.Tests
         public void Setup()
         {
             var connectionFactoryMock = new Mock<IConnectionFactory>();
-            connectionFactoryMock.Setup(factory => factory.CreateSqlConnection()).Returns(CreateConnection);
+            connectionFactoryMock.Setup(factory => factory.CreateSqlConnection()).Returns(Cc);
 
             _repository = new CityRepository(connectionFactoryMock.Object);
         }
