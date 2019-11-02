@@ -121,3 +121,81 @@ The unit tests for this class will guide you in the right direction.
 [img_customers_window_selectcity]:images/customers_window_select_city.png "Select a city"
 [img_accounts_window]:images/accounts_window.png "Overview of the accounts of a customer"
 [img_transfer_window]:images/transfer_window.png "Transfer an amount"
+
+## Exercise 2
+
+### General
+In this exercise you'll be creating a lottery application.
+
+The *LotteryWindow* (the starting window) lets you select a lottery game (e.g. Keno) and optionaly specify a date range. 
+
+![alt text][img_lottery_window]
+ 
+When the *Show draws* button is clicked all the draws of the selected lottery game within the daterange are shown:
+
+![alt text][img_lottery_window_aftersearch]
+
+After clicking on the *Show draws* button the *Add new draw* button becomes visible at the bottom of the screen. 
+When this button is clicked, the application generates a new draw for the selected lottery game.
+
+### Implementation details
+
+#### Create the database
+Connect with *(localdb)\MSSQLLocalDB* and exectute [scripts/CreateAndFillLotteryDB.sql](scripts/CreateAndFillLotteryDB.sql). 
+This scripts creates the *Lottery* database and fills it with some data.
+
+#### ConnectionFactory.cs (Bank.Data)
+The *ConnectionFactory* class is resposible for creating instances of *SqlConnection*. 
+It implements the interface *IConnectionFactory*. Classes (repositories) that need to have a database connection will use an implementation of this interface to create the connection.  
+Make sure the *SqlConnection* uses the *LotteryConnection* connectionstring in the *App.config* (of the Lottery.UI project).
+
+**Tip**: categorize your tests in *Test Explorer* by *Class*. If you right click on a category (class) only tests for that class are runned.
+
+
+#### LotteryGameRepository.cs (Lottery.Data)
+The *LotteryGameRepository* class implements *ILotteryGameRepository* that defines 1 method:
+* GetAll: returns all games from the database
+
+Note that an *IConnectionFactory* is injected in the repository via a constructor parameter. 
+Use this object to create a connection to the database. 
+Implement the *GetAll* method. Use the automatic tests for guidance.
+
+#### DrawRepository.cs (Lottery.Data)
+Implement the *Find* method: 
+* Use the automatic tests for guidance
+* The draw numbers of each draw that is found must be included
+     * Performance is important. Make sure you execute only one SQL query that retrieves the draws joined with their draw numbers. Use C# code to read the results and convert them to a list of draws with the *DrawNumber* property set. 
+
+Implement the *Add* method:
+* Use the automatic tests for guidance
+* The *Date* of a new draw must be the current date
+
+#### DrawService.cs (Lottery.Business)
+The lottery application also has a business layer. The business layer uses the data layer to retrieve data 
+and it is used by the presentation (UI) layer.
+
+The *DrawService* is responsible for correctly generating the numbers for a new draw of a certain lottery game 
+and saving a new draw in the database (using the data layer).
+When the *DrawService* creates the numbers for a draw it should take the following rules into account:
+* A correct amount of draw numbers should be generated.
+* The positions of the draw numbers should start at 1 and increment by 1 for each next draw number.
+* All numbers must be greather than or equal to 1.
+* All numbers must be smaller than or equal to the maximum number of the lottery game.
+* All numbers in a draw must be different.
+
+#### LotteryWindow.xaml (.cs) (Lottery.UI)
+The XAML code of the window already provived except for one thing. 
+You still need to provide an *ItemTemplate* for the *ListView* that shows the draws of a game.
+
+Each item (= a draw) should be displayed in a horizontal *StackPanel*. 
+The *StackPanel* holds 2 instances of *TextBlock*: 
+* One that displays the date of the draw (format = dd/MM/yyyy HH:mm).
+* One that displays a comma seperated list of the numbers in the draw.
+
+To display the list of numbers you will need to use the *DrawNumbersConverter* in the *Converters* folder of the UI project. 
+The converter converts a collection of *DrawNumber*s to a string containing the numbers, seperated by commas an in the correct order (position).
+
+Now use the automated tests on the *LotterWindow* class to implement the code behind of the UI. 
+
+[img_lottery_window]:images/LotteryWindow.png "Lottery start window"
+[img_lottery_window_aftersearch]:images/LotterWindow_AfterSearch.png "Draws of a lottery game"
