@@ -28,7 +28,7 @@ namespace LinqExamples.Tests
             var intersection = _examples.GetIntersection(firstList, secondList);
 
             //Assert
-           Assert.That(intersection, Has.All.Matches((int n) => expected.Contains(n)));
+            Assert.That(intersection, Has.All.Matches((int n) => expected.Contains(n)));
         }
 
         [Test]
@@ -51,16 +51,16 @@ namespace LinqExamples.Tests
                 new Person{Name = "Jill", Age = 20},
             };
 
-           var expeted = new List<string>
-           {
-               "Jules and Joan", "Jules and Jill", "Jeffry and Joan", "Jeffry and Jill", "Jay and Jennifer"
-           };
+            var expected = new List<string>
+            {
+                "Jules and Joan", "Jules and Jill", "Jeffry and Joan", "Jeffry and Jill", "Jay and Jennifer"
+            };
 
             //Act
             var couples = _examples.FindCouplesByAgeUsingJoin(boys, girls);
 
             //Assert
-            Assert.That(couples, Is.EquivalentTo(expeted));
+            Assert.That(couples, Is.EquivalentTo(expected));
 
         }
     }

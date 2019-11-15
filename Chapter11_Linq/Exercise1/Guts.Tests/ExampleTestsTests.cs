@@ -10,7 +10,11 @@ using Guts.Client.Shared.TestTools;
 namespace Guts.Tests
 {
     [ExerciseTestFixture("dotnet2", "H11", "Exercise01", 
-        @"LinqExamples\SelectExamples.cs;LinqExamples\WhereExamples.cs;LinqExamples\OrderByExamples.cs;LinqExamples\GroupExamples.cs;LinqExamples\JoinExamples.cs;")]
+        @"LinqExamples\SelectExamples.cs;
+LinqExamples\WhereExamples.cs;
+LinqExamples\OrderByExamples.cs;
+LinqExamples\GroupExamples.cs;
+LinqExamples\JoinExamples.cs;")]
     public class ExampleTestsTests
     {
         [MonitoredTest("Should not have changed test files"), Order(1)]
@@ -29,7 +33,7 @@ namespace Guts.Tests
             Assert.That(hash, Is.EqualTo("72-A0-4E-9D-B1-51-F4-48-8E-08-1E-AA-6E-F0-14-F9"), () => "'4_GroupExamplesTests.cs' has been changed.");
 
             hash = Solution.Current.GetFileHash(@"LinqExamples.Tests\5_JoinExamplesTests.cs");
-            Assert.That(hash, Is.EqualTo("12-F7-3E-5D-FA-A3-01-AB-E6-25-60-8D-A9-1E-0D-DF"), () => "'5_JoindExamplesTests.cs' has been changed.");
+            Assert.That(hash, Is.EqualTo("00-F1-5C-B6-5D-4D-85-55-54-7B-E5-23-55-97-27-A8"), () => "'5_JoindExamplesTests.cs' has been changed.");
         }
 
         [MonitoredTest("Should use LINQ"), Order(2)]
