@@ -44,10 +44,6 @@ CREATE TABLE [DrawNumbers] (
 GO
 
 CREATE INDEX [IX_Draws_LotteryGameId] ON [Draws] ([LotteryGameId]);
-
-GO
-
-USE [Lottery_ADO_Test]
 GO
 
 BEGIN TRANSACTION
