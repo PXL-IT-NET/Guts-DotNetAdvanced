@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using Bank.Tests;
 using Guts.Client.Classic;
@@ -126,10 +127,29 @@ Lottery.UI\Converters\DrawNumbersConverter.cs;")]
                 .OfType<MethodDeclarationSyntax>()
                 .FirstOrDefault(md => md.Identifier.ValueText.Equals("Add"));
             Assert.That(method, Is.Not.Null,
-                () => "Could not find the 'Add' method. You may have accidentally deleted or renamed it?");
+                 "Could not find the 'Add' method. You may have accidentally deleted or renamed it?");
 
-            var methodCode = method.ToString();
+            var methodCodeBuilder = new StringBuilder();
+            methodCodeBuilder.Append(method);
 
+            //include code of private methods that are called in the Add method
+            var privateMethodNames = method.DescendantNodes()
+                .OfType<InvocationExpressionSyntax>()
+                .Where(invocation => invocation.Expression is IdentifierNameSyntax)
+                .Select(invocation => invocation.Expression.ToString())
+                .ToList();
+            var privateMethods = _classSyntaxTreeRoot
+                .DescendantNodes()
+                .OfType<MethodDeclarationSyntax>()
+                .Where(md => privateMethodNames.Any(name => name == md.Identifier.ValueText)).ToList();
+
+            foreach (var privateMethod in privateMethods)
+            {
+                methodCodeBuilder.AppendLine();
+                methodCodeBuilder.Append(privateMethod);
+            }
+
+            var methodCode = methodCodeBuilder.ToString();
             var regex = new Regex(@"\.Parameters\.Add");
 
             Assert.That(regex.Matches(methodCode), Has.Count.GreaterThanOrEqualTo(5),
