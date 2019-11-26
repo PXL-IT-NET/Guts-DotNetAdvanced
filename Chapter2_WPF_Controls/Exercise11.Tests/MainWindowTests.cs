@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Guts.Client.Classic;
 using Guts.Client.Classic.TestTools.WPF;
-using Guts.Client.Classic.UI;
 using Guts.Client.Shared;
 using Guts.Client.Shared.TestTools;
 using NUnit.Framework;
@@ -82,18 +76,18 @@ namespace Exercise11.Tests
             var points = triangle.Points;
             Assert.That(points, Has.Count.EqualTo(3), "The 'Polygon' should contain 3 'Points'.");
             var orderdPoints = points.OrderBy(p => p.X).ToList();
-            Assert.That(orderdPoints[0].X, Is.EqualTo(0), 
+            Assert.That(orderdPoints[0].X, Is.EqualTo(0),
                 "The bottom left point of the triangle should have an X value of 0.");
-            Assert.That(orderdPoints[0].Y, Is.GreaterThan(0), 
+            Assert.That(orderdPoints[0].Y, Is.GreaterThan(0),
                 "The bottom left point of the triangle should have an Y value greather than 0.");
-            Assert.That(orderdPoints[0].Y, Is.EqualTo(orderdPoints[2].Y), 
+            Assert.That(orderdPoints[0].Y, Is.EqualTo(orderdPoints[2].Y),
                 "The bottom left point of the triangle should have the same Y value as the bottom right point.");
-            Assert.That(orderdPoints[1].X, Is.EqualTo((orderdPoints[2].X - orderdPoints[0].X)/ 2.0),
+            Assert.That(orderdPoints[1].X, Is.EqualTo((orderdPoints[2].X - orderdPoints[0].X) / 2.0),
                 "The top middle point of the triangle should have an X value that is in the middle.");
             Assert.That(orderdPoints[1].Y, Is.EqualTo(0),
                 "The top middle point of the triangle should have an Y value of 0.");
 
-            Assert.That(triangle.Parent,Is.SameAs(grid),
+            Assert.That(triangle.Parent, Is.SameAs(grid),
                 () => "The triangle must be a direct child of the 'Grid'.");
 
             var contentPresenter = grid.FindVisualChildren<ContentPresenter>().FirstOrDefault();
@@ -140,10 +134,10 @@ namespace Exercise11.Tests
             Assert.That(doubleAnimation, Is.Not.Null, "the 'Storyboard' instance should contain a 'DoubleAnimation' instance.");
 
             var targetName = Storyboard.GetTargetName(doubleAnimation);
-            Assert.That(targetName, Is.Not.Empty, "The 'StoryBoard.TargetName' attached property should be set for the 'DoubleAnimation'.");
+            Assert.That(targetName, Is.Not.Null.And.Not.Empty, "The 'StoryBoard.TargetName' attached property should be set for the 'DoubleAnimation'.");
 
             rotateTransform = _buttonTemplate.FindName(targetName, _roundButton) as RotateTransform;
-            Assert.That(rotateTransform, Is.Not.Null, 
+            Assert.That(rotateTransform, Is.Not.Null,
                 $"Cannot find a 'RotateTransform' with the name {targetName}. " +
                 "You should name the 'RotateTransfrom' so that it can be animated.");
 
