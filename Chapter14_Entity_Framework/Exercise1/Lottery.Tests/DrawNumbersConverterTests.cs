@@ -9,7 +9,7 @@ using NUnit.Framework;
 
 namespace Lottery.Tests
 {
-    [ExerciseTestFixture("dotnet2", "H14", "Exercise01",
+    [ExerciseTestFixture("dotnet2", "H12", "Exercise01",
         @"Lottery.Data\LotteryContext.cs;Lottery.Data\LotteryGameRepository.cs;Lottery.Data\DrawRepository.cs;Lottery.Business\DrawService.cs;Lottery.UI\LotteryWindow.xaml;Lottery.UI\LotteryWindow.xaml.cs;Lottery.UI\Converters\DrawNumbersConverter.cs;")]
     public class DrawNumbersConverterTests
     {

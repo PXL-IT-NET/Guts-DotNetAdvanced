@@ -11,7 +11,7 @@ using NUnit.Framework;
 
 namespace Bank.Tests
 {
-    [ExerciseTestFixture("dotnet2", "H12", "Exercise02",
+    [ExerciseTestFixture("dotnet2", "H14", "Exercise02",
          @"Bank.Data\DomainClasses\Account.cs;
 Bank.Data\DomainClasses\Customer.cs;
 Bank.Data\BankContext.cs;

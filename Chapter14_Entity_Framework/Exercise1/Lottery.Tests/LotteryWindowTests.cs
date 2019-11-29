@@ -19,7 +19,7 @@ using Lottery.UI.Converters;
 
 namespace Lottery.Tests
 {
-    [ExerciseTestFixture("dotnet2", "H14", "Exercise01", @"Lottery.Data\LotteryContext.cs;Lottery.Data\LotteryGameRepository.cs;Lottery.Data\DrawRepository.cs;Lottery.Business\DrawService.cs;Lottery.UI\LotteryWindow.xaml;Lottery.UI\LotteryWindow.xaml.cs;Lottery.UI\Converters\DrawNumbersConverter.cs;"), 
+    [ExerciseTestFixture("dotnet2", "H12", "Exercise01", @"Lottery.Data\LotteryContext.cs;Lottery.Data\LotteryGameRepository.cs;Lottery.Data\DrawRepository.cs;Lottery.Business\DrawService.cs;Lottery.UI\LotteryWindow.xaml;Lottery.UI\LotteryWindow.xaml.cs;Lottery.UI\Converters\DrawNumbersConverter.cs;"),
      Apartment(ApartmentState.STA)]
     public class LotteryWindowTests
     {
@@ -124,7 +124,7 @@ namespace Lottery.Tests
             Assert.That(binding.ParentBinding.Path.Path, Is.EqualTo("Date"),
                 () =>
                     "The source property of the databinding statement of the date TextBlock should be the 'Date' property of the source object (Draw).");
-            Assert.That(binding.ParentBinding.StringFormat, Is.EqualTo("dd/MM/yyyy HH:mm"), 
+            Assert.That(binding.ParentBinding.StringFormat, Is.EqualTo("dd/MM/yyyy HH:mm"),
                 () => "The 'StringFormat' for the binding of the date TextBlock should be 'dd/MM/yyyy HH:mm'.");
 
             var drawNumbersTextBlock = textBlocks[1];
