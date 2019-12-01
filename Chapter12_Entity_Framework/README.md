@@ -1,4 +1,4 @@
-# Exercises - Chapter 14 - Entity Framework
+# Exercises - Chapter 12 - Entity Framework
 
 ## Exercise 1
 
