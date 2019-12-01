@@ -19,7 +19,7 @@ The assignments for each chapter can be found in de README.md in the folder of t
 * [Chapter 5 - Unit Testing](Chapter5_Unit_Testing/README.md)
 * [Chapter 10 - ADO.NET Transactions](Chapter10_ADO_Transactions/README.md)
 * [Chapter 11 - LINQ](Chapter11_Linq/README.md)
-* [Chapter 14 - Entity Framework](Chapter14_Entity_Framework/README.md)
+* [Chapter 12 - Entity Framework](Chapter12_Entity_Framework/README.md)
 
 ## Getting Started
 
