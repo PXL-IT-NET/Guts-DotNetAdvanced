@@ -340,10 +340,10 @@ Lottery.UI\Converters\DrawNumbersConverter.cs;")]
 
             var methodCode = method.ToString();
 
-            Assert.That(methodCode, Does.Match(@"SELECT\s[\w\W]+FROM[\w\W]+JOIN"),
+            Assert.That(methodCode, Does.Match(@"SELECT\s[\w\W]+FROM[\w\W]+JOIN").IgnoreCase,
                 "No string found that constructs a SELECT statement with a JOIN.");
 
-            Assert.That(methodCode, Does.Match(@"SELECT\s[\w\W]+FROM[\w\W]+JOIN[\w\W]+WHERE"),
+            Assert.That(methodCode, Does.Match(@"SELECT\s[\w\W]+FROM[\w\W]+JOIN[\w\W]+WHERE").IgnoreCase,
                 "The string that constructs the SELECT statement should also use a WHERE filter.");
 
             var executeReaderCalls = method.DescendantNodes().OfType<MemberAccessExpressionSyntax>()
