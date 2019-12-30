@@ -314,8 +314,11 @@ Bank.UI\TransferWindow.xaml.cs")]
             var itemsSource = _datagrid.ItemsSource as IList<Account>;
             Assert.That(itemsSource, Is.Not.Null,
                 "The ItemsSource of the datagrid should be a collection that is assignable to an IList<Account>.");
-            itemsSource.Insert(0, newAccount);
 
+            var newItemsSource = new List<Account>(itemsSource);
+            newItemsSource.Insert(0, newAccount);
+
+            _datagrid.ItemsSource = newItemsSource;
             _datagrid.SelectedIndex = 0; //select the account
         }
     }

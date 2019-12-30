@@ -153,6 +153,7 @@ Bank.UI\TransferWindow.xaml.cs")]
             var existingCustomer = new CustomerBuilder().WithId().Build();
             AddCustomerToTheGridAndSelectIt(existingCustomer);
             _errorTextBlock.Text = "Some error message";
+            _customerRepositoryMock.Invocations.Clear();
 
             //Act
             _saveCustomerButton.FireClickEvent();
@@ -162,6 +163,8 @@ Bank.UI\TransferWindow.xaml.cs")]
                 "The 'Update' method of the repository is not called correctly.");
             _customerRepositoryMock.Verify(repo => repo.Add(It.IsAny<Customer>()), Times.Never,
                 "The 'Add' method of the repository should not have been called.");
+            _customerRepositoryMock.Verify(repo => repo.GetAllWithAccounts(), Times.Never,
+                "There is no need to call the 'GetAllWithAccounts' method of the CustomerRepository.");
             _customerValidatorMock.Verify(validator => validator.IsValid(existingCustomer), Times.Once,
                 "The validator is not used correctly to check if the customer is valid.");
             Assert.That(_errorTextBlock.Text, Is.Empty,
@@ -174,6 +177,7 @@ Bank.UI\TransferWindow.xaml.cs")]
             //Arrange
             var newCustomer = new CustomerBuilder().WithId(0).Build();
             AddCustomerToTheGridAndSelectIt(newCustomer);
+            _customerRepositoryMock.Invocations.Clear();
 
             //Act
             _saveCustomerButton.FireClickEvent();
@@ -183,6 +187,8 @@ Bank.UI\TransferWindow.xaml.cs")]
                 "The 'Add' method of the repository is not called correctly.");
             _customerRepositoryMock.Verify(repo => repo.Update(It.IsAny<Customer>()), Times.Never,
                 "The 'Update' method of the repository should not have been called.");
+            _customerRepositoryMock.Verify(repo => repo.GetAllWithAccounts(), Times.Never,
+                "There is no need to call the 'GetAllWithAccounts' method of the CustomerRepository.");
             _customerValidatorMock.Verify(validator => validator.IsValid(newCustomer), Times.Once,
                 "The validator is not used correctly to check if the customer is valid.");
             Assert.That(_datagrid.CanUserAddRows, Is.False, () => "After adding a new customer the property 'CanUserAddRows' of the datagrid should be false " +
@@ -198,7 +204,7 @@ Bank.UI\TransferWindow.xaml.cs")]
             _errorTextBlock.Text = "";
 
             //Act
-            Assert.That(() => _saveCustomerButton.FireClickEvent(), Throws.Nothing,"An exception occurs when nothing is selected.");
+            Assert.That(() => _saveCustomerButton.FireClickEvent(), Throws.Nothing, "An exception occurs when nothing is selected.");
 
             //Assert
             _customerRepositoryMock.Verify(repo => repo.Add(It.IsAny<Customer>()), Times.Never,
@@ -230,7 +236,7 @@ Bank.UI\TransferWindow.xaml.cs")]
                 "The 'Update' method of the repository should not have been called.");
             _customerRepositoryMock.Verify(repo => repo.Add(It.IsAny<Customer>()), Times.Never,
                 "The 'Add' method of the repository should not have been called.");
-           
+
             Assert.That(_errorTextBlock.Text, Is.EqualTo(expectedErrorMessage),
                 "The ErrorTextBlock should contain the error message in de failed ValidatorResult.");
         }
@@ -306,7 +312,7 @@ Bank.UI\TransferWindow.xaml.cs")]
             if (customer.Id == 0)
             {
                 _datagrid.CanUserAddRows = true;
-                allExistingCustomers.Insert(0, customer);
+                _datagrid.ItemsSource = new List<Customer> { customer };
             }
 
             _datagrid.SelectedIndex = 0; //select the customer
