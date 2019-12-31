@@ -10,11 +10,14 @@ using NUnit.Framework;
 public abstract class DatabaseTests : IDisposable
 {
     private SqliteConnection _connection;
+    private string _migrationError;
+
     protected Random RandomGenerator;
 
     protected DatabaseTests()
     {
         RandomGenerator = new Random();
+        _migrationError = string.Empty;
     }
 
     [OneTimeSetUp]
@@ -24,21 +27,21 @@ public abstract class DatabaseTests : IDisposable
         _connection = new SqliteConnection("DataSource=:memory:");
         _connection.Open();
 
-        using (var context = CreateDbContext())
+        using (var context = CreateDbContext(false))
         {
             //Check if migration succeeds
             try
             {
                 context.Database.Migrate();
-                context.Find<City>(3500);
+                context.Set<City>().FirstOrDefaultAsync();
             }
-            catch (SqliteException e)
+            catch (Exception e)
             {
                 var messageBuilder = new StringBuilder();
                 messageBuilder.AppendLine("The migration (creation) of the database is not configured properly.");
                 messageBuilder.AppendLine();
                 messageBuilder.AppendLine(e.Message);
-                Assert.Fail(messageBuilder.ToString());
+                _migrationError = messageBuilder.ToString();
             }
         }
     }
@@ -46,15 +49,25 @@ public abstract class DatabaseTests : IDisposable
     [OneTimeTearDown]
     public void DropDatabase()
     {
-        using (var context = CreateDbContext())
+        using (var context = CreateDbContext(false))
         {
             context.Database.EnsureDeleted();
         }
         _connection?.Close();
     }
 
-    protected BankContext CreateDbContext()
+    public void Dispose()
     {
+        _connection?.Dispose();
+    }
+
+    protected BankContext CreateDbContext(bool assertMigration = true)
+    {
+        if (assertMigration)
+        {
+            AssertMigratedSuccessfully();
+        }
+       
         var options = new DbContextOptionsBuilder<BankContext>()
             .UseSqlite(_connection)
             .Options;
@@ -79,8 +92,11 @@ public abstract class DatabaseTests : IDisposable
         return existingCustomer;
     }
 
-    public void Dispose()
+    private void AssertMigratedSuccessfully()
     {
-        _connection?.Dispose();
+        if (!string.IsNullOrEmpty(_migrationError))
+        {
+            Assert.Fail(_migrationError);
+        }
     }
 }
