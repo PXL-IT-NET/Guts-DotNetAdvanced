@@ -188,13 +188,14 @@ Do all of this **purely in XAML**. Do not change MainWindow.xaml.cs.
 ## Exercise 13
 Create a WPF application that resembles the following screenshot:
 
-![Exercise13 Mainwindow](images/exercise13_mainwindow.png)
+![alt text][img_exercise13]
 
 Design 3 controls using a ControlTemplate.
 The first control is a TextBox with 2 rounded courners. Use a Border and a ScrollViewer element to do this. You use the ScrollViewer element to make the border editable. That's why you have to name the scrollViewer "PART_ContentHost".	
 The second and third control are Buttons.
 Design two templates for the buttons so they will resemble the screenshot. Use Polygon elements to do this.
 
+Do all of this **purely in XAML**. Do not change MainWindow.xaml.cs.
 
 [img_exercise1]:images/exercise1_mainwindow.png "Main window of exercise 1"
 [img_exercise2]:images/exercise2_mainwindow.png "Main window of exercise 2"
@@ -204,3 +205,4 @@ Design two templates for the buttons so they will resemble the screenshot. Use P
 [img_exercise6]:images/exercise6_mainwindow.png "Main window of exercise 6"
 [img_exercise7]:images/exercise7_mainwindow.png "Main window of exercise 7"
 [img_exercise8]:images/exercise8_mainwindow.png "Main window of exercise 8"
+[img_exercise13]:images/exercise13_mainwindow.png "Main window of exercise 13"
