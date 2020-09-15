@@ -50,6 +50,19 @@ The first cell in the second column contains at least 2 stacked buttons.
 The second cell in the second column contains at least 2 *TextBlocks* that are positioned from left to right. If there is not enough space the next *TextBlock* is positioned below the others. 
 Use a *DockPanel* to position the *TextBlocks* in the last cell of the second row.
 
+## Exercise 3
+Use XAML to create the window that looks as much as possible like this:
+
+![Exercise3 Main Window](images/Exercise3_MainWindow.png)
+
+Use a Canvas as layout containesr.
+
+Pay attention to the order of the ellipses.
+The Top margin of the Blue, Black and Red ellipses is 25 pixels, The Top margin of the Yellow and Green ellipses is 75.
+The Left margin of the Blue ellipse is 25 pixels.
+The Height and the Width of each ellipse is 150 pixels.
+
+
 
 [img_mainwindow_normal]:images/MainWindow_normal.png "Normal"
 [img_mainwindow_wide]:images/MainWindow_wide.png "Wide"
