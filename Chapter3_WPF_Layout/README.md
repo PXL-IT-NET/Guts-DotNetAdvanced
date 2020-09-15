@@ -67,14 +67,15 @@ Use XAML to create the window that looks as much as possible like this:
 
 ![Exercise4 Main Window 1](images/Exercise4_MainWindow_1.png)
 
-Some columns are resisable. When you enlarge the first column, the last column should enlarge too. There is Grid property (in combination with a GridColumn property) who can arrange this.
+Create a Grid with 5 columns. 
+The first and the last columns are resisable. When you enlarge the first column, the last column should enlarge too. There is Grid property (in combination with a GridColumn property) who can arrange this.
+The middle column will take the remaining place.
 
-The application will look like this.
+When you resize the first/last column, the application will look like this.
 
 ![Exercise4 Main Window 2](images/Exercise4_MainWindow_2.png)
 
-Tip: ou have to add 5 columns in the grid. The width of the first and the last column, you can resize. The middle column will take the remaining place.
-
+You have to use labels in the Grid columns to add the colors in the correct order.
 
 [img_mainwindow_normal]:images/MainWindow_normal.png "Normal"
 [img_mainwindow_wide]:images/MainWindow_wide.png "Wide"
