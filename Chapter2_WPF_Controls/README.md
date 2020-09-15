@@ -188,7 +188,7 @@ Do all of this **purely in XAML**. Do not change MainWindow.xaml.cs.
 ## Exercise 13
 Create a WPF application that resembles the following screenshot:
 
-![Exercise13 Mainwindow](images/exercise13_mainwindow.png)
+![Exercise13 Mainwindow](images/exercise13_mainwindow.PNG)
 
 Design 3 controls using a ControlTemplate.
 The first control is a TextBox with 2 rounded courners. Use a Border and a ScrollViewer element to do this. You use the ScrollViewer element to make the border editable. That's why you have to name the scrollViewer "PART_ContentHost".	
