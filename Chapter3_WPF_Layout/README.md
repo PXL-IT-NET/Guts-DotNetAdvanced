@@ -62,6 +62,18 @@ The Top margin of the Blue, Black and Red ellipses is 25 pixels, The Top margin 
 The Left margin of the Blue ellipse is 25 pixels.
 The Height and the Width of each ellipse is 150 pixels.
 
+## Exercise 4
+Use XAML to create the window that looks as much as possible like this:
+
+![Exercise4 Main Window 1](images/Exercise4_MainWindow_1.png)
+
+Some columns are resisable. When you enlarge the first column, the last column should enlarge too. There is Grid property (in combination with a GridColumn property) who can arrange this.
+
+The application will look like this.
+
+![Exercise4 Main Window 2](images/Exercise4_MainWindow_2.png)
+
+Tip: ou have to add 5 columns in the grid. The width of the first and the last column, you can resize. The middle column will take the remaining place.
 
 
 [img_mainwindow_normal]:images/MainWindow_normal.png "Normal"
