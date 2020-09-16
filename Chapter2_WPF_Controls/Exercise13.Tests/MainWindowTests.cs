@@ -76,7 +76,7 @@ namespace Exercise13.Tests
             var codeBehindFilePath = @"Exercise13\MainWindow.xaml.cs";
 
             var fileHash = Solution.Current.GetFileHash(codeBehindFilePath);
-            Assert.That(fileHash, Is.EqualTo("D0-0C-98-BD-0F-FC-F5-EB-F1-8E-27-71-3F-D7-33-6D"), () =>
+            Assert.That(fileHash, Is.EqualTo("D3-78-DF-1E-D7-B3-8E-C3-51-B7-A7-AD-13-ED-34-5B"), () =>
                 $"The file '{codeBehindFilePath}' has changed. " +
                 "Undo your changes on the file to make this test pass.");
         }
