@@ -1,0 +1,33 @@
+﻿<Window x:Class="Exercise4.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Exercise4"
+        xmlns:conv="clr-namespace:Exercise4.Converters"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="794.327" Width="1284.433" >
+    <Grid>
+        <TextBlock HorizontalAlignment="Left" Margin="190,34,0,0" TextWrapping="Wrap" Text="Inschrijving" VerticalAlignment="Top" FontWeight="Bold" FontSize="40"/>
+
+        <Button Content="Inschrijven" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="600,120,0,0" />
+        <TextBlock HorizontalAlignment="Left" Margin="109,125,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top"/>
+        <TextBox x:Name="NameTextBox" HorizontalAlignment="Left" Height="23" Margin="234,118,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="264"/>
+        <TextBlock HorizontalAlignment="Left" Margin="109,156,0,0" TextWrapping="Wrap" Text="Street + Number" VerticalAlignment="Top"/>
+        <TextBox x:Name="StreetTextBox" HorizontalAlignment="Left" Height="23" Margin="234,156,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBlock HorizontalAlignment="Left" Margin="109,190,0,0" TextWrapping="Wrap" Text="Postal Code" VerticalAlignment="Top"/>
+        <TextBox x:Name="PostalCodeTextBox" HorizontalAlignment="Left" Height="23" Margin="234,190,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75" />
+        <TextBlock HorizontalAlignment="Left" Margin="344,190,0,0" TextWrapping="Wrap" Text="City" VerticalAlignment="Top"/>
+        <TextBox x:Name="CityTextBox" HorizontalAlignment="Left" Height="23" Margin="404,190,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+
+        <GroupBox>
+            <StackPanel Orientation="Horizontal" Margin="109,220,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <RadioButton x:Name="itRadio" GroupName="Digital" IsChecked="True" Content="Toegepaste Informatica" />
+                <RadioButton x:Name="eaRadio" GroupName="Digital" IsChecked="False" Margin="50,0,0,0" Content="Elektronica-ICT" />
+            </StackPanel>
+        </GroupBox>
+        
+        <WebBrowser x:Name="PXLITWebBrowser" HorizontalAlignment="Left" Height="382" Margin="24,250,0,0" VerticalAlignment="Top" Width="390" />
+        <WebBrowser x:Name="PXLEAWebBrowser" HorizontalAlignment="Left" Height="382" Margin="600,250,0,0" VerticalAlignment="Top" Width="390" />
+    </Grid>
+</Window>
