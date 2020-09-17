@@ -1,0 +1,30 @@
+﻿<Window x:Class="Exercise2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Exercise2"
+        mc:Ignorable="d"
+        Title="Math worker" Height="450" Width="800">
+    <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Target="{Binding ElementName=inputTextBox}">Input (seperated by whitespaces)</Label>
+            <TextBox x:Name="inputTextBox" Margin="8" Width="300" Text="599 2812 4650 2450 1050 2598 6600 "></TextBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label>Operation</Label>
+            <RadioButton x:Name="cubicRadioButton" IsChecked="True" Margin="8">Cubic</RadioButton>
+            <RadioButton x:Name="nthPrimeRadioButton" IsChecked="False" Margin="8">nth Prime</RadioButton>
+        </StackPanel>
+        <Button x:Name="startButton" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="8" Click="StartButton_Click">Start</Button>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Margin="8" Padding="2">Progress</TextBlock>
+            <ProgressBar x:Name="calculationProgressBar" Minimum="0" Maximum="1"
+                         Height="10" Width="300" Margin="8" Padding="2" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Margin="8" Padding="2">Output</TextBlock>
+            <TextBlock x:Name="outputTextBlock" Margin="8" Padding="2" Background="Azure"></TextBlock>
+        </StackPanel>
+    </StackPanel>
+</Window>

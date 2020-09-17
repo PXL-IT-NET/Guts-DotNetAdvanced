@@ -16,10 +16,10 @@ The assignments for each chapter can be found in de README.md in the folder of t
 * [Chapter 2 - WPF Controls](Chapter2_WPF_Controls/README.md)
 * [Chapter 3 - WPF Layout](Chapter3_WPF_Layout/README.md)
 * [Chapter 4 - WPF Databinding](Chapter4_WPF_Databinding/README.md)
-* [Chapter 5 - Unit Testing](Chapter5_Unit_Testing/README.md)
-* [Chapter 10 - ADO.NET Transactions](Chapter10_ADO_Transactions/README.md)
-* [Chapter 11 - LINQ](Chapter11_Linq/README.md)
-* [Chapter 12 - Entity Framework](Chapter12_Entity_Framework/README.md)
+* [Chapter 5 - C# Language Features](Chapter5_Language_Features/README.md)
+* [Chapter 6 - Unit Testing](Chapter6_Unit_Testing/README.md)
+* [Chapter 8 - LINQ](Chapter8_Linq/README.md)
+* [Chapter 9, 10, 11 - Entity Framework](Chapter9_10_11_Entity_Framework/README.md)
 
 ## Getting Started
 
