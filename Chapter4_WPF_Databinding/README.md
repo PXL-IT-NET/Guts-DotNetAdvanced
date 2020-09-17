@@ -57,9 +57,9 @@ The UI (XAML) of this exercise is partially given. You have to add the bindings 
 In the left WebBrowser control, Tristan Fransen will give information about 'Toegepaste Informatica' in a Youtube video. In the WebBrowser control at the right, Patrick Hilven will talk about Elektronica-ICT.
 When you click the 'Toegepaste informatica' radio button, the Webbrowser at the left will be visible, otherwise, the Webbrowser at the right (Elektronica-ICT) will appear and the IT WebBrowser will disapear.
 
-![Main Window](images/MainWindow_exercise4_it.png)
+![Main Window](images/MainWindow_exercise4_IT.png)
 
-![Main Window](images/MainWindow_exercise4_ea.png)
+![Main Window](images/MainWindow_exercise4_EA.png)
 
 Use a converter to do this. The name of the converter should give you enough information to know what code you have to write.
 The converter will need to work in 2 directions.
