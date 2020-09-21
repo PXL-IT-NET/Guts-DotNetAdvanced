@@ -191,9 +191,21 @@ Create a WPF application that resembles the following screenshot:
 ![Exercise13 Mainwindow](images/exercise13_mainwindow.PNG)
 
 Design 3 controls using a ControlTemplate.
-The first control is a TextBox with 2 rounded courners. Use a Border and a ScrollViewer element to do this. You use the ScrollViewer element to make the border editable. That's why you have to name the scrollViewer "PART_ContentHost".	
-The second and third control are Buttons.
-Design two templates for the buttons so they will resemble the screenshot. Use Polygon elements to do this.
+
+The first control is a *TextBox* with 2 rounded courners. 
+Use a *Border* and a *ScrollViewer* element to do this. 
+The *Border* is used to draw the rounded border of the *TextBox*. 
+Inside the *Border* there should be some control that enabled editing for the *TextBox*. 
+Use a *ScrollViewer* element with the name "PART_ContentHost" to achieve this (see [Microsoft Docs](https://docs.microsoft.com/dotnet/desktop/wpf/controls/textbox-styles-and-templates)).	
+
+The second button must look like an arrow. 
+Use the *Polygon* and *ContentPresenter* elements to achieve this. 
+Make sure the *Polygon* stretches to cover the whole button (no mather what its actual width or height is). 
+
+The third button must look like a pentagon. 
+Use the *Polygon* and *ContentPresenter* elements to achieve this. 
+Make sure the *Polygon* stretches to cover the whole button (no mather what its actual width or height is). 
+You can use the following coordinates to draw the pentagon: *(0,-50) (47,-15.9) (29.8,40.9) (-29.8,40.9) (-47,-15.9)*
 
 Do all of this **purely in XAML**. Do not change MainWindow.xaml.cs.
 
