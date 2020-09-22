@@ -6,30 +6,33 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using Exercise4.Converters;
 
 namespace Exercise4.Tests
 {
-    [ExerciseTestFixture("dotnet2", "H04", "Exercise04", @"Exercise4\MainWindow.xaml;Exercise4\MainWindow.xaml.cs;")]
-    [TestFixture]
+    [ExerciseTestFixture("dotnet2", "H04", "Exercise04", 
+        @"Exercise4\MainWindow.xaml;Exercise4\Converters\Boolean2VisibilityConverter.cs;")]
     [Apartment(ApartmentState.STA)]
     public class MainWindowTests
     {
         private TestWindow<MainWindow> _window;
-        private IList<WebBrowser> _webBrowsers;
-        private WebBrowser _itBrowser, _eaBrowser;
-        private IList<RadioButton> _radioButtons;
+        private WebBrowser _itBrowser, _electronicsBrowser;
+        private RadioButton _itRadioButton;
+        private RadioButton _electronicsRadioButton;
 
         [SetUp]
         public void Setup()
         {
             _window = new TestWindow<MainWindow>();
-            _webBrowsers = _window.GetUIElements<WebBrowser>();
-            _itBrowser = _webBrowsers[0];
-            _eaBrowser = _webBrowsers[1];
-            _radioButtons = _window.GetUIElements<RadioButton>();
-
+            IList<WebBrowser> webBrowsers = _window.GetUIElements<WebBrowser>();
+            _itBrowser = webBrowsers[0];
+            _electronicsBrowser = webBrowsers[1];
+            IList<RadioButton> radioButtons = _window.GetUIElements<RadioButton>();
+            _itRadioButton = radioButtons[0];
+            _electronicsRadioButton = radioButtons[1];
         }
 
         [TearDown]
@@ -43,119 +46,84 @@ namespace Exercise4.Tests
         {
             var codeBehindFilePath = @"Exercise4\MainWindow.xaml.cs";
             var fileHash = Solution.Current.GetFileHash(codeBehindFilePath);
-            Assert.That(fileHash, Is.EqualTo("7A-42-80-16-38-CF-5A-F2-0E-75-3B-ED-0F-8D-AB-E9"),
-                () =>
-                    $"The file '{codeBehindFilePath}' has changed. " +
-                    "Undo your changes on the file to make this test pass. " +
-                    "This exercise can be completed by purely working with XAML.");
-        }      
-
-        [MonitoredTest("Should have a BooleanToVisibilityConverter in Window resources"), Order(2)]
-        public void _02_ShouldHaveABooleanToVisibilityConverterInWindowResources()
-        {
-            var booleanToVisibilityConverter = _window.Window.Resources.Values.OfType<Exercise4.Converters.BooleanToVisibilityConverter>().FirstOrDefault();
-            Assert.That(booleanToVisibilityConverter, Is.Not.Null, () => "The window should contain exactly one resource of type 'BooleanToVisibilityConverter'.");
+            Assert.That(fileHash, Is.EqualTo("B0-50-0E-F1-C1-41-40-4C-76-D5-30-7F-AC-48-CD-B6"),
+                $"The file '{codeBehindFilePath}' has changed. " +
+                "Undo your changes on the file to make this test pass. " +
+                "This exercise can be completed by purely working with XAML.");
         }
 
-        [MonitoredTest("Should use the BooleanToVisibilityConverter in the binding of the Webbrowsers"), Order(3)]
-        public void _03_ShouldUseBooleanToVisibilityConverterInBindingOfTheWebBrowsers()
+        [MonitoredTest("Should have a Boolean2VisibilityConverter in Window resources"), Order(2)]
+        public void _02_ShouldHaveABoolean2VisibilityConverterInWindowResources()
         {
-            var iTconverter = AssertUsesBooleanToVisibilityConvertInTheBindingAndGetTheConverter(_itBrowser);
-            Assert.That(iTconverter, Is.TypeOf<Exercise4.Converters.BooleanToVisibilityConverter>(),
-                () => "The IT WebBrowser should use the BooleanToVisibilityConverter in its binding statement.");
-            var eAconverter = AssertUsesBooleanToVisibilityConvertInTheBindingAndGetTheConverter(_eaBrowser);
-            Assert.That(eAconverter, Is.TypeOf<Exercise4.Converters.BooleanToVisibilityConverter>(),
-                () => "The EA WebBrowser should use the BooleanToVisibilityConverter in its binding statement.");
-        }        
-
-        [MonitoredTest("Should use ConverterParameter in the binding of the WebBrowsers"), Order(4)]
-        public void _04_ShouldUseConverterParameterInBindingOfTheWebBrowsers()
-        {
-            var iTconverterParameter = AssertUsesBooleanToVisibilityConvertInTheBindingAndGetTheConverterParameter(_itBrowser);
-            Assert.That(iTconverterParameter, Is.EqualTo("Visible|Hidden"),
-                () => "The IT WebBrowser should use the BooleanToVisibilityConverter in its binding statement with a ConvertParameter.");
-            var eAconverterParameter = AssertUsesBooleanToVisibilityConvertInTheBindingAndGetTheConverterParameter(_eaBrowser);
-            Assert.That(eAconverterParameter, Is.EqualTo("Visible|Hidden"),
-                () => "The EA WebBrowser should use the BooleanToVisibilityConverter in its binding statement with a ConvertParameter.");
+            var booleanToVisibilityConverter = _window.Window.Resources.Values.OfType<Boolean2VisibilityConverter>().FirstOrDefault();
+            Assert.That(booleanToVisibilityConverter, Is.Not.Null, () => "The window should contain exactly one resource of type 'Boolean2VisibilityConverter'.");
         }
 
-        [MonitoredTest("Should use ConverterParameter in the binding of the WebBrowsers"), Order(5)]
-        public void _05_ShouldUseElementNameInTheBindingOfTheWebBrowsers()
+        [MonitoredTest("WebBrowsers visibility should bind to RadioButtons Checked property"), Order(3)]
+        public void _03_WebBrowsersVisibilityShouldBindToRadioButtonsCheckedProperty()
         {
-            var itElementName = AssertUsesBooleanElementNameInTheBindingAndGetTheElementName(_itBrowser);
-            Assert.That(itElementName, Is.EqualTo("itRadio"),
-                () => "The IT WebBrowser should use the 'itRadio' ElementName in its binding statement with a ConvertParameter.");
-            var eAconverterParameter = AssertUsesBooleanElementNameInTheBindingAndGetTheElementName(_eaBrowser);
-            Assert.That(eAconverterParameter, Is.EqualTo("eaRadio"),
-                () => "The EA WebBrowser should use the 'eaRadio' ElementName in its binding statement with a ConvertParameter.");
+            AssertBindsToRadioButton(_itBrowser, _itRadioButton, "IT WebBrowser");
+            AssertBindsToRadioButton(_electronicsBrowser, _electronicsRadioButton, "Electronics WebBrowser");
         }
 
-        [MonitoredTest("Should use Path in the binding of the WebBrowsers"), Order(6)]
-        public void _06_ShouldUsePathInTheBindingOfTheWebBrowsers()
+        [MonitoredTest("Should use the converter in the binding of the WebBrowsers"), Order(4)]
+        public void _04_ShouldUseTheConverterInBindingOfTheWebBrowsers()
         {
-            var itPath = AssertUsesPathInTheBindingAndGetThePath(_itBrowser);
-            Assert.That(itPath, Is.EqualTo("IsChecked"),
-                () => "The IT WebBrowser should use the 'IsChecked' Path in its binding statement with a ConvertParameter.");
-            var eaPath = AssertUsesPathInTheBindingAndGetThePath(_eaBrowser);
-            Assert.That(eaPath, Is.EqualTo("IsChecked"),
-                () => "The EA WebBrowser should use the 'IsChecked' Path in its binding statement with a ConvertParameter.");
+            AssertUsesBooleanToVisibilityConverter(_itBrowser, "IT WebBrowser");
+            AssertUsesBooleanToVisibilityConverter(_electronicsBrowser, "Electronics WebBrowser");
         }
 
-        [MonitoredTest("Should rate down when DownButton is clicked"), Order(7)]
-        public void _07_ShouldHideItBrowserAndShowEaBrowserWhenEaRadioButtonIsClicked()
+        [MonitoredTest("Should toggle WebBrowsers visibility when a RadioButton is clicked"), Order(5)]
+        public void _05_ShouldToggleWebBrowsersVisibilityWhenARadioButtonIsClicked()
         {
-            RadioButton itRadio = _radioButtons.FirstOrDefault(r => r.Name == "itRadio");
-            RadioButton eaRadio = _radioButtons.FirstOrDefault(r => r.Name == "eaRadio");
-           
-            itRadio.IsChecked = true;
-           
-            Assert.That(_itBrowser.Visibility, Is.EqualTo(System.Windows.Visibility.Visible),
-                () => "The IT Web Browser Should be visible when you click the IT Radio Button");
-            Assert.That(_eaBrowser.Visibility, Is.EqualTo(System.Windows.Visibility.Hidden),
-                () => "The EA Web Browser Should be hidden when you click the IT Radio Button");
+            _itRadioButton.IsChecked = true;
 
-            eaRadio.IsChecked = true;
+            Assert.That(_itBrowser.Visibility, Is.EqualTo(Visibility.Visible),
+                "The IT WebBrowser Should be visible when you click the IT RadioButton");
+            Assert.That(_electronicsBrowser.Visibility, Is.EqualTo(Visibility.Hidden),
+                "The Electronics WebBrowser should be hidden when you click the IT RadioButton");
 
-            Assert.That(_itBrowser.Visibility, Is.EqualTo(System.Windows.Visibility.Hidden),
-                () => "The IT Web Browser Should be hidden when you click the EA Radio Button");
-            Assert.That(_eaBrowser.Visibility, Is.EqualTo(System.Windows.Visibility.Visible),
-                () => "The EA Web Browser Should be visible when you click the EA Radio Button");
+            _electronicsRadioButton.IsChecked = true;
+
+            Assert.That(_itBrowser.Visibility, Is.EqualTo(Visibility.Hidden),
+                "The IT WebBrowser should be hidden when you click the Electronics RadioButton");
+            Assert.That(_electronicsBrowser.Visibility, Is.EqualTo(Visibility.Visible),
+                "The Electronics WebBrowser should be visible when you click the Electronics RadioButton");
         }
 
-        private object AssertUsesPathInTheBindingAndGetThePath(WebBrowser browser)
+        private static BindingExpression GetAndAssertVisibilityBinding(WebBrowser browser, string browserName)
         {
-            BindingExpression visibilityBinding = browser.GetBindingExpression(WebBrowser.VisibilityProperty);
-            Assert.That(visibilityBinding, Is.Not.Null, () => "No binding found for the IT WebBrowser.");
-            Assert.That(visibilityBinding.ParentBinding.Path.Path, Is.Not.Null,
-                                () => "The WebBrowsers should use the Path in its binding statement.");
-            return visibilityBinding.ParentBinding.Path.Path;
+            BindingExpression visibilityBinding = browser.GetBindingExpression(UIElement.VisibilityProperty);
+            Assert.That(visibilityBinding, Is.Not.Null, $"No binding found for the 'Visibility' property of '{browserName}'.");
+            return visibilityBinding;
         }
 
-        private object AssertUsesBooleanElementNameInTheBindingAndGetTheElementName(WebBrowser browser)
+        private void AssertBindsToRadioButton(WebBrowser browser, RadioButton radioButton, string browserName)
         {
-            BindingExpression visibilityBinding = browser.GetBindingExpression(WebBrowser.VisibilityProperty);
-            Assert.That(visibilityBinding, Is.Not.Null, () => "No binding found for the IT WebBrowser.");
-            Assert.That(visibilityBinding.ParentBinding.ElementName, Is.Not.Null,
-                                () => "The WebBrowsers should use the ElementName in its binding statement.");
-            return visibilityBinding.ParentBinding.ElementName;
+            BindingExpression visibilityBinding = GetAndAssertVisibilityBinding(browser, browserName);
+
+            //ElementName
+            string elementName = visibilityBinding.ParentBinding.ElementName;
+            Assert.That(elementName, Is.Not.Null.Or.Empty,
+                $"The {browserName} should use an 'ElementName' in its binding statement.");
+
+            Assert.That(elementName, Is.EqualTo(radioButton.Name),
+                $"The {browserName} should use '{radioButton.Name}' as data source.");
+
+            //Path
+            string path = visibilityBinding.ParentBinding.Path.Path;
+            Assert.That(path, Is.EqualTo("IsChecked"),
+                $"The {browserName} should use the 'IsChecked' property of the data source (RadioButton) in its binding statement.");
+
         }
 
-        private object AssertUsesBooleanToVisibilityConvertInTheBindingAndGetTheConverter(WebBrowser browser)
+        private void AssertUsesBooleanToVisibilityConverter(WebBrowser browser, string browserName)
         {
-            BindingExpression visibilityBinding = browser.GetBindingExpression(WebBrowser.VisibilityProperty);
-            Assert.That(visibilityBinding, Is.Not.Null, () => "No binding found for the IT WebBrowser.");
+            BindingExpression visibilityBinding = GetAndAssertVisibilityBinding(browser, browserName);
             Assert.That(visibilityBinding.ParentBinding.Converter, Is.Not.Null,
-                () => "The WebBrowsers should use the BooleanToVisibilityConverter in its binding statement.");
-            return visibilityBinding.ParentBinding.Converter;
-        }    
-
-        private object AssertUsesBooleanToVisibilityConvertInTheBindingAndGetTheConverterParameter(WebBrowser browser)
-        {
-            BindingExpression visibilityBinding = browser.GetBindingExpression(WebBrowser.VisibilityProperty);
-            Assert.That(visibilityBinding, Is.Not.Null, () => "No binding found for the EA WebBrowser.");
-            Assert.That(visibilityBinding.ParentBinding.ConverterParameter, Is.Not.Null,
-                () => "The IT WebBrowser should use the BooleanToVisibilityConverter in its binding statement and use a ConverterParameter.");
-            return visibilityBinding.ParentBinding.ConverterParameter;
-        }        
+                 $"The {browserName} should use the BooleanToVisibilityConverter in its binding statement.");
+            Assert.That(visibilityBinding.ParentBinding.Converter, Is.TypeOf<Boolean2VisibilityConverter>(),
+                $"The {browserName} should use the BooleanToVisibilityConverter in its binding statement.");
+        }
     }
 }

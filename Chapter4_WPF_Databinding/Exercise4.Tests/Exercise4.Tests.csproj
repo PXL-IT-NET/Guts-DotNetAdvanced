@@ -10,8 +10,8 @@
     <ProjectGuid>{D4711516-12C9-4556-B9C2-C09641F887F7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Exercise3.Tests</RootNamespace>
-    <AssemblyName>Exercise3.Tests</AssemblyName>
+    <RootNamespace>Exercise4.Tests</RootNamespace>
+    <AssemblyName>Exercise4.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
