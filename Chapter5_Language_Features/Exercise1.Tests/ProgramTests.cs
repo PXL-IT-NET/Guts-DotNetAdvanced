@@ -13,7 +13,7 @@ using NUnit.Framework;
 
 namespace Exercise1.Tests
 {
-    [ExerciseTestFixture("dotnet2", "H5", "Exercise01", @"Exercise1\Program.cs")]
+    [ExerciseTestFixture("dotnet2", "H05", "Exercise01", @"Exercise1\Program.cs")]
     public class ProgramTests
     {
         private string _programClassContent;

@@ -11,7 +11,7 @@ using NUnit.Framework;
 
 namespace Exercise1.Tests
 {
-    [ExerciseTestFixture("dotnet2", "H5", "Exercise01", @"Exercise1\BalloonProgram.cs")]
+    [ExerciseTestFixture("dotnet2", "H05", "Exercise01", @"Exercise1\BalloonProgram.cs")]
     public class BalloonProgramTests
     {
         private TypeInfo _writeDelegateTypeInfo;

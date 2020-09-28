@@ -13,7 +13,7 @@ using NUnit.Framework;
 
 namespace Exercise2.Tests
 {
-    [ExerciseTestFixture("dotnet2", "H5", "Exercise02", @"Exercise2\MainWindow.xaml.cs")]
+    [ExerciseTestFixture("dotnet2", "H05", "Exercise02", @"Exercise2\MainWindow.xaml.cs")]
     [RequiresThread(ApartmentState.STA)]
     public class MainWindowTests
     {
@@ -59,7 +59,7 @@ namespace Exercise2.Tests
             _progressValueChangedCount = 0;
         }
 
-        [OneTimeTearDown]
+        [TearDown]
         public void TearDown()
         {
             _window?.Close();

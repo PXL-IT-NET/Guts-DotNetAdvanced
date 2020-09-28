@@ -10,7 +10,7 @@ using NUnit.Framework;
 
 namespace Exercise2.Tests
 {
-    [ExerciseTestFixture("dotnet2", "H5", "Exercise02", 
+    [ExerciseTestFixture("dotnet2", "H05", "Exercise02", 
         @"Exercise2\CalculationWorker.cs;
 Exercise2\CalculationCompleteHandler.cs;
 Exercise2\CalculationEventArgs.cs")]
