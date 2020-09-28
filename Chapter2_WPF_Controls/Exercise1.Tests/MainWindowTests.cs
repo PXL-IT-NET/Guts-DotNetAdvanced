@@ -91,7 +91,7 @@ namespace Exercise1.Tests
 
             var bitmapSource = imageControl.Source as BitmapSource;
             Assert.That(bitmapSource, Is.Not.Null,
-                () => "The 'Source' of 'Image' must be a valid (bitmap) image.");
+                () => "The 'Source' of 'Image' must be a valid (bitmap) image. Make sure it is relative and does not start with '/'.");
 
             Uri baseUri = null;
             if (bitmapSource is BitmapFrame bitmapFrame)

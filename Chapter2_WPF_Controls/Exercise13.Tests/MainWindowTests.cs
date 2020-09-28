@@ -13,7 +13,7 @@ using System.Windows.Shapes;
 
 namespace Exercise13.Tests
 {
-    [ExerciseTestFixture("dotNet2", "H02", "Exercise13", @"Exercise13\MainWindow.xaml")]
+    [ExerciseTestFixture("dotNet2", "H02", "Exercise13", @"Exercise13\MainWindow.xaml;Exercise13\App.xaml")]
     [Apartment(ApartmentState.STA)]
     public class MainWindowTests
     {
