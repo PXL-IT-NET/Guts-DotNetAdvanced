@@ -14,7 +14,7 @@ using Exercise4.Converters;
 namespace Exercise4.Tests
 {
     [ExerciseTestFixture("dotnet2", "H04", "Exercise04", 
-        @"Exercise4\MainWindow.xaml;Exercise4\Converters\Boolean2VisibilityConverter.cs;")]
+        @"Exercise4\MainWindow.xaml;Exercise4\Converters\BooleanToVisibilityConverter.cs;")]
     [Apartment(ApartmentState.STA)]
     public class MainWindowTests
     {
