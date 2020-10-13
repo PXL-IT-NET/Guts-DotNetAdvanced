@@ -18,6 +18,7 @@ The assignments for each chapter can be found in de README.md in the folder of t
 * [Chapter 4 - WPF Databinding](Chapter4_WPF_Databinding/README.md)
 * [Chapter 5 - C# Language Features](Chapter5_Language_Features/README.md)
 * [Chapter 6 - Unit Testing](Chapter6_Unit_Testing/README.md)
+* [Chapter 7 - Layered architecture](Chapter7_Layered_Architecture/README.md)
 * [Chapter 8 - LINQ](Chapter8_Linq/README.md)
 * [Chapter 9, 10, 11 - Entity Framework](Chapter9_10_11_Entity_Framework/README.md)
 

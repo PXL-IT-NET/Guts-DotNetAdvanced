@@ -1,0 +1,43 @@
+﻿<Window x:Class="HeroApp.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HeroApp.UI"
+        mc:Ignorable="d"
+        Title="HeroApp" Height="350" Width="700">
+    <Window.Resources>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="Wide Latin"></Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.ColumnSpan="3" HorizontalAlignment="Center" Margin="10" FontSize="24">Hero Battle</TextBlock>
+        <Button x:Name="FightRoundButton" Grid.Row="1" Grid.Column="1" Margin="8" Padding="4">Fight Round</Button>
+        <Border Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                Background="LightBlue" Padding="10"  BorderThickness="10" BorderBrush="Blue" CornerRadius="10">
+            <StackPanel>
+                <TextBlock Text="Fighter1 Name" FontSize="16" FontWeight="Bold"></TextBlock>
+                <TextBlock Text="Fighter1 Health" FontSize="12"></TextBlock>
+            </StackPanel>
+        </Border>
+        <TextBlock Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10">VS.</TextBlock>
+        <Border Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                Background="IndianRed" Padding="10"  BorderThickness="10" BorderBrush="Red" CornerRadius="10">
+            <StackPanel>
+                <TextBlock Text="Fighter2 Name" FontSize="16" FontWeight="Bold"></TextBlock>
+                <TextBlock Text="Fighter2 Health}" FontSize="12"></TextBlock>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
