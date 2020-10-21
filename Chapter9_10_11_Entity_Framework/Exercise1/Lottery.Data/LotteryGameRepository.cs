@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Lottery.Data.Interfaces;
+using Lottery.Business.Interfaces;
 using Lottery.Domain;
 
 namespace Lottery.Data

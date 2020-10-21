@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using Lottery.Business.Interfaces;
-using Lottery.Data.Interfaces;
 using Lottery.Domain;
 
 namespace Lottery.UI

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Lottery.Domain;
 
-namespace Lottery.Data.Interfaces
+namespace Lottery.Business.Interfaces
 {
     public interface ILotteryGameRepository
     {

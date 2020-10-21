@@ -43,14 +43,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DrawService.cs" />
+    <Compile Include="Interfaces\IDrawRepository.cs" />
     <Compile Include="Interfaces\IDrawService.cs" />
+    <Compile Include="Interfaces\ILotteryGameRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Lottery.Data\Lottery.Data.csproj">
-      <Project>{91C77592-4DE5-4E73-9425-C6C058D8084F}</Project>
-      <Name>Lottery.Data</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Lottery.Domain\Lottery.Domain.csproj">
       <Project>{6C6C3067-30AA-40A2-A4D8-8F6881DAE009}</Project>
       <Name>Lottery.Domain</Name>

@@ -1,13 +1,13 @@
 ﻿using Guts.Client.Classic;
 using Guts.Client.Shared;
 using Lottery.Business;
-using Lottery.Data.Interfaces;
 using Lottery.Domain;
 using Moq;
 using NUnit.Framework;
 using System;
 using System.Linq;
 using Guts.Client.Shared.TestTools;
+using Lottery.Business.Interfaces;
 using Microsoft.CodeAnalysis.CSharp;
 
 namespace Lottery.Tests

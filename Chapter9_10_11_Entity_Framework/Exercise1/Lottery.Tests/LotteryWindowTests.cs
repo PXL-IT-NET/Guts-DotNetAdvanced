@@ -1,7 +1,6 @@
 ﻿using System;
 using Guts.Client.Shared.TestTools;
 using Lottery.Business.Interfaces;
-using Lottery.Data.Interfaces;
 using Lottery.Domain;
 using Lottery.UI;
 using Moq;
