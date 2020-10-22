@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Bank.Data.DomainClasses;
-using Bank.Data.Interfaces;
-using Microsoft.EntityFrameworkCore;
+using Bank.Business.Contracts.DataAccess;
+using Bank.Domain;
 
 namespace Bank.Data
 {
-    public class AccountRepository : IAccountRepository
+    internal class AccountRepository : IAccountRepository
     {
         public AccountRepository(BankContext context)
         {

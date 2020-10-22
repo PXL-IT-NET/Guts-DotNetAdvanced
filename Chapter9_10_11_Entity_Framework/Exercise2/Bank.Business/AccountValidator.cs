@@ -1,11 +1,11 @@
 ﻿using System;
-using Bank.Business.Interfaces;
-using Bank.Data.DomainClasses;
-using Bank.Data.Interfaces;
+using Bank.Business.Contracts;
+using Bank.Business.Contracts.DataAccess;
+using Bank.Domain;
 
 namespace Bank.Business
 {
-    public class AccountValidator : IAccountValidator
+    internal class AccountValidator : IAccountValidator
     {
         public AccountValidator(ICustomerRepository customerRepository)
         {

@@ -1,6 +1,6 @@
 ﻿using System;
-using Bank.Data.DomainClasses;
-using Bank.Data.DomainClasses.Enums;
+using Bank.Domain;
+using Bank.Domain.Enums;
 
 namespace Bank.Tests
 {

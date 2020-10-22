@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
-using Bank.Business.Interfaces;
-using Bank.Data.Interfaces;
+using Bank.Business.Contracts;
+using Bank.Business.Contracts.DataAccess;
 
 namespace Bank.UI
 {
@@ -9,7 +9,7 @@ namespace Bank.UI
     {
         public CustomersWindow(ICustomerRepository customerRepository,
             ICustomerValidator customerValidator,
-            ICityRepository cityRepository, 
+            ICityRepository cityRepository,
             IWindowDialogService windowDialogService)
         {
             InitializeComponent();

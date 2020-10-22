@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Bank.Data.DomainClasses;
+using Bank.Domain;
 
 namespace Bank.UI
 {

@@ -5,9 +5,9 @@ using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Bank.Business;
-using Bank.Business.Interfaces;
-using Bank.Data.DomainClasses;
-using Bank.Data.Interfaces;
+using Bank.Business.Contracts;
+using Bank.Business.Contracts.DataAccess;
+using Bank.Domain;
 using Bank.UI;
 using Guts.Client.Classic;
 using Guts.Client.Classic.TestTools.WPF;
@@ -19,20 +19,7 @@ using NUnit.Framework;
 namespace Bank.Tests
 {
     [ExerciseTestFixture("dotnet2", "H12", "Exercise02",
-        @"Bank.Data\DomainClasses\Account.cs;
-Bank.Data\DomainClasses\Customer.cs;
-Bank.Data\BankContext.cs;
-Bank.Data\AccountRepository.cs;
-Bank.Data\CityRepository.cs;
-Bank.Data\CustomerRepository.cs;
-Bank.Business\AccountValidator.cs;
-Bank.Business\CustomerValidator.cs;
-Bank.UI\AccountsWindow.xaml;
-Bank.UI\AccountsWindow.xaml.cs;
-Bank.UI\CustomersWindow.xaml;
-Bank.UI\CustomersWindow.xaml.cs;
-Bank.UI\TransferWindow.xaml;
-Bank.UI\TransferWindow.xaml.cs")]
+        @"Bank.UI\CustomersWindow.xaml;Bank.UI\CustomersWindow.xaml.cs;")]
     [Apartment(ApartmentState.STA)]
     public class CustomersWindowTests
     {
@@ -204,7 +191,7 @@ Bank.UI\TransferWindow.xaml.cs")]
             _errorTextBlock.Text = "";
 
             //Act
-            Assert.That(() => _saveCustomerButton.FireClickEvent(), Throws.Nothing, "An exception occurs when nothing is selected.");
+            Assert.That(() => _saveCustomerButton.FireClickEvent(), Throws.Nothing,"An exception occurs when nothing is selected.");
 
             //Assert
             _customerRepositoryMock.Verify(repo => repo.Add(It.IsAny<Customer>()), Times.Never,
@@ -236,7 +223,7 @@ Bank.UI\TransferWindow.xaml.cs")]
                 "The 'Update' method of the repository should not have been called.");
             _customerRepositoryMock.Verify(repo => repo.Add(It.IsAny<Customer>()), Times.Never,
                 "The 'Add' method of the repository should not have been called.");
-
+           
             Assert.That(_errorTextBlock.Text, Is.EqualTo(expectedErrorMessage),
                 "The ErrorTextBlock should contain the error message in de failed ValidatorResult.");
         }
@@ -312,7 +299,7 @@ Bank.UI\TransferWindow.xaml.cs")]
             if (customer.Id == 0)
             {
                 _datagrid.CanUserAddRows = true;
-                _datagrid.ItemsSource = new List<Customer> { customer };
+                _datagrid.ItemsSource = new List<Customer>{customer};
             }
 
             _datagrid.SelectedIndex = 0; //select the customer

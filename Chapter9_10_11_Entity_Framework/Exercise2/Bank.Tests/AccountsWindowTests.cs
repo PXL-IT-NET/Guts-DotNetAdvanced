@@ -1,6 +1,4 @@
 ﻿using System;
-using Bank.Data.DomainClasses;
-using Bank.Data.Interfaces;
 using Bank.UI;
 using Guts.Client.Classic.TestTools.WPF;
 using Guts.Client.Shared.TestTools;
@@ -12,27 +10,16 @@ using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Bank.Business;
-using Bank.Business.Interfaces;
+using Bank.Business.Contracts;
+using Bank.Business.Contracts.DataAccess;
+using Bank.Domain;
 using Guts.Client.Classic;
 using Guts.Client.Shared;
 
 namespace Bank.Tests
 {
     [ExerciseTestFixture("dotnet2", "H12", "Exercise02",
-        @"Bank.Data\DomainClasses\Account.cs;
-Bank.Data\DomainClasses\Customer.cs;
-Bank.Data\BankContext.cs;
-Bank.Data\AccountRepository.cs;
-Bank.Data\CityRepository.cs;
-Bank.Data\CustomerRepository.cs;
-Bank.Business\AccountValidator.cs;
-Bank.Business\CustomerValidator.cs;
-Bank.UI\AccountsWindow.xaml;
-Bank.UI\AccountsWindow.xaml.cs;
-Bank.UI\CustomersWindow.xaml;
-Bank.UI\CustomersWindow.xaml.cs;
-Bank.UI\TransferWindow.xaml;
-Bank.UI\TransferWindow.xaml.cs")]
+        @"Bank.UI\AccountsWindow.xaml;Bank.UI\AccountsWindow.xaml.cs")]
     [Apartment(ApartmentState.STA)]
     public class AccountsWindowTests
     {
@@ -44,8 +31,7 @@ Bank.UI\TransferWindow.xaml.cs")]
         private Mock<IAccountRepository> _accountRepositoryMock;
         private Mock<IWindowDialogService> _windowDialogServiceMock;
         private Mock<IAccountValidator> _accountValidatorMock;
-        private TextBlock _errorTextBlock
-            ;
+        private TextBlock _errorTextBlock;
 
         [SetUp]
         public void Setup()

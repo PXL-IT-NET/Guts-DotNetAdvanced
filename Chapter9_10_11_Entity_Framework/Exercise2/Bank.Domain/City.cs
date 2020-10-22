@@ -1,4 +1,4 @@
-﻿namespace Bank.Data.DomainClasses
+﻿namespace Bank.Domain
 {
     public class City
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Bank.Data.DomainClasses;
+using Bank.Domain;
 
-namespace Bank.Data.Interfaces
+namespace Bank.Business.Contracts.DataAccess
 {
     public interface ICityRepository
     {

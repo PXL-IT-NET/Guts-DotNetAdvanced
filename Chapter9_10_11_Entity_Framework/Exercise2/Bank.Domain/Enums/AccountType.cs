@@ -1,4 +1,4 @@
-﻿namespace Bank.Data.DomainClasses.Enums
+﻿namespace Bank.Domain.Enums
 {
     public enum AccountType
     {

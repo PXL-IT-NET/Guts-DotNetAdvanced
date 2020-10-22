@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using Bank.Data.DomainClasses;
-using Bank.Data.Interfaces;
+using Bank.Business.Contracts.DataAccess;
+using Bank.Domain;
 
 namespace Bank.UI
 {

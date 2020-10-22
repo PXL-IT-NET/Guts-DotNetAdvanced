@@ -1,4 +1,4 @@
-﻿namespace Bank.Data.DomainClasses
+﻿namespace Bank.Domain
 {
     public class Customer
     {
@@ -7,7 +7,6 @@
         public string FirstName { get; set; }
         public string Address { get; set; }
         public string CellPhone { get; set; }
-
         public int ZipCode { get; set; }
     }
 }

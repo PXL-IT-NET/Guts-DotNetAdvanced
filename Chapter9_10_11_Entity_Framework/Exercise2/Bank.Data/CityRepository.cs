@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Bank.Data.DomainClasses;
-using Bank.Data.Interfaces;
+using Bank.Business.Contracts.DataAccess;
+using Bank.Domain;
 
 namespace Bank.Data
 {
-    public class CityRepository : ICityRepository
+    internal class CityRepository : ICityRepository
     {
         public CityRepository(BankContext context)
         {

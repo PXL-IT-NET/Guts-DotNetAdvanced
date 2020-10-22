@@ -1,102 +1,104 @@
 ﻿using System;
 using System.Text;
 using Bank.Data;
-using Bank.Data.DomainClasses;
-using Bank.Tests;
+using Bank.Domain;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 
-public abstract class DatabaseTests : IDisposable
+namespace Bank.Tests
 {
-    private SqliteConnection _connection;
-    private string _migrationError;
-
-    protected Random RandomGenerator;
-
-    protected DatabaseTests()
+    public abstract class DatabaseTests : IDisposable
     {
-        RandomGenerator = new Random();
-        _migrationError = string.Empty;
-    }
+        private SqliteConnection _connection;
+        private string _migrationError;
 
-    [OneTimeSetUp]
-    public void CreateDatabase()
-    {
+        protected Random RandomGenerator;
 
-        _connection = new SqliteConnection("DataSource=:memory:");
-        _connection.Open();
-
-        using (var context = CreateDbContext(false))
+        protected DatabaseTests()
         {
-            //Check if migration succeeds
-            try
+            RandomGenerator = new Random();
+            _migrationError = string.Empty;
+        }
+
+        [OneTimeSetUp]
+        public void CreateDatabase()
+        {
+
+            _connection = new SqliteConnection("DataSource=:memory:");
+            _connection.Open();
+
+            using (var context = CreateDbContext(false))
             {
-                context.Database.Migrate();
-                context.Set<City>().FirstOrDefaultAsync();
+                //Check if migration succeeds
+                try
+                {
+                    context.Database.Migrate();
+                    context.Set<City>().FirstOrDefaultAsync();
+                }
+                catch (Exception e)
+                {
+                    var messageBuilder = new StringBuilder();
+                    messageBuilder.AppendLine("The migration (creation) of the database is not configured properly.");
+                    messageBuilder.AppendLine();
+                    messageBuilder.AppendLine(e.Message);
+                    _migrationError = messageBuilder.ToString();
+                }
             }
-            catch (Exception e)
+        }
+
+        [OneTimeTearDown]
+        public void DropDatabase()
+        {
+            using (var context = CreateDbContext(false))
             {
-                var messageBuilder = new StringBuilder();
-                messageBuilder.AppendLine("The migration (creation) of the database is not configured properly.");
-                messageBuilder.AppendLine();
-                messageBuilder.AppendLine(e.Message);
-                _migrationError = messageBuilder.ToString();
+                context.Database.EnsureDeleted();
             }
+            _connection?.Close();
         }
-    }
 
-    [OneTimeTearDown]
-    public void DropDatabase()
-    {
-        using (var context = CreateDbContext(false))
+        public void Dispose()
         {
-            context.Database.EnsureDeleted();
+            _connection?.Dispose();
         }
-        _connection?.Close();
-    }
-
-    public void Dispose()
-    {
-        _connection?.Dispose();
-    }
-
-    protected BankContext CreateDbContext(bool assertMigration = true)
-    {
-        if (assertMigration)
+        
+        internal BankContext CreateDbContext(bool assertMigration = true)
         {
-            AssertMigratedSuccessfully();
+            if (assertMigration)
+            {
+                AssertMigratedSuccessfully();
+            }
+
+            var options = new DbContextOptionsBuilder<BankContext>()
+                .UseSqlite(_connection)
+                .Options;
+
+            return new BankContext(options);
         }
-       
-        var options = new DbContextOptionsBuilder<BankContext>()
-            .UseSqlite(_connection)
-            .Options;
 
-        return new BankContext(options);
-    }
-
-    protected City CreateExistingCity(BankContext context)
-    {
-        var existingCity = new City { Name = Guid.NewGuid().ToString(), ZipCode = RandomGenerator.Next(10000, 100000) };
-        context.Add(existingCity);
-        context.SaveChanges();
-        return existingCity;
-    }
-
-    protected Customer CreateExistingCustomer(BankContext context)
-    {
-        City existingCity = CreateExistingCity(context);
-        Customer existingCustomer = new CustomerBuilder().WithZipCode(existingCity.ZipCode).Build();
-        context.Set<Customer>().Add(existingCustomer);
-        context.SaveChanges();
-        return existingCustomer;
-    }
-
-    private void AssertMigratedSuccessfully()
-    {
-        if (!string.IsNullOrEmpty(_migrationError))
+        internal City CreateExistingCity(BankContext context)
         {
-            Assert.Fail(_migrationError);
+            var existingCity = new City { Name = Guid.NewGuid().ToString(), ZipCode = RandomGenerator.Next(10000, 100000) };
+            context.Add(existingCity);
+            context.SaveChanges();
+            return existingCity;
+        }
+
+        internal Customer CreateExistingCustomer(BankContext context)
+        {
+            City existingCity = CreateExistingCity(context);
+            Customer existingCustomer = new CustomerBuilder().WithZipCode(existingCity.ZipCode).Build();
+            context.Set<Customer>().Add(existingCustomer);
+            context.SaveChanges();
+            return existingCustomer;
+        }
+
+        private void AssertMigratedSuccessfully()
+        {
+            if (!string.IsNullOrEmpty(_migrationError))
+            {
+                Assert.Fail(_migrationError);
+            }
         }
     }
 }

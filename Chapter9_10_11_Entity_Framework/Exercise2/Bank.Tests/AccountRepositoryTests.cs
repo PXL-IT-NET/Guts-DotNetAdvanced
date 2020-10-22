@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Bank.Data;
-using Bank.Data.DomainClasses;
-using Bank.Data.DomainClasses.Enums;
+using Bank.Domain;
+using Bank.Domain.Enums;
 using Guts.Client.Classic;
 using Guts.Client.Shared;
 using Microsoft.EntityFrameworkCore;
@@ -11,24 +11,10 @@ using NUnit.Framework;
 
 namespace Bank.Tests
 {
-    [ExerciseTestFixture("dotnet2", "H12", "Exercise02",
-         @"Bank.Data\DomainClasses\Account.cs;
-Bank.Data\DomainClasses\Customer.cs;
-Bank.Data\BankContext.cs;
-Bank.Data\AccountRepository.cs;
-Bank.Data\CityRepository.cs;
-Bank.Data\CustomerRepository.cs;
-Bank.Business\AccountValidator.cs;
-Bank.Business\CustomerValidator.cs;
-Bank.UI\AccountsWindow.xaml;
-Bank.UI\AccountsWindow.xaml.cs;
-Bank.UI\CustomersWindow.xaml;
-Bank.UI\CustomersWindow.xaml.cs;
-Bank.UI\TransferWindow.xaml;
-Bank.UI\TransferWindow.xaml.cs")]
+    [ExerciseTestFixture("dotnet2", "H12", "Exercise02", @"Bank.Data\AccountRepository.cs")]
     internal class AccountRepositoryTests : DatabaseTests
     {
-        
+
         [MonitoredTest("AccountRepository - Add should add a new account to the database")]
         public void Add_ShouldAddANewAccountToTheDatabase()
         {
@@ -157,7 +143,7 @@ Bank.UI\TransferWindow.xaml.cs")]
                 existingAccount = context.Set<Account>().Find(existingAccountId);
                 existingAccount.AccountNumber = newAccountNumber;
                 existingAccount.AccountType = newAccountType;
-             
+
                 var repo = new AccountRepository(context);
 
                 //Act

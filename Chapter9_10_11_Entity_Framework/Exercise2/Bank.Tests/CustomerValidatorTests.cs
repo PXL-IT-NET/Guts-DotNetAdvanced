@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Bank.Business;
-using Bank.Data.DomainClasses;
-using Bank.Data.Interfaces;
+using Bank.Business.Contracts.DataAccess;
+using Bank.Domain;
 using Guts.Client.Classic;
 using Guts.Client.Shared;
 using Moq;
@@ -12,20 +12,7 @@ using NUnit.Framework;
 namespace Bank.Tests
 {
     [ExerciseTestFixture("dotnet2", "H12", "Exercise02",
-        @"Bank.Data\DomainClasses\Account.cs;
-Bank.Data\DomainClasses\Customer.cs;
-Bank.Data\BankContext.cs;
-Bank.Data\AccountRepository.cs;
-Bank.Data\CityRepository.cs;
-Bank.Data\CustomerRepository.cs;
-Bank.Business\AccountValidator.cs;
-Bank.Business\CustomerValidator.cs;
-Bank.UI\AccountsWindow.xaml;
-Bank.UI\AccountsWindow.xaml.cs;
-Bank.UI\CustomersWindow.xaml;
-Bank.UI\CustomersWindow.xaml.cs;
-Bank.UI\TransferWindow.xaml;
-Bank.UI\TransferWindow.xaml.cs")]
+        @"Bank.Business\CustomerValidator.cs")]
     internal class CustomerValidatorTests
     {
         private Mock<ICityRepository> _cityRepositoryMock;

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Bank.Data.DomainClasses;
+using Bank.Domain;
 using Guts.Client.Classic;
 using Guts.Client.Shared;
 using Guts.Client.Shared.TestTools;
@@ -10,21 +10,7 @@ using NUnit.Framework;
 
 namespace Bank.Tests
 {
-    [ExerciseTestFixture("dotnet2", "H12", "Exercise02",
-        @"Bank.Data\DomainClasses\Account.cs;
-Bank.Data\DomainClasses\Customer.cs;
-Bank.Data\BankContext.cs;
-Bank.Data\AccountRepository.cs;
-Bank.Data\CityRepository.cs;
-Bank.Data\CustomerRepository.cs;
-Bank.Business\AccountValidator.cs;
-Bank.Business\CustomerValidator.cs;
-Bank.UI\AccountsWindow.xaml;
-Bank.UI\AccountsWindow.xaml.cs;
-Bank.UI\CustomersWindow.xaml;
-Bank.UI\CustomersWindow.xaml.cs;
-Bank.UI\TransferWindow.xaml;
-Bank.UI\TransferWindow.xaml.cs")]
+    [ExerciseTestFixture("dotnet2", "H12", "Exercise02", @"Bank.Data\BankContext.cs")]
     public class BankContextTests : DatabaseTests
     {
         private string _bankContextClassContent;
@@ -127,27 +113,6 @@ Bank.UI\TransferWindow.xaml.cs")]
             }
         }
 
-        [MonitoredTest("BankContext - OnConfiguring should use the app.config connection string to configure a SQL database connection")]
-        public void OnConfiguring_ShouldUseTheAppConfigConnectionStringToConfigureASqlDatabaseConnection()
-        {
-            var methodBody = GetMethodBody("OnConfiguring");
-
-            Assert.That(methodBody.Statements.Count == 1 && methodBody.Statements[0] is IfStatementSyntax, Is.True,
-                "The method body should only have one if-statement. " +
-                "The body of the if-statement should contain the code to configure the database.");
-
-            var ifStatement = (IfStatementSyntax)methodBody.Statements[0];
-            Assert.That(ifStatement.Else, Is.Null, "The if-statement does not need to have an 'else'.");
-            var ifStatementBody = ifStatement.ToString();
-
-            Assert.That(ifStatementBody,
-                Contains.Substring("ConfigurationManager.ConnectionStrings[\"BankConnection\"].ConnectionString"),
-                "The connectionstring should be correctly retrieved from the app.config.");
-
-            Assert.That(ifStatementBody, Contains.Substring("optionsBuilder.UseSqlServer("),
-                "You should tell Entity Framework that is should use the SQL Server provider.");
-        }
-
         [MonitoredTest("BankContext - CreateOrUpdateDatabase should trigger a database migration")]
         public void CreateOrUpdateDatabase_ShouldTriggerADatabaseMigration()
         {
@@ -188,7 +153,7 @@ Bank.UI\TransferWindow.xaml.cs")]
                 .OfType<MethodDeclarationSyntax>()
                 .FirstOrDefault(md => md.Identifier.ValueText.Equals(methodName));
             Assert.That(method, Is.Not.Null,
-                () => $"Could not find the '{methodName}' method. You may have accidentially deleted or renamed it?");
+                () => $"Could not find the '{methodName}' method. You may have accidentally deleted or renamed it?");
             return method.Body;
         }
 

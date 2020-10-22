@@ -1,6 +1,6 @@
-﻿using Bank.Data.DomainClasses;
+﻿using Bank.Domain;
 
-namespace Bank.Business.Interfaces
+namespace Bank.Business.Contracts
 {
     public interface ICustomerValidator
     {

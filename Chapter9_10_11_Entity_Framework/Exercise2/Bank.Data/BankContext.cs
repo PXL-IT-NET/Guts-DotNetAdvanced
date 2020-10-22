@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using Bank.Data.DomainClasses;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bank.Data
 {
-    public class BankContext : DbContext
+    internal class BankContext : DbContext
     {
-
         public BankContext() { } //Constructor used by UI project
 
         public BankContext(DbContextOptions<BankContext> options) : base(options) { } //Constructor used by Test project

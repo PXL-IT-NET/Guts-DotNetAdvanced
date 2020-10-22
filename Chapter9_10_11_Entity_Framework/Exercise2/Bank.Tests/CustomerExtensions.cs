@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Bank.Data.DomainClasses;
+using Bank.Domain;
 using NUnit.Framework;
 
 namespace Bank.Tests

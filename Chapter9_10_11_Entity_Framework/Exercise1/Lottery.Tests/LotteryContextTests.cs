@@ -1,11 +1,9 @@
-﻿using System.CodeDom;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Guts.Client.Classic;
 using Guts.Client.Shared;
 using Guts.Client.Shared.TestTools;
 using Lottery.Domain;
-using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -13,7 +11,7 @@ using NUnit.Framework;
 
 namespace Lottery.Tests
 {
-    [ExerciseTestFixture("dotnet2", "H12", "Exercise01", @"Lottery.Data\LotteryContext.cs;Lottery.Data\LotteryGameRepository.cs;Lottery.Data\DrawRepository.cs;Lottery.Business\DrawService.cs;Lottery.UI\LotteryWindow.xaml;Lottery.UI\LotteryWindow.xaml.cs;Lottery.UI\Converters\DrawNumbersConverter.cs;")]
+    [ExerciseTestFixture("dotnet2", "H11", "Exercise01", @"Lottery.Data\LotteryContext.cs")]
     public class LotteryContextTests : DatabaseTests
     {
         private string _lotterContextClassContent;

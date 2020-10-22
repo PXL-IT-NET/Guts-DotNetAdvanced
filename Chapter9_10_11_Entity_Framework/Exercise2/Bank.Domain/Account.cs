@@ -1,6 +1,6 @@
-﻿using Bank.Data.DomainClasses.Enums;
+﻿using Bank.Domain.Enums;
 
-namespace Bank.Data.DomainClasses
+namespace Bank.Domain
 {
     public class Account
     {
