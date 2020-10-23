@@ -13,7 +13,7 @@ using NUnit.Framework;
 
 namespace Guts.Tests
 {
-    [ExerciseTestFixture("dotnet2", "H05", "Exercise01",
+    [ExerciseTestFixture("dotnet2", "H06", "Exercise01",
         @"NumberConverter.UI\Converters\RomanNumberConverter.cs;NumberConverter.UI.Tests\RomanNumberConverterTests.cs")]
     public class RomanNumberConverterTestsTests
     {
