@@ -40,6 +40,9 @@ namespace Exercise13.Tests
             if (allButtons.Count >= 1)
             {
                 _arrowButton = allButtons.ElementAt(0);
+            }
+            if (allButtons.Count >= 2)
+            {
                 _pentagonButton = allButtons.ElementAt(1);
             }
 
