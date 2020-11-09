@@ -115,9 +115,9 @@ namespace Exercise13.Tests
             Assert.That(border.BorderThickness.Left, Is.EqualTo(border.BorderThickness.Right), "The thickness should be equal on all sides.");
             Assert.That(border.BorderThickness.Right, Is.EqualTo(border.BorderThickness.Top), "The thickness should be equal on all sides.");
 
-            Assert.That(border.CornerRadius.TopLeft, Is.GreaterThanOrEqualTo(0), "The TopLeft corner radius of the 'Border' should be positive.");
+            Assert.That(border.CornerRadius.TopLeft, Is.GreaterThan(0), "The TopLeft corner radius of the 'Border' should be positive.");
             Assert.That(border.CornerRadius.TopRight, Is.EqualTo(0), "The TopRight corner radius of the 'Border' should be 0.");
-            Assert.That(border.CornerRadius.BottomRight, Is.GreaterThanOrEqualTo(0), "The BottomRight corner radius of the 'Border' should be positive.");
+            Assert.That(border.CornerRadius.BottomRight, Is.GreaterThan(0), "The BottomRight corner radius of the 'Border' should be positive.");
             Assert.That(border.CornerRadius.BottomLeft, Is.EqualTo(0), "The BottomLeft corner radius or the 'Border' should be 0.");
 
             Assert.That(border.Child, Is.TypeOf<ScrollViewer>(), "The 'Border' does not have a 'ScrollViewer' child element.");
