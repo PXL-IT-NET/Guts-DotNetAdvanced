@@ -12,7 +12,7 @@ using NUnit.Framework;
 namespace Lottery.Tests
 {
     [ExerciseTestFixture("dotnet2", "H11", "Exercise01", @"Lottery.Data\LotteryContext.cs")]
-    public class LotteryContextTests : DatabaseTests
+    internal class LotteryContextTests : DatabaseTests
     {
         private string _lotterContextClassContent;
 

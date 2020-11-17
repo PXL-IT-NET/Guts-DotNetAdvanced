@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lottery.Data
 {
-    public class LotteryContext : DbContext
+    internal class LotteryContext : DbContext
     {
         public LotteryContext(){} //Constructor used by UI project
 

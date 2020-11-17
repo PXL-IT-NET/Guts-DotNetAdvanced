@@ -12,7 +12,7 @@ using NUnit.Framework;
 
 namespace Bank.Tests
 {
-    [ExerciseTestFixture("dotnet2", "H12", "Exercise02",
+    [ExerciseTestFixture("dotnet2", "H11", "Exercise02",
         @"Bank.Business\AccountValidator.cs")]
     internal class AccountValidatorTests
     {

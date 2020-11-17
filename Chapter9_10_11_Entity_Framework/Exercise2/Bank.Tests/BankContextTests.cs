@@ -10,7 +10,7 @@ using NUnit.Framework;
 
 namespace Bank.Tests
 {
-    [ExerciseTestFixture("dotnet2", "H12", "Exercise02", @"Bank.Data\BankContext.cs")]
+    [ExerciseTestFixture("dotnet2", "H11", "Exercise02", @"Bank.Data\BankContext.cs")]
     public class BankContextTests : DatabaseTests
     {
         private string _bankContextClassContent;

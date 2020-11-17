@@ -6,7 +6,7 @@ using Guts.Client.Shared;
 
 namespace Bank.Tests
 {
-    [ExerciseTestFixture("dotnet2", "H12", "Exercise02", @"Bank.Domain\Account.cs;")]
+    [ExerciseTestFixture("dotnet2", "H11", "Exercise02", @"Bank.Domain\Account.cs;")]
     public class AccountTests
     {
         [MonitoredTest("Account - Constructor - Should set initial 'Balance' to 1000")]

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lottery.Data
 {
-    public class DrawRepository : IDrawRepository
+    internal class DrawRepository : IDrawRepository
     {
         public DrawRepository(LotteryContext context)
         {

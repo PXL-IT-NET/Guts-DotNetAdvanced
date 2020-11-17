@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace Lottery.Tests
 {
     [ExerciseTestFixture("dotnet2", "H11", "Exercise01", @"Lottery.Data\LotteryGameRepository.cs")]
-    public class LotteryGameRepositoryTests : DatabaseTests
+    internal class LotteryGameRepositoryTests : DatabaseTests
     {
         [MonitoredTest("LotteryGameRepository - GetAll should return all games from the database")]
         public void GetAll_ShouldReturnAllGamesFromDb()

@@ -14,7 +14,7 @@ namespace Lottery.Tests
 {
     [ExerciseTestFixture("dotnet2", "H11", "Exercise01",
         @"Lottery.Data\DrawRepository.cs")]
-    public class DrawRepositoryTests : DatabaseTests
+    internal class DrawRepositoryTests : DatabaseTests
     {
         [MonitoredTest("DrawRepository - Find should return all draws of a game when there are no date limits")]
         public void Find_ShouldReturnAllDrawsOfAGameWhenThereAreNoDateLimits()

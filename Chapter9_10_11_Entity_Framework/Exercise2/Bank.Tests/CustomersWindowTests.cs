@@ -18,7 +18,7 @@ using NUnit.Framework;
 
 namespace Bank.Tests
 {
-    [ExerciseTestFixture("dotnet2", "H12", "Exercise02",
+    [ExerciseTestFixture("dotnet2", "H11", "Exercise02",
         @"Bank.UI\CustomersWindow.xaml;Bank.UI\CustomersWindow.xaml.cs;")]
     [Apartment(ApartmentState.STA)]
     public class CustomersWindowTests

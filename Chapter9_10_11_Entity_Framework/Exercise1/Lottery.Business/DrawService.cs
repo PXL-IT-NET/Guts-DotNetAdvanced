@@ -5,7 +5,7 @@ using Lottery.Domain;
 
 namespace Lottery.Business
 {
-    public class DrawService : IDrawService
+    internal class DrawService : IDrawService
     {
         public DrawService(IDrawRepository drawRepository)
         {

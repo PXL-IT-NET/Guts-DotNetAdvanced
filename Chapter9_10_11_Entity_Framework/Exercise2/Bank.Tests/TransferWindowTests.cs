@@ -16,7 +16,7 @@ using Guts.Client.Shared;
 
 namespace Bank.Tests
 {
-    [ExerciseTestFixture("dotnet2", "H12", "Exercise02",
+    [ExerciseTestFixture("dotnet2", "H11", "Exercise02",
         @"Bank.UI\TransferWindow.xaml;Bank.UI\TransferWindow.xaml.cs")]
     [Apartment(ApartmentState.STA)]
     public class TransferWindowTests

@@ -9,7 +9,7 @@ using NUnit.Framework;
 
 namespace Bank.Tests
 {
-    [ExerciseTestFixture("dotnet2", "H12", "Exercise02",
+    [ExerciseTestFixture("dotnet2", "H11", "Exercise02",
         @"Bank.Data\CityRepository.cs")]
     internal class CityRepositoryTests : DatabaseTests
     {

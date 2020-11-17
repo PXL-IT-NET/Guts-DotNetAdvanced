@@ -11,7 +11,7 @@ using NUnit.Framework;
 
 namespace Bank.Tests
 {
-    [ExerciseTestFixture("dotnet2", "H12", "Exercise02", @"Bank.Data\AccountRepository.cs")]
+    [ExerciseTestFixture("dotnet2", "H11", "Exercise02", @"Bank.Data\AccountRepository.cs")]
     internal class AccountRepositoryTests : DatabaseTests
     {
 

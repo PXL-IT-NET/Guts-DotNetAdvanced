@@ -5,7 +5,7 @@ using Lottery.Domain;
 
 namespace Lottery.Data
 {
-    public class LotteryGameRepository : ILotteryGameRepository
+    internal class LotteryGameRepository : ILotteryGameRepository
     {
         public LotteryGameRepository(LotteryContext context)
         {
