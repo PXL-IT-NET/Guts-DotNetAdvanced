@@ -228,7 +228,7 @@ namespace HeroApp.Tests
         }
 
         [MonitoredTest("Hero - DefendAgainstAttack - SuperMode - Should decrement health with half attack strength")]
-        public void DefendAgainstAttack_NoSuperMode_ShouldDecrementHealthWithHalfAttackStrength()
+        public void DefendAgainstAttack_SuperMode_ShouldDecrementHealthWithHalfAttackStrength()
         {
             //Arrange
             int health = Random.Next(50, 100);
