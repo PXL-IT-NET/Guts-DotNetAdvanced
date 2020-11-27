@@ -28,7 +28,6 @@ namespace HeroApp.Tests
             BattleFactoryMock = new Mock<IBattleFactory>();
             BattleFactoryMock.Setup(factory => factory.CreateNewBattle(It.IsAny<IHero>(), It.IsAny<IHero>()))
                 .Returns((IHero fighter1, IHero fighter2) => new Mock<IBattle>().Object);
-            ConstructBattleService(HeroRepositoryMock.Object, BattleFactoryMock.Object);
         }
 
         public BattleServiceBuilder WithHeroes(int amount)
@@ -48,7 +47,7 @@ namespace HeroApp.Tests
                 {
                     _battleService = Activator.CreateInstance(typeof(BattleService),
                         BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public, null,
-                        new object[]{ battleFactory, heroRepository },
+                        new object[] { battleFactory, heroRepository },
                         null) as BattleService;
                 }
                 catch (Exception)
@@ -68,6 +67,7 @@ namespace HeroApp.Tests
 
         public virtual IBattleService Build()
         {
+            ConstructBattleService(HeroRepositoryMock.Object, BattleFactoryMock.Object);
             return _battleService as IBattleService;
         }
     }
