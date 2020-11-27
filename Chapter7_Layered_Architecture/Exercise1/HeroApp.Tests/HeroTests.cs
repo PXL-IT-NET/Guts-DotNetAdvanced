@@ -152,11 +152,11 @@ namespace HeroApp.Tests
             Mock<IHero> opponentMock = new HeroMockBuilder().Build();
 
             //Act
-           hero.Attack(opponentMock.Object);
+            hero.Attack(opponentMock.Object);
 
-           //Assert
-           opponentMock.Verify(opponent => opponent.DefendAgainstAttack(hero.Strength), Times.Once,
-               $"Should call 'DefendAgainstAttack' of opponent with strength {hero.Strength}.");
+            //Assert
+            opponentMock.Verify(opponent => opponent.DefendAgainstAttack(hero.Strength), Times.Once,
+                $"Should call 'DefendAgainstAttack' of opponent with strength {hero.Strength}.");
         }
 
         [MonitoredTest("Hero - Attack - 100% SuperModeLikeliness - Should attack opponent with double strength")]
@@ -177,39 +177,13 @@ namespace HeroApp.Tests
         [MonitoredTest("Hero - Attack - 50% SuperModeLikeliness - Should attack opponent with normal or double strength")]
         public void Attack_50PercentSuperModeLikeliness_ShouldAttackOpponentWithNormalOrDoubleStrength()
         {
-            IHero hero = new HeroBuilder().WithSuperModeLikeliness(0.5f).Build();
+            AssertSuperModeLikelinessForAttack(0.5f);
+        }
 
-            int numberOfAttacks = 100;
-            int numberOfNormalAttacks = 0;
-            int numberOfSuperAttacks = 0;
-
-            for (int i = 0; i < numberOfAttacks; i++)
-            {
-                
-                Mock<IHero> opponentMock = new HeroMockBuilder().Build();
-                opponentMock.Setup(opponent => opponent.DefendAgainstAttack(It.IsAny<int>()))
-                    .Callback((int attackStrength) =>
-                    {
-                        if (attackStrength == hero.Strength)
-                        {
-                            numberOfNormalAttacks++;
-                        }
-                        else if(attackStrength == hero.Strength * 2)
-                        {
-                            numberOfSuperAttacks++;
-                        }
-                    });
-                hero.Attack(opponentMock.Object);
-            }
-
-            Assert.That(numberOfNormalAttacks, Is.GreaterThan(0),
-                $"Out of {numberOfAttacks} attacks, no normal attack happened. That is not random enough.");
-            Assert.That(numberOfSuperAttacks, Is.GreaterThan(0),
-                $"Out of {numberOfAttacks} attacks, no supermode attack happened. That is not random enough.");
-            Assert.That(numberOfSuperAttacks + numberOfNormalAttacks, Is.EqualTo(numberOfAttacks),
-                $"The amount of normal attacks ({numberOfNormalAttacks}) " +
-                $"added with the number of supermode attacks ({numberOfSuperAttacks}) " +
-                $"should be equal to the total number of attacks ({numberOfAttacks}).");
+        [MonitoredTest("Hero - Attack - 75% SuperModeLikeliness - Should attack more with double strength than normal strength")]
+        public void Attack_75PercentSuperModeLikeliness_ShouldAttackMoreWithDoubleStrengthThanNormalStrength()
+        {
+            AssertSuperModeLikelinessForAttack(0.75f);
         }
 
         [MonitoredTest("Hero - DefendAgainstAttack - NoSuperMode - Should decrement health with attack strength")]
@@ -245,23 +219,13 @@ namespace HeroApp.Tests
         [MonitoredTest("Hero - DefendAgainstAttack - 50% SuperModeLikeliness - Should decrement health with attack strength or half attack strength")]
         public void DefendAgainstAttack_50PercentSuperModeLikeliness_ShouldDecrementHealthWithAttackStrengthOrHalfAttackStrength()
         {
-            int health = 100;
-            IHero hero = new HeroBuilder().WithSuperModeLikeliness(0.5f).WithHealth(health).Build();
-            int attackStrength = 2;
-            int numberOfDefends = health / attackStrength;
+            AssertSuperModeLikelinessForDefend(0.5f);
+        }
 
-            for (int i = 0; i < numberOfDefends; i++)
-            {
-                hero.DefendAgainstAttack(attackStrength);
-            }
-
-            int maximumHealth = health - (numberOfDefends * (attackStrength / 2));
-            Assert.That(hero.Health, Is.LessThan(maximumHealth),
-                $"After {numberOfDefends} defends against an attack of strength {attackStrength}, the health of the hero should be less than {maximumHealth}.");
-
-            int minimumHealth = health - (numberOfDefends * attackStrength);
-            Assert.That(hero.Health, Is.GreaterThan(minimumHealth),
-                $"After {numberOfDefends} defends against an attack of strength {attackStrength}, the health of the hero should be more than {minimumHealth}.");
+        [MonitoredTest("Hero - DefendAgainstAttack - 75% SuperModeLikeliness - Should decrement health with half attack strength more than attack strength")]
+        public void DefendAgainstAttack_75PercentSuperModeLikeliness_ShouldDecrementHealthWithHalfAttackStrengthMoreThanAttackStrength()
+        {
+            AssertSuperModeLikelinessForDefend(0.75f);
         }
 
         [MonitoredTest("Hero - Should notify changes in health")]
@@ -329,6 +293,87 @@ namespace HeroApp.Tests
             Assert.That(property.SetMethod, Is.Not.Null, $"No setter found for the '{propertyName}' property");
             Assert.That(property.SetMethod.IsPrivate, Is.True,
                 $"'{propertyName}' does not have a private setter. Specify the 'private' keyword right before the 'set' keyword.");
+        }
+
+        private void AssertSuperModeLikelinessForAttack(float superModeLikeliness)
+        {
+            IHero hero = new HeroBuilder().WithSuperModeLikeliness(superModeLikeliness).Build();
+
+            int numberOfAttacks = 100;
+            int numberOfNormalAttacks = 0;
+            int numberOfSuperAttacks = 0;
+
+            for (int i = 0; i < numberOfAttacks; i++)
+            {
+                Mock<IHero> opponentMock = new HeroMockBuilder().Build();
+                opponentMock.Setup(opponent => opponent.DefendAgainstAttack(It.IsAny<int>()))
+                    .Callback((int attackStrength) =>
+                    {
+                        if (attackStrength == hero.Strength)
+                        {
+                            numberOfNormalAttacks++;
+                        }
+                        else if (attackStrength == hero.Strength * 2)
+                        {
+                            numberOfSuperAttacks++;
+                        }
+                    });
+                hero.Attack(opponentMock.Object);
+            }
+
+            Assert.That(numberOfNormalAttacks, Is.GreaterThan(0),
+                $"Out of {numberOfAttacks} attacks, no normal attack happened. That is not random enough.");
+            Assert.That(numberOfSuperAttacks, Is.GreaterThan(0),
+                $"Out of {numberOfAttacks} attacks, no supermode attack happened. That is not random enough.");
+            Assert.That(numberOfSuperAttacks + numberOfNormalAttacks, Is.EqualTo(numberOfAttacks),
+                $"The amount of normal attacks ({numberOfNormalAttacks}) " +
+                $"added with the number of supermode attacks ({numberOfSuperAttacks}) " +
+                $"should be equal to the total number of attacks ({numberOfAttacks}).");
+            double actualSuperMode = numberOfSuperAttacks / (double)numberOfAttacks;
+            Assert.That(actualSuperMode, Is.EqualTo(hero.SuperModeLikeliness).Within(0.1),
+                $"After {numberOfAttacks} attacks the supermode likeliness seems to be around {Convert.ToInt32(actualSuperMode * 100)}%. " +
+                $"It should be around {Convert.ToInt32(hero.SuperModeLikeliness * 100)}%.");
+        }
+
+        private static void AssertSuperModeLikelinessForDefend(float superModeLikeliness)
+        {
+            int numberOfDefends = 100;
+            int numberOfNormalDefends = 0;
+            int numberOfSuperDefends = 0;
+
+            for (int i = 0; i < numberOfDefends; i++)
+            {
+                int startHealth = Random.Next(60, 101);
+                int attackStrength = Random.Next(2, 20);
+                if (attackStrength % 2 != 0) attackStrength += 1;
+
+                IHero hero = new HeroBuilder().WithSuperModeLikeliness(superModeLikeliness).WithHealth(startHealth).Build();
+                hero.DefendAgainstAttack(attackStrength);
+
+                int expectedHealthNormal = startHealth - attackStrength;
+                int expectedHealthSuperMode = startHealth - attackStrength / 2;
+                Assert.That(hero.Health, Is.EqualTo(expectedHealthNormal).Or.EqualTo(expectedHealthSuperMode),
+                    $"After defending an attack of strength {attackStrength} with an initial health of {startHealth}, " +
+                    $"the health of the hero should be {expectedHealthNormal} or {expectedHealthSuperMode}.");
+
+                if (hero.Health == expectedHealthNormal)
+                {
+                    numberOfNormalDefends++;
+                }
+                else
+                {
+                    numberOfSuperDefends++;
+                }
+            }
+
+            Assert.That(numberOfNormalDefends, Is.GreaterThan(0),
+                $"Out of {numberOfDefends} defends, no normal defend happened. That is not random enough.");
+            Assert.That(numberOfSuperDefends, Is.GreaterThan(0),
+                $"Out of {numberOfDefends} defends, no supermode defend happened. That is not random enough.");
+            double actualSuperMode = numberOfSuperDefends / (double)numberOfDefends;
+            Assert.That(actualSuperMode, Is.EqualTo(superModeLikeliness).Within(0.1),
+                $"After {numberOfDefends} defends the supermode likeliness seems to be around {Convert.ToInt32(actualSuperMode * 100)}%. " +
+                $"It should be around {Convert.ToInt32(superModeLikeliness * 100)}%.");
         }
     }
 }
