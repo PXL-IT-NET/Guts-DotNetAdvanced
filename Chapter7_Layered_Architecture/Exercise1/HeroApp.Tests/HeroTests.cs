@@ -299,7 +299,7 @@ namespace HeroApp.Tests
         {
             IHero hero = new HeroBuilder().WithSuperModeLikeliness(superModeLikeliness).Build();
 
-            int numberOfAttacks = 100;
+            int numberOfAttacks = 200;
             int numberOfNormalAttacks = 0;
             int numberOfSuperAttacks = 0;
 
@@ -330,14 +330,14 @@ namespace HeroApp.Tests
                 $"added with the number of supermode attacks ({numberOfSuperAttacks}) " +
                 $"should be equal to the total number of attacks ({numberOfAttacks}).");
             double actualSuperMode = numberOfSuperAttacks / (double)numberOfAttacks;
-            Assert.That(actualSuperMode, Is.EqualTo(hero.SuperModeLikeliness).Within(0.1),
+            Assert.That(actualSuperMode, Is.EqualTo(hero.SuperModeLikeliness).Within(0.15),
                 $"After {numberOfAttacks} attacks the supermode likeliness seems to be around {Convert.ToInt32(actualSuperMode * 100)}%. " +
                 $"It should be around {Convert.ToInt32(hero.SuperModeLikeliness * 100)}%.");
         }
 
         private static void AssertSuperModeLikelinessForDefend(float superModeLikeliness)
         {
-            int numberOfDefends = 100;
+            int numberOfDefends = 200;
             int numberOfNormalDefends = 0;
             int numberOfSuperDefends = 0;
 
@@ -366,14 +366,16 @@ namespace HeroApp.Tests
                 }
             }
 
+            string staticRandomTip =
+                "Tip: make sure all 'Hero' instances use the same 'Random' instance by declaring a static field like this: 'private static Random Random = new Random();'";
             Assert.That(numberOfNormalDefends, Is.GreaterThan(0),
-                $"Out of {numberOfDefends} defends, no normal defend happened. That is not random enough.");
+                $"Out of {numberOfDefends} defends, no normal defend happened. That is not random enough. {staticRandomTip}");
             Assert.That(numberOfSuperDefends, Is.GreaterThan(0),
-                $"Out of {numberOfDefends} defends, no supermode defend happened. That is not random enough.");
+                $"Out of {numberOfDefends} defends, no supermode defend happened. That is not random enough. {staticRandomTip}");
             double actualSuperMode = numberOfSuperDefends / (double)numberOfDefends;
-            Assert.That(actualSuperMode, Is.EqualTo(superModeLikeliness).Within(0.1),
+            Assert.That(actualSuperMode, Is.EqualTo(superModeLikeliness).Within(0.15),
                 $"After {numberOfDefends} defends the supermode likeliness seems to be around {Convert.ToInt32(actualSuperMode * 100)}%. " +
-                $"It should be around {Convert.ToInt32(superModeLikeliness * 100)}%.");
+                $"It should be around {Convert.ToInt32(superModeLikeliness * 100)}%. {staticRandomTip}");
         }
     }
 }
