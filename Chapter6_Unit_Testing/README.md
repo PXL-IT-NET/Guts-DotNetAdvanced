@@ -1,4 +1,4 @@
-# Exercises - Chapter 5 - Unit Testing
+# Exercises - Chapter 6 - Unit Testing
 
 ## Exercise 1
 Make an application that converts numbers to there Roman notation:
