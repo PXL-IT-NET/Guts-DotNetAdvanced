@@ -12,7 +12,7 @@ using NUnit.Framework;
 
 namespace Lottery.Tests
 {
-    [ExerciseTestFixture("dotnet2", "H11", "Exercise01",
+    [ExerciseTestFixture("dotnet2", "H11", "Exercise01", 
         @"Lottery.Data\DrawRepository.cs")]
     internal class DrawRepositoryTests : DatabaseTests
     {
