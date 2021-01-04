@@ -2,6 +2,7 @@
 using Guts.Client.Classic;
 using Guts.Client.Shared;
 using Guts.Client.Shared.TestTools;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using NUnit.Framework;
@@ -29,7 +30,7 @@ namespace Exercise2.Tests
         [MonitoredTest("MathOperationFactory - CreateCubicOperation - Should use a lambda expression")]
         public void CreateCubicOperation_ShouldUseALambdaExpression()
         {
-            BlockSyntax body = GetMethodBody(nameof(MathOperationFactory.CreateCubicOperation));
+            SyntaxNode body = GetMethodBody(nameof(MathOperationFactory.CreateCubicOperation));
             var lambdaSyntax = body.DescendantNodes().OfType<LambdaExpressionSyntax>().FirstOrDefault();
             Assert.That(lambdaSyntax, Is.Not.Null);
         }
@@ -38,8 +39,8 @@ namespace Exercise2.Tests
         public void CreateCubicOperation_ShouldReturnTheCorrectFunction()
         {
             //Arrange
-            int[] inputs =  {1, 2, 5, 10, 100, 1000};
-            long[] expectedOutputs = {6, 34, 430, 3210, 3020100, 3002001000};
+            int[] inputs = { 1, 2, 5, 10, 100, 1000 };
+            long[] expectedOutputs = { 6, 34, 430, 3210, 3020100, 3002001000 };
 
             //Act
             var operation = _factory.CreateCubicOperation();
@@ -56,7 +57,7 @@ namespace Exercise2.Tests
         [MonitoredTest("MathOperationFactory - CreateNthPrimeOperation - Should use a lambda expression")]
         public void CreateNthPrimeOperation_ShouldUseALambdaExpression()
         {
-            BlockSyntax body = GetMethodBody(nameof(MathOperationFactory.CreateNthPrimeOperation));
+            SyntaxNode body = GetMethodBody(nameof(MathOperationFactory.CreateNthPrimeOperation));
             var lambdaSyntax = body.DescendantNodes().OfType<LambdaExpressionSyntax>().FirstOrDefault();
             Assert.That(lambdaSyntax, Is.Not.Null);
         }
@@ -80,10 +81,10 @@ namespace Exercise2.Tests
             }
         }
 
-        private BlockSyntax GetMethodBody(string methodName)
+        private SyntaxNode GetMethodBody(string methodName)
         {
-            var syntaxtTree = CSharpSyntaxTree.ParseText(_factoryClassContent);
-            var root = syntaxtTree.GetRoot();
+            var syntaxTree = CSharpSyntaxTree.ParseText(_factoryClassContent);
+            var root = syntaxTree.GetRoot();
             var method = root
                 .DescendantNodes()
                 .OfType<MethodDeclarationSyntax>()
@@ -91,7 +92,10 @@ namespace Exercise2.Tests
             Assert.That(method, Is.Not.Null,
                 () => $"Could not find the '{methodName}' method. You may have accidentally deleted or renamed it?");
 
-            return method.Body;
+            if (method.Body != null) return method.Body;
+            if (method.ExpressionBody != null) return method.ExpressionBody;
+            Assert.Fail($"Could not find the body (or expression body) of the '{methodName}' method.");
+            return null;
         }
     }
 }
