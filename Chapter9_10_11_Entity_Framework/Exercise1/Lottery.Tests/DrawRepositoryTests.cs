@@ -125,8 +125,7 @@ namespace Lottery.Tests
                 Assert.That(draws, Is.Not.Null, () => "No draws are returned.");
                 var firstDraw = draws.FirstOrDefault();
                 Assert.That(firstDraw, Is.Not.Null, () => "No draws are returned.");
-
-                Assert.That(firstDraw.DrawNumbers, Is.Not.Empty, () => "The draw numbers of the draws are not returned from the database.");
+                Assert.That(firstDraw.DrawNumbers, Is.Not.Null.Or.Empty, () => "The draw numbers of the draws are not returned from the database.");
             }
         }
 
