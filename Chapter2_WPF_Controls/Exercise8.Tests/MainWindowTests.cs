@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using Guts.Client.Classic;
 using Guts.Client.Classic.TestTools.WPF;
 using Guts.Client.Shared;
@@ -41,6 +42,7 @@ namespace Exercise8.Tests
         public void TearDown()
         {
             _app.Shutdown();
+            Dispatcher.CurrentDispatcher.InvokeShutdown();
             _window.Dispose();
         }
 

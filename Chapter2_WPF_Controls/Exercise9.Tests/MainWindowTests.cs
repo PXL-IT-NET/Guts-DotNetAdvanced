@@ -1,9 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using Guts.Client.Classic;
 using Guts.Client.Classic.TestTools.WPF;
 using Guts.Client.Shared;
@@ -27,7 +29,8 @@ namespace Exercise9.Tests
             _window = new TestWindow<MainWindow>();
 
             var allCheckBoxes = _window.GetUIElements<CheckBox>().ToList();
-            if (allCheckBoxes.All(checkBox => checkBox.Parent is Grid && checkBox.VerticalAlignment == VerticalAlignment.Top))
+            if (allCheckBoxes.All(checkBox =>
+                checkBox.Parent is Grid && checkBox.VerticalAlignment == VerticalAlignment.Top))
             {
                 allCheckBoxes = allCheckBoxes.OrderBy(checkBox => checkBox.Margin.Top).ToList();
             }
@@ -36,10 +39,12 @@ namespace Exercise9.Tests
             {
                 _simpleCheckBox = allCheckBoxes.ElementAt(0);
             }
+
             if (allCheckBoxes.Count >= 2)
             {
                 _kameleonCheckBox = allCheckBoxes.ElementAt(1);
             }
+
             if (allCheckBoxes.Count >= 3)
             {
                 _gradientCheckBox = allCheckBoxes.ElementAt(2);
@@ -49,6 +54,7 @@ namespace Exercise9.Tests
         [OneTimeTearDown]
         public void TearDown()
         {
+            Dispatcher.CurrentDispatcher.InvokeShutdown();
             _window.Dispose();
         }
 
@@ -67,8 +73,10 @@ namespace Exercise9.Tests
         public void _2_ShouldHaveASimpleCheckBoxOnTheTop()
         {
             Assert.That(_simpleCheckBox, Is.Not.Null, () => "The first checkbox (on the top) could not be found.");
-            Assert.That(_simpleCheckBox.Content, Is.TypeOf<string>(), () => "The content of first checkbox (on the top) should be a string.");
-            Assert.That(_simpleCheckBox.Content, Is.Not.Empty, () => "The content of first checkbox (on the top) should not be empty.");
+            Assert.That(_simpleCheckBox.Content, Is.TypeOf<string>(),
+                () => "The content of first checkbox (on the top) should be a string.");
+            Assert.That(_simpleCheckBox.Content, Is.Not.Empty,
+                () => "The content of first checkbox (on the top) should not be empty.");
         }
 
         [MonitoredTest("Should have a kameleon checkbox in the middle"), Order(3)]
@@ -77,18 +85,22 @@ namespace Exercise9.Tests
             Assert.That(_kameleonCheckBox, Is.Not.Null, () => "The second (middle) checkbox could not be found.");
 
             Assert.That(_kameleonCheckBox.Background, Is.Not.Null, "The checkbox must have a background set.");
-            Assert.That(_kameleonCheckBox.Background, Is.TypeOf<SolidColorBrush>(), "The background of the checkbox must be a 'SolidColorBrush'.");
+            Assert.That(_kameleonCheckBox.Background, Is.TypeOf<SolidColorBrush>(),
+                "The background of the checkbox must be a 'SolidColorBrush'.");
 
             Assert.That(_kameleonCheckBox.Content, Is.TypeOf<Border>(),
                 "The content of the middle checkbox should be a 'Border' so that a rounded border can be displayed around the inner controls.");
 
             var border = (Border)_kameleonCheckBox.Content;
-            bool borderThicknessIsEqualOnAllSides = IsEqualThicknessOnAllSides(border.BorderThickness, out double borderSize);
+            bool borderThicknessIsEqualOnAllSides =
+                IsEqualThicknessOnAllSides(border.BorderThickness, out double borderSize);
             Assert.That(borderSize, Is.GreaterThan(0.0), "The border must have a thickness.");
-            Assert.That(borderThicknessIsEqualOnAllSides, Is.True, "The border thickness should be the same on all sides.");
+            Assert.That(borderThicknessIsEqualOnAllSides, Is.True,
+                "The border thickness should be the same on all sides.");
 
             Assert.That(border.BorderBrush, Is.Not.Null, "The border must have a brush set.");
-            Assert.That(border.BorderBrush, Is.TypeOf<SolidColorBrush>(), "The border brush must be a 'SolidColorBrush'.");
+            Assert.That(border.BorderBrush, Is.TypeOf<SolidColorBrush>(),
+                "The border brush must be a 'SolidColorBrush'.");
 
             bool borderPaddingIsEqualOnAllSides = IsEqualThicknessOnAllSides(border.Padding, out double paddingSize);
             Assert.That(paddingSize, Is.GreaterThan(0.0), "The border must have some padding.");
@@ -109,7 +121,8 @@ namespace Exercise9.Tests
                 () => "The 'StackPanel' of the middle checkbox should have 2 child controls.");
             var imageControl = contentStackPanel.Children[0] as Image;
             Assert.That(imageControl, Is.Not.Null,
-                () => "The first child control of the 'StackPanel' of the middle checkbox should be an 'Image' control.");
+                () =>
+                    "The first child control of the 'StackPanel' of the middle checkbox should be an 'Image' control.");
             Assert.That(imageControl.Source, Is.Not.Null,
                 () => "The 'Image' must have a (valid) 'Source'.");
 
@@ -142,7 +155,8 @@ namespace Exercise9.Tests
 
             double padRight = Math.Max(leftTextBlock.Padding.Right, leftTextBlock.Margin.Right);
             double padLeft = Math.Max(rightTextBlock.Padding.Left, rightTextBlock.Margin.Left);
-            Assert.That(padLeft > 0 || padRight > 0, Is.True, "There must be some space between the 2 'TextBlock' elements.");
+            Assert.That(padLeft > 0 || padRight > 0, Is.True,
+                "There must be some space between the 2 'TextBlock' elements.");
         }
 
         [MonitoredTest("Should have a checkbox on the bottom with backgrounds"), Order(4)]
@@ -160,9 +174,11 @@ namespace Exercise9.Tests
                 "The 'FontWeight' of the text ('ForeColor') of the bottom checkbox should be bold.");
 
             var backgroundBrush = textBlockControl.Background as LinearGradientBrush;
-            Assert.That(backgroundBrush, Is.Not.Null, () => "The 'Background' property of the TextBlock should be an instance of a 'LinearGradientBrush'.");
-            Assert.That(backgroundBrush.GradientStops.Count, Is.EqualTo(2), () => "The background brush of the TextBlock should have 2 instances of 'GradientStop'. " +
-                                                                                  "There should be a 'GradientStop' for each of the following colors: 'Red', 'Blue'.");
+            Assert.That(backgroundBrush, Is.Not.Null,
+                () => "The 'Background' property of the TextBlock should be an instance of a 'LinearGradientBrush'.");
+            Assert.That(backgroundBrush.GradientStops.Count, Is.EqualTo(2), () =>
+                "The background brush of the TextBlock should have 2 instances of 'GradientStop'. " +
+                "There should be a 'GradientStop' for each of the following colors: 'Red', 'Blue'.");
             double expectedOffset = 0.0;
             for (var index = 0; index < backgroundBrush.GradientStops.Count; index++)
             {
@@ -184,3 +200,4 @@ namespace Exercise9.Tests
             return true;
         }
     }
+}

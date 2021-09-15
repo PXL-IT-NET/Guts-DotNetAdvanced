@@ -8,6 +8,7 @@ using NUnit.Framework;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using Guts.Client.Shared;
 using Guts.Client.Shared.TestTools;
 
@@ -50,6 +51,7 @@ namespace Exercise1.Tests
         [OneTimeTearDown]
         public void TearDown()
         {
+            Dispatcher.CurrentDispatcher.InvokeShutdown();
             _window.Dispose();
         }
 

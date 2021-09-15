@@ -136,12 +136,16 @@ In this exercise you'll have to apply styles on buttons.
 
 Add a style for buttons to your window resources so you can use it on multiple buttons in the window. 
 Add 3 buttons to the window and try to make them resemble the screenshot as good as possible by applying your custom style.
-The background of the buttons should be a circular (radial) gradient. 
-It should alternate 2 colors. The first color starts in the center. Then at 40% the color should be the second color. At the end the gradient should be the first color again.
 
-The middle button should have a bigger font size.
+The foreground of the button style should be a linear gradient. 
+It should show the 7 colors of the rainbow (ROYGBIV: Red, Orange, Yellow, Green, Blue, Indigo, Violet). 
+The first color starts at the top and than transitions in a vertical direction.
 
-The bottom button should be disabled. Notice how a different background is applied when the button is disabled (this is baked in the *Template* of the *Button* control).
+The fontsize of the button style should be at least 20 and the weight should be *Bold*.
+
+The middle button should have a smaller font size.
+
+The bottom button should be disabled. Notice how a different foreground is applied when the button is disabled (this is baked in the *Template* of the *Button* control).
 
 ![Exercise10 Mainwindow](images/exercise10_mainwindow.png)
 

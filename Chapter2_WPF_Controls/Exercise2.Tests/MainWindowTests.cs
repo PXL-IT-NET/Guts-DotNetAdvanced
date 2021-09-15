@@ -3,6 +3,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Threading;
 using Guts.Client.Classic;
 using Guts.Client.Classic.TestTools.WPF;
 using Guts.Client.Shared;
@@ -51,6 +52,7 @@ namespace Exercise2.Tests
         [OneTimeTearDown]
         public void TearDown()
         {
+            Dispatcher.CurrentDispatcher.InvokeShutdown();
             _window.Dispose();
         }
 

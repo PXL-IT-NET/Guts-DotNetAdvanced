@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Exercise13.Tests
 {
@@ -64,6 +65,7 @@ namespace Exercise13.Tests
         public void TearDown()
         {
             _app.Shutdown();
+            Dispatcher.CurrentDispatcher.InvokeShutdown();
             _window.Dispose();
         }
 

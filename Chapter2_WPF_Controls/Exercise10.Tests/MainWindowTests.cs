@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Threading;
 using Guts.Client.Classic;
 using Guts.Client.Classic.TestTools.WPF;
 using Guts.Client.Shared;
@@ -16,10 +18,10 @@ namespace Exercise10.Tests
     public class MainWindowTests
     {
         private TestWindow<MainWindow> _window;
-        private Button _normalButton;
-        private Button _bigButton;
+        private Button _rainbowButton;
+        private Button _smallFontButton;
         private Button _disabledButton;
-        private Style _haloStyle;
+        private Style _rainbowStyle;
 
         [OneTimeSetUp]
         public void Setup()
@@ -34,23 +36,24 @@ namespace Exercise10.Tests
 
             if (allButtons.Count >= 1)
             {
-                _normalButton = allButtons.ElementAt(0);
+                _rainbowButton = allButtons.ElementAt(0);
             }
             if (allButtons.Count >= 2)
             {
-                _bigButton = allButtons.ElementAt(1);
+                _smallFontButton = allButtons.ElementAt(1);
             }
             if (allButtons.Count >= 3)
             {
                 _disabledButton = allButtons.ElementAt(2);
             }
 
-            _haloStyle = _window.Window.Resources.Values.OfType<Style>().FirstOrDefault();
+            _rainbowStyle = _window.Window.Resources.Values.OfType<Style>().FirstOrDefault();
         }
 
         [OneTimeTearDown]
         public void TearDown()
         {
+            Dispatcher.CurrentDispatcher.InvokeShutdown();
             _window.Dispose();
         }
 
@@ -77,50 +80,63 @@ namespace Exercise10.Tests
             AssertHasStyle();
         }
 
-        [MonitoredTest("Should have a style resource that sets the background to a radial gradient brush"), Order(4)]
-        public void _4_ShouldHaveAStyleResourceThatSetsTheBackgroundToARadialGradientBrush()
+        [MonitoredTest("Should have a style resource that sets the foreground to a linear gradient brush"), Order(4)]
+        public void _4_ShouldHaveAStyleResourceThatSetsTheForegroundToALinearGradientBrush()
         {
             AssertHasStyle();
-            GetAndAssertBackgroundSetter();
+            GetAndAssertForegroundSetter();
         }
 
-        [MonitoredTest("Should have a style resource that sets a white foreground"), Order(5)]
-        public void _5_ShouldHaveAStyleResourceThatSetsAWhiteForeground()
+        [MonitoredTest("Should have a style resource that sets the font weight and size"), Order(5)]
+        public void _5_ShouldHaveAStyleResourceThatSetsTheFontWeightAndSize()
         {
             AssertHasStyle();
-            var foregroundSetter = _haloStyle.Setters.OfType<Setter>()
-                .FirstOrDefault(s => s.Property.Name.ToLower() == "foreground");
-            Assert.That(foregroundSetter, Is.Not.Null,
-                () => "No 'Setter' that targets the 'Foreground' property could be found.");
-            Assert.That(foregroundSetter.Value.ToString(), Contains.Substring("FFFFFF").IgnoreCase,
-                () => "The 'Value' of the 'Setter' should be the color 'White'.");
+
+            var fontWeightSetter = _rainbowStyle.Setters.OfType<Setter>()
+                .FirstOrDefault(s => s.Property.Name.ToLower() == "fontweight");
+            Assert.That(fontWeightSetter, Is.Not.Null,
+                "No 'Setter' that targets the 'FontWeight' property could be found.");
+            Assert.That(fontWeightSetter.Value.ToString(), Is.EqualTo("Bold").IgnoreCase,
+                "The 'Value' of the font weight 'Setter' should be 'Bold'.");
+
+            var fontSizeSetter = _rainbowStyle.Setters.OfType<Setter>()
+                .FirstOrDefault(s => s.Property.Name.ToLower() == "fontsize");
+            Assert.That(fontSizeSetter, Is.Not.Null,
+                "No 'Setter' that targets the 'FontSize' property could be found.");
+            int.TryParse(fontSizeSetter.Value.ToString(), out int size);
+            Assert.That(size, Is.GreaterThanOrEqualTo(20), "The 'Value' of the font size 'Setter' is not big enough.");
         }
 
-        [MonitoredTest("Should have the radial gradient brush of the button style correctly defined"), Order(6)]
-        public void _6_ShouldHaveTheRadialGradientBrushCorrectlyDefined()
+        [MonitoredTest("Should have the linear gradient brush of the button style correctly defined"), Order(6)]
+        public void _6_ShouldHaveTheLinearGradientBrushCorrectlyDefined()
         {
             AssertHasStyle();
-            var backgroundSetter = GetAndAssertBackgroundSetter();
-            var brush = (RadialGradientBrush)backgroundSetter.Value;
+            Setter foregroundSetter = GetAndAssertForegroundSetter();
+            var brush = (LinearGradientBrush)foregroundSetter.Value;
 
-            Assert.That(brush.Center.X, Is.EqualTo(0.5),
-                () =>
-                    "Since the gradient should flow from the middle of the button, the X coordinate of the 'Center' should be 0.5.");
-            Assert.That(brush.Center.Y, Is.EqualTo(0.5),
-                () =>
-                    "Since the gradient should flow from the middle of the button, the Y coordinate of the 'Center' should be 0.5.");
+            Assert.That(brush.StartPoint.Y, Is.LessThan(brush.EndPoint.Y),
+                "Since the gradient should flow from the top to the button, the Y coordinate of the 'StartPoint' should be less than the Y coordinate of the 'EndPoint'.");
+            Assert.That(brush.StartPoint.X, Is.EqualTo(brush.EndPoint.X),
+                "Since the gradient should flow from the top to the button, the X coordinate of the 'StartPoint' and 'EndPoint' should be the same.");
 
-            Assert.That(brush.GradientStops, Has.Count.EqualTo(3), () => "The gradient brush should have 3 gradient stops");
-            var firstStop = brush.GradientStops[0];
-            var middleStop = brush.GradientStops[1];
-            var lastStop = brush.GradientStops[2];
-            Assert.That(firstStop.Color, Is.EqualTo(lastStop.Color),
-                () => "The color of the first and last 'GradientStop' should both be the same.");
-            Assert.That(firstStop.Color, Is.Not.EqualTo(middleStop.Color),
-                () => "The color of the middle 'GradientStop' should be different than the first and last stops.");
-            Assert.That(firstStop.Offset, Is.EqualTo(0.0), () => "The first 'GradientStop' should have an 'Offset' of 0.");
-            Assert.That(middleStop.Offset, Is.EqualTo(0.4), () => "The middle 'GradientStop' should have an 'Offset' of 0.4.");
-            Assert.That(lastStop.Offset, Is.EqualTo(1.0), () => "The last 'GradientStop' should have an 'Offset' of 1.0.");
+            Assert.That(brush.GradientStops, Has.Count.EqualTo(7), "The gradient brush should have 7 gradient stops. One for each color of the rainbow.");
+
+            Assert.That(brush.GradientStops.First().Offset, Is.Zero, "The 'Offset' of the first 'GradientStop' must be zero.");
+            var usedColors = new List<Color>();
+            double previousOffset = -0.15;
+            foreach (GradientStop stop in brush.GradientStops)
+            {
+                Assert.That(usedColors, Does.Not.Contain(stop.Color),
+                    $"The color {stop.Color} is used twice. Each 'GradientStop' should have a unique color.");
+                usedColors.Add(stop.Color);
+                Assert.That(stop.Offset, Is.GreaterThanOrEqualTo(0.0),
+                    "The 'Offset' of each 'GradientStop' must be greater than or equal to zero.");
+                Assert.That(stop.Offset, Is.LessThanOrEqualTo(1.0),
+                    "The 'Offset' of each 'GradientStop' must be less than or equal to one.");
+                Assert.That(stop.Offset, Is.EqualTo(previousOffset + 0.15).Within(0.001),
+                    "Each 'GradientStop' should be 15% further than the previous 'GradientStop'.");
+                previousOffset = stop.Offset;
+            }
         }
 
         [MonitoredTest("Should use the defined style for the 3 buttons"), Order(7)]
@@ -128,20 +144,20 @@ namespace Exercise10.Tests
         {
             AssertHasButtons();
             AssertHasStyle();
-            Assert.That(_normalButton.Style, Is.EqualTo(_haloStyle),
+            Assert.That(_rainbowButton.Style, Is.EqualTo(_rainbowStyle),
                 () => "The 'Style' property of the top button is not set correctly.");
-            Assert.That(_bigButton.Style, Is.EqualTo(_haloStyle),
+            Assert.That(_smallFontButton.Style, Is.EqualTo(_rainbowStyle),
                 () => "The 'Style' property of the middle button is not set correctly.");
-            Assert.That(_disabledButton.Style, Is.EqualTo(_haloStyle),
+            Assert.That(_disabledButton.Style, Is.EqualTo(_rainbowStyle),
                 () => "The 'Style' property of the bottom button is not set correctly.");
         }
 
-        [MonitoredTest("Should have a button with a bigger fontsize in the middle"), Order(8)]
-        public void _8_ShouldHaveAButtonWithABiggerFontsizeInTheMiddle()
+        [MonitoredTest("Should have a button with a smaller fontsize in the middle"), Order(8)]
+        public void _8_ShouldHaveAButtonWithASmallerFontsizeInTheMiddle()
         {
             AssertHasButtons();
-            Assert.That(_bigButton.FontSize, Is.GreaterThan(12),
-                () => "The 'FontSize' of the middle button should be bigger. E.g. 22.");
+            Assert.That(_smallFontButton.FontSize, Is.LessThan(20),
+                "The 'FontSize' of the middle button should be smaller than 20.");
         }
 
         [MonitoredTest("Should have a disabled button at the bottom"), Order(9)]
@@ -153,28 +169,28 @@ namespace Exercise10.Tests
 
         private void AssertHasButtons()
         {
-            Assert.That(_normalButton, Is.Not.Null, () => "The button on the top could not be found.");
-            Assert.That(_bigButton, Is.Not.Null, () => "The button in the middle could not be found.");
-            Assert.That(_disabledButton, Is.Not.Null, () => "The button at the bottom could not be found.");
+            Assert.That(_rainbowButton, Is.Not.Null, "The button on the top could not be found.");
+            Assert.That(_smallFontButton, Is.Not.Null, "The button in the middle could not be found.");
+            Assert.That(_disabledButton, Is.Not.Null, "The button at the bottom could not be found.");
         }
 
         private void AssertHasStyle()
         {
-            Assert.That(_haloStyle, Is.Not.Null,
+            Assert.That(_rainbowStyle, Is.Not.Null,
                 () => "The 'Resources' collection of the window should contain an instance of 'Style'.");
-            Assert.That(_haloStyle.TargetType.Name, Is.EqualTo("Button"),
+            Assert.That(_rainbowStyle.TargetType.Name, Is.EqualTo("Button"),
                 () => "A 'Style' instance was found but it does not target buttons ('TargetType').");
         }
 
-        private Setter GetAndAssertBackgroundSetter()
+        private Setter GetAndAssertForegroundSetter()
         {
-            var backgroundSetter = _haloStyle.Setters.OfType<Setter>()
-                .FirstOrDefault(s => s.Property.Name.ToLower() == "background");
-            Assert.That(backgroundSetter, Is.Not.Null,
-                () => "No 'Setter' that targets the 'Background' property could be found.");
-            Assert.That(backgroundSetter.Value, Is.TypeOf<RadialGradientBrush>(),
-                () => "The 'Value' of the 'Setter' should be an instance of 'RadialGradientBrush'.");
-            return backgroundSetter;
+            var foregroundSetter = _rainbowStyle.Setters.OfType<Setter>()
+                .FirstOrDefault(s => s.Property.Name.ToLower() == "foreground");
+            Assert.That(foregroundSetter, Is.Not.Null,
+                () => "No 'Setter' that targets the 'Foreground' property could be found.");
+            Assert.That(foregroundSetter.Value, Is.TypeOf<LinearGradientBrush>(),
+                () => "The 'Value' of the 'Setter' should be an instance of 'LinearGradientBrush'.");
+            return foregroundSetter;
         }
     }
 }
