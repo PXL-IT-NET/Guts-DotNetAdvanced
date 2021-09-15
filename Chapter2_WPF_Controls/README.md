@@ -122,13 +122,12 @@ The window contains a *Grid* that holds 3 checkboxes in a single cell.
 
 The first *CheckBox* is a standard checkbox.
 
-The second *CheckBox* has a *StackPanel* as content. 
-The *StackPanel* shows an image of a kameleon and some bigger, bold text next to it. 
+The second *CheckBox* has a green background and a *Border* with a *StackPanel* as content. 
+The *StackPanel* shows an image of a kameleon and 2 pieces of texts below it. 
 The image can be found in de *Images* folder of the project.
 
-The *CheckBox* at the bottom has a *Yellow* *Background*. 
-The *Content* of the *CheckBox* is some bold, white colored text with a linear gradient brush as background. 
-The gradient brush should be *Red* on the left, *Blue* in the middle and *Green* at the right.
+The *CheckBox* at the bottom contains some bold, white colored text with a linear gradient brush as background. 
+The gradient brush should be *Red* on the left and should be completely *Blue* at 90% to the right.
 
 Do all of this **purely in XAML**. Do not change MainWindow.xaml.cs.
 
