@@ -20,7 +20,7 @@ namespace Exercise11.Tests
     public class MainWindowTests
     {
         private TestWindow<MainWindow> _window;
-        private Button _roundButton;
+        private Button _playButton;
         private ControlTemplate _buttonTemplate;
         private App _app;
 
@@ -31,10 +31,10 @@ namespace Exercise11.Tests
             _app.InitializeComponent(); //parses the app.xaml and loads the resources
 
             _window = new TestWindow<MainWindow>();
-            _roundButton = _window.GetUIElements<Button>().FirstOrDefault();
-            if (_roundButton != null)
+            _playButton = _window.GetUIElements<Button>().FirstOrDefault();
+            if (_playButton != null)
             {
-                _buttonTemplate = _roundButton.Template;
+                _buttonTemplate = _playButton.Template;
             }
         }
 
@@ -67,94 +67,63 @@ namespace Exercise11.Tests
         {
             AssertHasButtonWithCustomTemplate();
 
-            var grid = GetAndAssertGrid();
-            Assert.That(double.IsNaN(grid.Width), Is.True, () => "The 'Grid' should not have a fixed 'Width'.");
-            Assert.That(double.IsNaN(grid.Height), Is.True, () => "The 'Grid' should not have a fixed 'Height'.");
+            Grid grid = GetAndAssertGrid();
 
-            var triangle = GetAndAssertTriangle(grid);
-            Assert.That(triangle.Fill.ToString(), Contains.Substring("D3D3D3").IgnoreCase, "The 'Fill' of the 'Polygon' should be 'LightGray'.");
+            Polygon triangle = GetAndAssertTriangle(grid);
+            Assert.That(triangle.Fill.ToString(), Contains.Substring("008000").IgnoreCase, "The 'Fill' of the 'Polygon' should be 'Green'.");
             Assert.That(triangle.Stretch, Is.EqualTo(Stretch.Fill), "The 'Polygon' should 'Stretch' to 'Fill' the available space.");
+            Assert.That(triangle.Margin.Left > 0
+                        && triangle.Margin.Top > 0
+                        && triangle.Margin.Right > 0
+                        && triangle.Margin.Bottom > 0, Is.True, "The 'Polygon' should have a margin on all sides so that is does not touch the edges of the 'Grid'.");
 
             var points = triangle.Points;
             Assert.That(points, Has.Count.EqualTo(3), "The 'Polygon' should contain 3 'Points'.");
-            var orderdPoints = points.OrderBy(p => p.X).ToList();
-            Assert.That(orderdPoints[0].X, Is.EqualTo(0),
+            var orderedPoints = points.OrderBy(p => p.Y).ToList();
+            Assert.That(orderedPoints[0].X, Is.EqualTo(0),
+                "The top left point of the triangle should have an X value of 0.");
+            Assert.That(orderedPoints[0].Y, Is.EqualTo(0),
+                "The top left point of the triangle should have an Y value of 0.");
+            Assert.That(orderedPoints[1].X, Is.EqualTo(orderedPoints[2].Y),
+                "The right point of the triangle should as far right (X) as the distance from the top to the bottom left point (Y)");
+            Assert.That(orderedPoints[1].Y, Is.EqualTo(orderedPoints[2].Y / 2.0),
+                "The right point of the triangle should have an Y value that is in the middle.");
+            Assert.That(orderedPoints[2].X, Is.EqualTo(0),
                 "The bottom left point of the triangle should have an X value of 0.");
-            Assert.That(orderdPoints[0].Y, Is.GreaterThan(0),
-                "The bottom left point of the triangle should have an Y value greather than 0.");
-            Assert.That(orderdPoints[0].Y, Is.EqualTo(orderdPoints[2].Y),
-                "The bottom left point of the triangle should have the same Y value as the bottom right point.");
-            Assert.That(orderdPoints[1].X, Is.EqualTo((orderdPoints[2].X - orderdPoints[0].X) / 2.0),
-                "The top middle point of the triangle should have an X value that is in the middle.");
-            Assert.That(orderdPoints[1].Y, Is.EqualTo(0),
-                "The top middle point of the triangle should have an Y value of 0.");
 
             Assert.That(triangle.Parent, Is.SameAs(grid),
                 () => "The triangle must be a direct child of the 'Grid'.");
 
             var contentPresenter = grid.FindVisualChildren<ContentPresenter>().FirstOrDefault();
-            Assert.That(contentPresenter, Is.Not.Null, () => "The 'Grid' control should contain an instance of 'ContentPresenter'. " +
-                                                             "This is the placeholder for the content of the button. " +
-                                                             "When the 'Content' of a 'Button' with this template is normal text, WPF will put a 'TextBlock' here.");
-            Assert.That(contentPresenter.HorizontalAlignment, Is.EqualTo(HorizontalAlignment.Center),
-                () =>
-                    "The 'HorizontalAlignment' of the 'ContentPresenter' should be 'Center' " +
-                    "so that content is placed in the middle of the button");
-            Assert.That(contentPresenter.VerticalAlignment, Is.EqualTo(VerticalAlignment.Bottom),
-                () =>
-                    "The 'VerticalAlignment' of the 'ContentPresenter' should be 'Bottom' " +
-                    "so that content is placed in the middle of the button");
+            Assert.That(contentPresenter, Is.Not.Null,
+                "The 'Grid' control should contain an instance of 'ContentPresenter'. " +
+                "This is the placeholder for the content of the button. " +
+                "When the 'Content' of a 'Button' with this template is normal text, WPF will put a 'TextBlock' here.");
+            Assert.That(contentPresenter.HorizontalAlignment, Is.EqualTo(HorizontalAlignment.Left),
+                "The 'HorizontalAlignment' of the 'ContentPresenter' should be 'Left' " +
+                "so that content is placed in the left part of the button");
+            Assert.That(contentPresenter.VerticalAlignment, Is.EqualTo(VerticalAlignment.Center),
+                "The 'VerticalAlignment' of the 'ContentPresenter' should be 'Center' " +
+                "so that content is placed in the middle part of the button");
 
-            Assert.That(contentPresenter.Margin.Bottom, Is.GreaterThan(0), "The 'ContentPresenter' must have some 'Margin' at the bottom.");
+            Assert.That(contentPresenter.Margin.Left, Is.GreaterThan(0), "The 'ContentPresenter' must have some 'Margin' at the left.");
         }
 
-        [MonitoredTest("The button should rotate once when clicked"), Order(4)]
-        public void _4_TheButtonShouldRotateWhenClicked()
+        [MonitoredTest("The button should have a big white font set"), Order(4)]
+        public void _4_TheButtonShouldHaveABigWhiteFontSet()
         {
             AssertHasButtonWithCustomTemplate();
 
-            var grid = GetAndAssertGrid();
-            var rotateTransform = grid.RenderTransform as RotateTransform;
-            Assert.That(rotateTransform, Is.Not.Null, "The 'RenderTransform' of the 'Grid' should be set to an instance of 'RotateTransform'.");
-
-            Assert.That(grid.RenderTransformOrigin.X, Is.EqualTo(0.5), "The 'RenderTransformOrigin' of the 'Grid' should be in the center (0.5,0.5).");
-            Assert.That(grid.RenderTransformOrigin.Y, Is.EqualTo(0.5), "The 'RenderTransformOrigin' of the 'Grid' should be in the center (0.5,0.5).");
-
-            var clickEventTrigger = _buttonTemplate.Triggers.OfType<EventTrigger>().FirstOrDefault(trigger => trigger.RoutedEvent.Name == "Click");
-            Assert.That(clickEventTrigger, Is.Not.Null,
-                () =>
-                    "No 'EventTrigger' with 'RoutedEvent' 'Button.Click' could be found in the 'Triggers' collection of the template.");
-
-            var beginStoryBoard = clickEventTrigger.Actions.OfType<BeginStoryboard>().FirstOrDefault();
-            Assert.That(beginStoryBoard, Is.Not.Null, "The 'EventTrigger' should contain a 'BeginStoryboard' instance.");
-
-            var storyboard = beginStoryBoard.Storyboard;
-            Assert.That(storyboard, Is.Not.Null,
-                "The 'BeginStoryboard' instance should contain a 'Storyboard' instance.");
-
-            var doubleAnimation = storyboard.Children.OfType<DoubleAnimation>().FirstOrDefault();
-            Assert.That(doubleAnimation, Is.Not.Null, "the 'Storyboard' instance should contain a 'DoubleAnimation' instance.");
-
-            var targetName = Storyboard.GetTargetName(doubleAnimation);
-            Assert.That(targetName, Is.Not.Null.And.Not.Empty, "The 'StoryBoard.TargetName' attached property should be set for the 'DoubleAnimation'.");
-
-            rotateTransform = _buttonTemplate.FindName(targetName, _roundButton) as RotateTransform;
-            Assert.That(rotateTransform, Is.Not.Null,
-                $"Cannot find a 'RotateTransform' with the name {targetName}. " +
-                "You should name the 'RotateTransfrom' so that it can be animated.");
-
-            var angleProperty = Storyboard.GetTargetProperty(doubleAnimation);
-            Assert.That(angleProperty.Path, Is.EqualTo("Angle"), "The 'StoryBoard.TargetProperty' attached property should be set to 'Angle' for the 'DoubleAnimation'.");
-
-            Assert.That(doubleAnimation.From, Is.EqualTo(0.0), "The animation should start 'From' 0.0 degrees.");
-            Assert.That(doubleAnimation.To, Is.EqualTo(360.0), "The animation should go 'To' 360.0 degrees.");
-            Assert.That(doubleAnimation.Duration.TimeSpan.TotalMilliseconds, Is.EqualTo(250), "The 'Duration' of the animation should be 250 milliseconds.");
-            Assert.That(doubleAnimation.RepeatBehavior.Count, Is.EqualTo(1), "The animation should not repeat.");
+            Assert.That(_playButton.FontWeight, Is.EqualTo(FontWeights.Bold), "The 'FontWeight' of the 'Button' should be 'Bold'.");
+            var foregroundBrush = _playButton.Foreground as SolidColorBrush;
+            Assert.That(foregroundBrush, Is.Not.Null, "The 'Foreground' of the 'Button' must be a solid color.");
+            Assert.That(foregroundBrush.Color.ToString(), Contains.Substring("FFFFFF").IgnoreCase, "The 'Foreground' of the 'Button' should be 'White'.");
+            Assert.That(_playButton.FontSize, Is.GreaterThanOrEqualTo(20), "The 'FontSize' of the 'Button' must be at least 20.");
         }
 
         private void AssertHasButtonWithCustomTemplate()
         {
-            Assert.That(_roundButton, Is.Not.Null, () => "No 'Button' control could be found.");
+            Assert.That(_playButton, Is.Not.Null, () => "No 'Button' control could be found.");
 
             var customTemplate = _app.Resources.Values.OfType<ControlTemplate>().FirstOrDefault();
             Assert.That(customTemplate, Is.Not.Null,
@@ -174,12 +143,31 @@ namespace Exercise11.Tests
             return triangle;
         }
 
-        private Grid GetAndAssertGrid()
+        private Border GetAndAssertBorder()
         {
-            var grid = _buttonTemplate.LoadContent() as Grid;
-            Assert.That(grid, Is.Not.Null, () => "The 'Content' of the 'ControlTemplate' should be a grid");
-            return grid;
+            var border = _buttonTemplate.LoadContent() as Border;
+            Assert.That(border, Is.Not.Null, "The 'Content' of the 'ControlTemplate' should be a 'Border'.");
+            Assert.That(border.Background, Is.Null, "The 'Border' should not have a background.");
+            Assert.That(border.BorderBrush, Is.TypeOf<SolidColorBrush>(), "The 'BorderBrush' should be a solid color.");
+            Assert.That(border.BorderThickness.Right > 0
+                        && border.BorderThickness.Bottom > 0
+                        && border.BorderThickness.Left > 0
+                        && border.BorderThickness.Top > 0, Is.True, "The 'Border' should have a thickness on all sides.");
+            Assert.That(border.CornerRadius.TopLeft > 0
+                        && border.CornerRadius.TopRight > 0
+                        && border.CornerRadius.BottomRight > 0
+                        && border.CornerRadius.BottomLeft > 0, Is.True, "The 'Border' should have a corner radius on all sides.");
+            return border;
         }
 
+        private Grid GetAndAssertGrid()
+        {
+            var border = GetAndAssertBorder();
+            var grid = border.Child as Grid;
+            Assert.That(grid, Is.Not.Null, "The 'Child' of the 'Border' should be a 'Grid'.");
+            Assert.That(double.IsNaN(grid.Width), Is.True, () => "The 'Grid' should not have a fixed 'Width'.");
+            Assert.That(double.IsNaN(grid.Height), Is.True, () => "The 'Grid' should not have a fixed 'Height'.");
+            return grid;
+        }
     }
 }

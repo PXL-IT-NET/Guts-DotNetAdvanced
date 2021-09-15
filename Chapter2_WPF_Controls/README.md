@@ -152,21 +152,21 @@ The bottom button should be disabled. Notice how a different foreground is appli
 Do all of this **purely in XAML**. Do not change MainWindow.xaml.cs.
 
 ## Exercise 11
-Create a triangle button like in the screenshot below:
+Create a play button like in the screenshot below:
 
-![Exercise11 Mainwindow](images/exercise11_mainwindow.gif)
+![Exercise11 Mainwindow](images/exercise11_mainwindow.png)
 
 To achieve this you need to create a custom template for button controls. 
-Define this template as an application resource so that you can have triangle buttons in all future windows of the application. 
+Define this template as an application resource so that you can have play buttons in all future windows of the application. 
 
-The content of the template should be a grid with one cell that holds a *Polygon* (the triangle) and a *ContentPresenter*. 
-The color of the *Polygon* should be *LightGray*.
+The content of the template should be a border with a grid with one cell that holds a *Polygon* (the triangle) and a *ContentPresenter*. 
+The color of the *Polygon* and the *Border *should be *Green*. The color of the *Grid* should be *LightGreen*. 
 Define the *Points* of the *Polygon* as if the triangle should be in a square with the top left corner at position (0.0, 0.0) and the bottom right corner at position (1.0, 1.0). 
 Set the 'Stretch' property of the *Polygon* to fill the available space of the grid cell.
-Position the *ContentPresenter* in the horizontal center and the vertical bottom of the grid cell (this is where the *Content* of the triangle buttons will be placed). 
-Use some *Margin* to have a little bit of space between the bottom and the content.
+Position the *ContentPresenter* in the horizontal left and the vertical center of the grid cell (this is where the *Content* of the triangle buttons will be placed). 
+Use some *Margin* where needed.
 
-When the button is clicked the *Grid* (and the triangle inside it) should do one clockwise rotation in 250 milliseconds. 
+The *Button* that uses the template, should have a big white font set for its content (*Play*).
 
 Do all of this **purely in XAML**. Do not change MainWindow.xaml.cs.
 
