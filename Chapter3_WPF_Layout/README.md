@@ -55,12 +55,18 @@ Use XAML to create the window that looks as much as possible like this:
 
 ![Exercise3 Main Window](images/Exercise3_MainWindow.png)
 
-Use a Canvas as layout containesr.
+Use a Canvas as layout container.
 
-Pay attention to the order of the ellipses.
-The Top margin of the Blue, Black and Red ellipses is 25 pixels, The Top margin of the Yellow and Green ellipses is 75.
-The Left margin of the Blue ellipse is 25 pixels.
-The Height and the Width of each ellipse is 150 pixels.
+Pay attention to the order of the shapes: from the top down:
+
+Red Ellipse: top margin: 80 - left margin: 180 - diamter: 70
+Blue Rectangle: top margin: 100 - left margin: 100 - width: 100
+Yellow Rectangle: top margin: 150 - left margin: 150 - width: 100
+Black Rectangle: top margin: 200 - left margin: 200 - width: 100
+Black Rectangle: top margin: 300 - left margin: 200: width: 100
+Red Ellipse: top margin: 150 - left margin: 150 - diameter 150
+Yellow Rectangle: top margin: 350 - left margin: 150 - width: 100
+Blue Rectangle: top margin: 400 - left margin: 100 - width: 100
 
 ## Exercise 4
 Use XAML to create the window that looks as much as possible like this:
