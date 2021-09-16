@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{43BDCE2F-2300-4DF9-958F-DE4C75E5F8A0}</ProjectGuid>
+    <ProjectGuid>{1F312A6B-AE76-45CE-8DBE-A027D3BEC3B3}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Exercise3</RootNamespace>
     <AssemblyName>Exercise3</AssemblyName>
@@ -53,6 +53,7 @@
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
