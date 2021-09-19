@@ -104,6 +104,8 @@ When you click the Grid Button, a window that looks like this, will appear:
 ![Exercise5 GridWindow](images/Exercise5_GridWindow.png)
 ![Exercise5 GridWindow_2](images/Exercise5_GridWindow.png)
 
+The Grid should have 4 rows and 4 columns.
+
 At the top of the Windows, there should be a stackPanel with 2 textblocks and textboxes, so you can enter the number of a row and a column. 
 When you click the 'Apply' button, in the cell on the grid (with the cell and column number you entered), a button (with a lightgreen background) will be added.
 The text 'Row <row>, Column <column>' will be shown on the button.
@@ -113,7 +115,31 @@ When you click the Stackpanel Button (on the MainWindow), a window that looks li
  
 At the top of the Window there should be a stackpanel with 2 radio buttons. When clicking the radio buttons, you can change the orientation of the stackpanel.
  
+ The StackPanel contains 2 buttons. The first button contains an image (you can choose your colours and image of your favorite team :-)
  
+When you click the WrapPanel Button (on the Mainwindow), a window that looks like the screenshot, should appear:
+ ![Exercise5 WrapPanel Window](images/Exercise5_WrapPanelWindow.png)
+ 
+ At the top of the Window there should be a stackpanel with 2 radio buttons. When clicking the radio buttons, you can change the orientation of the wrappanel.
 
-
-The Grid should have 4 rows and 4 columns
+ Add the ellipses to the wrappanel with the correct colors and dimensions:
+ - Red - width/heigt: 100 pixels
+ - Orange - width/heigt: 90 pixels
+ - Yellow - width/heigt: 80 pixels
+ - Lightgreen - width/heigt: 70 pixels
+ - Green - width/heigt: 60 pixels
+ - Lightblue - width/heigt: 50 pixels
+ - Blue - width/heigt: 40 pixels
+ - Black - width/heigt: 30 pixels
+ 
+ When you click the DockPanel Button (on the MainWindow), a window that looks like the screenshot, should appear
+ ![Exercise5 DockPanel Window](images/Exercise5_DockPanelWindow.png)
+ ![Exercise5 DockPanel Window](images/Exercise5_DockPanelWindow_Right.png)
+ ![Exercise5 DockPanel Window](images/Exercise5_DockPanelWindow_Bottom.png)
+ 
+ Position the buttons on the right position inside the DockPanel. All margins of the buttons should be 5. 
+ The buttons have a height of 30 pixels and a width of 80 pixels. 
+ 
+ When you click on one of the buttons, the image has to rotate. Tip: use the RenderTransform property.
+ 
+ 
