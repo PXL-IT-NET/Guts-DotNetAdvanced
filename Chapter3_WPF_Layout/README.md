@@ -98,7 +98,7 @@ You have to use labels in the Grid columns to add the colors in the correct orde
 Use XAML to create the winows that look as much as possible like the screenshots.
 
 Create a MainWindow with 4 buttons that looks like this:
-![Exercise5 Main Window](images/Exercise5_MainWindow.png)
+![Exercise5 Main Window](images/Exercise5_MainWindow.PNG)
 
 When you click the Grid Button, a window that looks like this, will appear:
 ![Exercise5 GridWindow](images/Exercise5_GridWindow.png)
