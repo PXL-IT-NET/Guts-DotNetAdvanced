@@ -102,7 +102,7 @@ Create a MainWindow with 4 buttons that looks like this:
 
 When you click the Grid Button, a window that looks like this, will appear:
 ![Exercise5 GridWindow](images/Exercise5_GridWindow.PNG)
-![Exercise5 GridWindow_2](images/Exercise5_GridWindow.PNG)
+![Exercise5 GridWindow_2](images/Exercise5_GridWindow_2.PNG)
 
 The Grid should have 4 rows and 4 columns.
 
