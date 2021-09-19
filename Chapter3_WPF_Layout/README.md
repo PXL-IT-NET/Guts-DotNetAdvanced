@@ -93,3 +93,27 @@ You have to use labels in the Grid columns to add the colors in the correct orde
 [img_mainwindow_normal]:images/MainWindow_normal.png "Normal"
 [img_mainwindow_wide]:images/MainWindow_wide.png "Wide"
 [img_mainwindow_thin]:images/MainWindow_thin.png "Thin"
+
+## Exercise 5
+Use XAML to create the winows that look as much as possible like the screenshots.
+
+Create a MainWindow with 4 buttons that looks like this:
+![Exercise5 Main Window](images/Exercise5_MainWindow.png)
+
+When you click the Grid Button, a window that looks like this, will appear:
+![Exercise5 GridWindow](images/Exercise5_GridWindow.png)
+![Exercise5 GridWindow_2](images/Exercise5_GridWindow.png)
+
+At the top of the Windows, there should be a stackPanel with 2 textblocks and textboxes, so you can enter the number of a row and a column. 
+When you click the 'Apply' button, in the cell on the grid (with the cell and column number you entered), a button (with a lightgreen background) will be added.
+The text 'Row <row>, Column <column>' will be shown on the button.
+
+When you click the Stackpanel Button (on the MainWindow), a window that looks like this, should appear:
+![Exercise5 StackPanel Window](images/Exercise5_StackPanelWindow.png)
+ 
+At the top of the Window there should be a stackpanel with 2 radio buttons. When clicking the radio buttons, you can change the orientation of the stackpanel.
+ 
+ 
+
+
+The Grid should have 4 rows and 4 columns
