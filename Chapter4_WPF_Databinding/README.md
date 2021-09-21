@@ -67,4 +67,5 @@ The (empty) converter class *Boolean2VisibilityConverter* is already present in 
 
 ## Exercise 5
 In this exercise you will create a window that shows a slider, a TextBox and a TextBlock.
+
 ![Main Window](images/MainWindow_exercise5.png)
