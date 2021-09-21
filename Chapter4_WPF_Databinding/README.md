@@ -69,3 +69,9 @@ The (empty) converter class *Boolean2VisibilityConverter* is already present in 
 In this exercise you will create a window that shows a slider, a TextBox and a TextBlock.
 
 ![Main Window](images/MainWindow_exercise5.png)
+![Main Window](images/MainWindow_exercise5b.png)
+
+In the TextBox, the value of the slider will be shown. When you change the slider's value, this will be visible in this TextBox.
+When you change the value in the TextBox, the value of the slider will change too.
+
+The value, choosen by the slider or entered in the TextBox, will be used as FontSize of the bottom TextBlock.
