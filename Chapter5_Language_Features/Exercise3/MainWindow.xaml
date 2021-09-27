@@ -1,0 +1,55 @@
+﻿<Window x:Class="Exercise3.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Exercise3"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="500">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackPanel Margin="5">
+            <Border Background="RosyBrown" CornerRadius="4" Padding="4" Margin="4">
+                <TextBlock FontSize="18" FontWeight="Bold" Foreground="White" TextAlignment="Center">Take an order</TextBlock>
+            </Border>
+            <StackPanel Orientation="Horizontal">
+                <Label Target="{Binding ElementName=NumberOfBurgersTextBox}" Margin="0 0 8 0">_Number of burgers</Label>
+                <TextBox x:Name="NumberOfBurgersTextBox" Width="50" Text="1"></TextBox>
+            </StackPanel>
+            <Button x:Name="PlaceOderButton" Content="Place order" HorizontalAlignment="Left" Margin="8" Padding="4" Click="PlaceOderButton_Click" />
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Margin="8">
+            <ListView ItemsSource="{Binding Path=Orders, Mode=OneWay}" MinHeight="100" MaxHeight="350" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="RosyBrown" CornerRadius="4" Padding="4" Margin="4">
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Number}" Foreground="White" FontWeight="Bold"></TextBlock>
+                                    <TextBlock Text=" - " Foreground="White"></TextBlock>
+                                    <TextBlock Text="{Binding NumberOfBurgers}" Foreground="White"></TextBlock>
+                                    <TextBlock Text=" burgers" Foreground="White"></TextBlock>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0 4 0 0">
+                                    <TextBlock Text="Started" Foreground="White"></TextBlock>
+                                    <CheckBox IsChecked="{Binding IsStarted}" Margin="8 0 0 0"></CheckBox>
+                                    <TextBlock Text=" - " Foreground="White"></TextBlock>
+                                    <TextBlock Text="Completed" Foreground="White"></TextBlock>
+                                    <CheckBox IsChecked="{Binding IsCompleted}" Margin="8 0 0 0"></CheckBox>
+                                </StackPanel>
+                            </StackPanel>
+
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button x:Name="RemoveCompletedOrdersButton" Content="Remove completed orders" Margin="8" Padding="4" Click="RemoveCompletedOrdersButton_Click"/>
+        </StackPanel>
+
+
+    </Grid>
+</Window>
