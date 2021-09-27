@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Exercise3
+namespace Exercise5
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -23,8 +23,6 @@ namespace Exercise3
         public MainWindow()
         {
             InitializeComponent();
-        }
-
- 
+        } 
     }
 }

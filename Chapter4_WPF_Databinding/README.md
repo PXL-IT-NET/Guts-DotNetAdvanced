@@ -37,7 +37,7 @@ Het overzicht van games moet getoond worden met ee *ListView* met 2 kolommen:
 * Een kolom met als hoofding **Description**. Deze kolom krijgt een vaste breedte. 
 
 De rijen in de *ListView* worden gekoppeld aan een collectie van *Game* objecten. 
-De initiële games worden in de codebehind geladen. Maak hierbij gebruik van de *GetDummyGames* methode. 
+De initiÃ«le games worden in de codebehind geladen. Maak hierbij gebruik van de *GetDummyGames* methode. 
 Zorg ervoor met behulp van databinding dat de juiste waarden in de rijen getoon worden. 
 Voor de *Description* moet je ervoor zorgen dat de (lange) tekst gewrapped wordt in de beschikbare ruimte (breedte) van de kolom. Tip: definieer een eigen *CellTemplate* voor de *Description* kolom.
 
@@ -65,6 +65,13 @@ When you click the 'Toegepaste informatica' radio button, the *WebBrowser* at th
 Use a converter to do this. The name of the converter should give you enough information to know what code you have to write.
 The (empty) converter class *Boolean2VisibilityConverter* is already present in the code  (*Converters\Boolean2VisibilityConvert.cs*);
 
+## Exercise 5
+In this exercise you will create a window that shows a slider, a TextBox and a TextBlock.
 
+![Main Window](images/MainWindow_exercise5.png)
+![Main Window](images/MainWindow_exercise5b.png)
 
+In the TextBox, the value of the slider will be shown. When you change the slider's value, this will be visible in this TextBox.
+When you change the value in the TextBox, the value of the slider will change too.
 
+The value, choosen by the slider or entered in the TextBox, will be used as FontSize of the bottom TextBlock.

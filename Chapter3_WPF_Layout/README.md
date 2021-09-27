@@ -55,12 +55,25 @@ Use XAML to create the window that looks as much as possible like this:
 
 ![Exercise3 Main Window](images/Exercise3_MainWindow.png)
 
-Use a Canvas as layout containesr.
+Use a Canvas as layout container.
 
-Pay attention to the order of the ellipses.
-The Top margin of the Blue, Black and Red ellipses is 25 pixels, The Top margin of the Yellow and Green ellipses is 75.
-The Left margin of the Blue ellipse is 25 pixels.
-The Height and the Width of each ellipse is 150 pixels.
+Pay attention to the order of the shapes: from the top down:
+
+Red Ellipse: top margin: 80 - left margin: 180 - diamter: 70
+
+Blue Rectangle: top margin: 100 - left margin: 100 - width: 100
+
+Yellow Rectangle: top margin: 150 - left margin: 150 - width: 100
+
+Black Rectangle: top margin: 200 - left margin: 200 - width: 100
+
+Black Rectangle: top margin: 300 - left margin: 200: width: 100
+
+Red Ellipse: top margin: 150 - left margin: 150 - diameter 150
+
+Yellow Rectangle: top margin: 350 - left margin: 150 - width: 100
+
+Blue Rectangle: top margin: 400 - left margin: 100 - width: 100
 
 ## Exercise 4
 Use XAML to create the window that looks as much as possible like this:
@@ -80,3 +93,53 @@ You have to use labels in the Grid columns to add the colors in the correct orde
 [img_mainwindow_normal]:images/MainWindow_normal.png "Normal"
 [img_mainwindow_wide]:images/MainWindow_wide.png "Wide"
 [img_mainwindow_thin]:images/MainWindow_thin.png "Thin"
+
+## Exercise 5
+Use XAML to create the winows that look as much as possible like the screenshots.
+
+Create a MainWindow with 4 buttons that looks like this:
+![Exercise5 Main Window](images/Exercise5_MainWindow.PNG)
+
+When you click the Grid Button, a window that looks like this, will appear:
+![Exercise5 GridWindow](images/Exercise5_GridWindow.PNG)
+![Exercise5 GridWindow_2](images/Exercise5_GridWindow_2.PNG)
+
+The Grid should have 4 rows and 4 columns.
+
+At the top of the Windows, there should be a stackPanel with 2 textblocks and textboxes, so you can enter the number of a row and a column. 
+When you click the 'Apply' button, in the cell on the grid (with the cell and column number you entered), a button (with a lightgreen background) will be added.
+The text 'Row <row>, Column <column>' will be shown on the button.
+
+When you click the Stackpanel Button (on the MainWindow), a window that looks like this, should appear:
+![Exercise5 StackPanel Window](images/Exercise5_StackPanelWindow.PNG)
+ 
+At the top of the Window there should be a stackpanel with 2 radio buttons. When clicking the radio buttons, you can change the orientation of the stackpanel.
+ 
+ The StackPanel contains 2 buttons. The first button contains an image (you can choose your colours and image of your favorite team :-)
+ 
+When you click the WrapPanel Button (on the Mainwindow), a window that looks like the screenshot, should appear:
+ ![Exercise5 WrapPanel Window](images/Exercise5_WrapPanelWindow.PNG)
+ 
+ At the top of the Window there should be a stackpanel with 2 radio buttons. When clicking the radio buttons, you can change the orientation of the wrappanel.
+
+ Add the ellipses to the wrappanel with the correct colors and dimensions:
+ - Red - width/heigt: 100 pixels
+ - Orange - width/heigt: 90 pixels
+ - Yellow - width/heigt: 80 pixels
+ - Lightgreen - width/heigt: 70 pixels
+ - Green - width/heigt: 60 pixels
+ - Lightblue - width/heigt: 50 pixels
+ - Blue - width/heigt: 40 pixels
+ - Black - width/heigt: 30 pixels
+ 
+ When you click the DockPanel Button (on the MainWindow), a window that looks like the screenshot, should appear
+ ![Exercise5 DockPanel Window](images/Exercise5_DockPanelWindow.PNG)
+ ![Exercise5 DockPanel Window](images/Exercise5_DockPanelWindow_Right.PNG)
+ ![Exercise5 DockPanel Window](images/Exercise5_DockPanelWindow_Bottom.PNG)
+ 
+ Position the buttons on the right position inside the DockPanel. All margins of the buttons should be 5. 
+ The buttons have a height of 30 pixels and a width of 80 pixels. 
+ 
+ When you click on one of the buttons, the image has to rotate. Tip: use the RenderTransform property.
+ 
+ 
