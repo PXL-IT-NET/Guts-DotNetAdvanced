@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Threading;
+using Guts.Client.Classic;
 using Guts.Client.Classic.TestTools.WPF;
 using Guts.Client.Shared;
-using Guts.Client.Shared.TestTools;
 using NUnit.Framework;
 
 namespace Exercise5.Tests
 {
-    //[ExerciseTestFixture("dotnet2", "H03", "Exercise05", @"Exercise5\MainWindow.xaml")]
-    [TestFixture]
+    [ExerciseTestFixture("dotnet2", "H03", "Exercise05", @"Exercise5\MainWindow.xaml;Exercise5\MainWindow.xaml.cs")]
     [Apartment(ApartmentState.STA)]
     public class MainWindowTests
     {
@@ -36,13 +31,11 @@ namespace Exercise5.Tests
         [OneTimeTearDown]
         public void TearDown()
         {
-            Dispatcher.CurrentDispatcher.InvokeShutdown();
             _window.Dispose();
         }
 
-
         private bool VerifyClickEventHandler(object objectWithEvent, string eventName)
-        { 
+        {
             var eventStore = objectWithEvent.GetType()
             .GetProperty("EventHandlersStore", BindingFlags.Instance | BindingFlags.NonPublic)
             .GetValue(objectWithEvent, null);
@@ -60,22 +53,21 @@ namespace Exercise5.Tests
             return false;
         }
 
-        [MonitoredTest("Buttons should have Click event handlers"), Order(2)]
-        public void _02_ButtonsShouldHaveClickEventHandlers()
+        [MonitoredTest("MainWindow - Buttons should have Click event handlers"), Order(1)]
+        public void _01_ButtonsShouldHaveClickEventHandlers()
         {
-            Assert.That(_allButtons.All(button => VerifyClickEventHandler(button, "Click")), Is.True, "All buttons should have a click event handler.");            
+            Assert.That(_allButtons.Count, Is.EqualTo(4), "There should be 4 buttons");
+            Assert.That(_allButtons.All(button => VerifyClickEventHandler(button, "Click")), Is.True, "All buttons should have a click event handler.");
         }
 
-        [MonitoredTest("Should have a grid with 4 cells containing a Button"), Order(3)]
-        public void _03_ShouldHaveAGridWith4CellsContainingAButton()
+        [MonitoredTest("MainWindow - Should have a grid with 4 cells containing a Button"), Order(2)]
+        public void _02_ShouldHaveAGridWith4CellsContainingAButton()
         {
             AssertGridHas4Cells();
         }
 
-
-
-        [MonitoredTest("The grid should have the correct element in each cell"), Order(4)]
-        public void _04_TheGridShouldHaveTheCorrectElementInEachCell()
+        [MonitoredTest("MainWindow - The grid should have the correct element in each cell"), Order(3)]
+        public void _03_TheGridShouldHaveTheCorrectElementInEachCell()
         {
             AssertGridHas4Cells();
 
@@ -85,8 +77,6 @@ namespace Exercise5.Tests
             AssertCellHasControl<Button>(1, 0);
             AssertCellHasControl<Button>(1, 1);
         }
-
-      
 
         private void AssertHasOuterGrid()
         {
@@ -102,7 +92,7 @@ namespace Exercise5.Tests
 
             var type = typeof(T);
             Assert.That(control, Is.Not.Null, $"No {type.Name} found in cell ({row},{column}).");
-        }      
+        }
 
         private void AssertGridHas4Cells()
         {
@@ -111,6 +101,5 @@ namespace Exercise5.Tests
             Assert.That(_grid.RowDefinitions, Has.Count.EqualTo(2), () => "The 'Grid' should have 2 rows defined.");
             Assert.That(_grid.ColumnDefinitions, Has.Count.EqualTo(2), () => "The 'Grid' should have 2 columns defined.");
         }
-
     }
 }

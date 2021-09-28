@@ -5,6 +5,7 @@ using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using Guts.Client.Classic;
 using Guts.Client.Classic.TestTools.WPF;
 using Guts.Client.Shared;
@@ -13,8 +14,7 @@ using NUnit.Framework;
 
 namespace Exercise3.Tests
 {
-    //[ExerciseTestFixture("dotnet2", "H03", "Exercise03", @"Exercise3\MainWindow.xaml")]
-    [TestFixture]
+    [ExerciseTestFixture("dotnet2", "H03", "Exercise03", @"Exercise3\MainWindow.xaml")]
     [Apartment(ApartmentState.STA)]
     public class MainWindowTests
     {
@@ -35,6 +35,7 @@ namespace Exercise3.Tests
         [OneTimeTearDown]
         public void TearDown()
         {
+            Dispatcher.CurrentDispatcher.InvokeShutdown();
             _window.Dispose();
         }
 

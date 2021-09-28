@@ -71,6 +71,7 @@
     <Compile Include="GridWindowTests.cs" />
     <Compile Include="MainWindowTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Setup.cs" />
     <Compile Include="StackPanelWindowTests.cs" />
     <Compile Include="WrapPanelWindowTests.cs" />
   </ItemGroup>

@@ -134,12 +134,8 @@ When you click the WrapPanel Button (on the Mainwindow), a window that looks lik
  
  When you click the DockPanel Button (on the MainWindow), a window that looks like the screenshot, should appear
  ![Exercise5 DockPanel Window](images/Exercise5_DockPanelWindow.PNG)
- ![Exercise5 DockPanel Window](images/Exercise5_DockPanelWindow_Right.PNG)
- ![Exercise5 DockPanel Window](images/Exercise5_DockPanelWindow_Bottom.PNG)
  
  Position the buttons on the right position inside the DockPanel. All margins of the buttons should be 5. 
- The buttons have a height of 30 pixels and a width of 80 pixels. 
- 
- When you click on one of the buttons, the image has to rotate. Tip: use the RenderTransform property.
+ The buttons have a height of 30 pixels and a width of 80 pixels.
  
  

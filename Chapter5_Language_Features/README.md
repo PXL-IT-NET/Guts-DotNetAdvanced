@@ -100,3 +100,19 @@ Because the events that are received from the worker come from another thread yo
 To solve this you need to wrap the code in the event handler method as follows: 
 
 ![Use dispatcher](images/Dispatcher.png)
+
+## Exercise 3 (Burger restaurant)
+
+In this exercise you will be working on the inner workings of a WPF application that 
+* lets the frontdesk employee take orders in a burger restaurant. The restaurant only sells one kind of burger. So the only input that is needed for an order is the number of burgers.
+* shows the progress of orders in a list. Checkboxes are checked when the chef starts on an order and completes an order.
+* lets the frontdesk employee remove completed orders from the list
+
+De XAML and C# code of the main window is completly given. Do not change anything there.
+
+Complete the inner workings of the program by making the unit tests green.
+Recommended order:
+* OrderNumberTests
+* OrderTests
+* FrontDeskTests
+* ChefTests

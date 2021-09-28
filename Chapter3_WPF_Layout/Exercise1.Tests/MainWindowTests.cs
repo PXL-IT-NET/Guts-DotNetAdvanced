@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 using Guts.Client.Classic;
 
 namespace Exercise1.Tests
@@ -36,6 +37,7 @@ namespace Exercise1.Tests
         [OneTimeTearDown]
         public void TearDown()
         {
+            Dispatcher.CurrentDispatcher.InvokeShutdown();
             _window.Dispose();
         }
 

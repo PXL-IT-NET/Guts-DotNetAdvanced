@@ -1,19 +1,15 @@
 ﻿using Guts.Client.Classic.TestTools.WPF;
 using Guts.Client.Shared;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Controls;
-using System.Windows.Threading;
+using Guts.Client.Classic;
 
 namespace Exercise5.Tests
 {
-    //[ExerciseTestFixture("dotnet2", "H03", "Exercise05", @"Exercise5\StackPanelWindow.xaml")]
-    [TestFixture]
+    [ExerciseTestFixture("dotnet2", "H03", "Exercise05", @"Exercise5\StackPanelWindow.xaml;Exercise5\StackPanelWindow.xaml.cs")]
     [Apartment(ApartmentState.STA)]
     public class StackPanelWindowTests
     {
@@ -41,11 +37,10 @@ namespace Exercise5.Tests
         [OneTimeTearDown]
         public void TearDown()
         {
-            Dispatcher.CurrentDispatcher.InvokeShutdown();
             _window.Dispose();
         }
 
-        [MonitoredTest("Window should contain a Grid with 2 rows"), Order(1)]
+        [MonitoredTest("StackPanel - Window should contain a Grid with 2 rows"), Order(1)]
         public void _01_WindowShouldContainAGridWith2Rows()
         {
             AssertGridHas2Cells();
@@ -56,7 +51,6 @@ namespace Exercise5.Tests
             AssertHasOuterGrid();
 
             Assert.That(_grid.RowDefinitions, Has.Count.EqualTo(2), () => "The 'Grid' should have 3 rows defined.");
-
             Assert.That(_grid.RowDefinitions[0].Height.IsAuto, Is.True, "The first row of the outer grid should adjust to the height of its children.");
             Assert.That(_grid.ColumnDefinitions, Has.Count.EqualTo(0), () => "The 'Grid' should have no columns defined.");
         }
@@ -68,7 +62,7 @@ namespace Exercise5.Tests
                 "The 'Grid' should be the child control of the 'Window'.");
         }
 
-        [MonitoredTest("First Row of Grid should contain a GroupBox"), Order(2)]
+        [MonitoredTest("StackPanel - First Row of Grid should contain a GroupBox"), Order(2)]
         public void _02_FirstRowOfGridShouldContainAGroupBox()
         {
             AssertGridHasGroupBoxInHisFirstRow();
@@ -81,8 +75,7 @@ namespace Exercise5.Tests
             Assert.That(_groupBox.Header, Is.EqualTo("Orientation"), "The header of the groupBox should be 'Orientation'");
         }
 
-
-        [MonitoredTest("The GroupBox contains a StackPanel with 2 radiobuttons"), Order(3)]
+        [MonitoredTest("StackPanel - The GroupBox contains a StackPanel with 2 radiobuttons"), Order(3)]
         public void _03_GroupBoxShouldContainAStackPanelWith2RadioButtons()
         {
             Assert.That(_orientationStackPanel, Is.Not.Null, "There has to be a stackPanel on the window");
@@ -91,18 +84,18 @@ namespace Exercise5.Tests
             Assert.That(_radioButtons.All(r => r.Parent == _orientationStackPanel), Is.True, "All radioButtons have to be inside the StackPanel");
         }
 
-        [MonitoredTest("The StackPanel should be in the first row of the grid "), Order(4)]
-        public void _04_TheFirstRowOfTheGridShouldContainAStackPanelWith2Buttons()
+        [MonitoredTest("StackPanel - The StackPanel should be in the first row of the grid "), Order(4)]
+        public void _04_TheStackPanelShouldBeInTheFirstRowOfTheGrid()
         {
             Assert.That(_stackPanel, Is.Not.Null, "The should be a stackPanel within the Grid");
             Assert.That(_stackPanel.GetValue(Grid.RowProperty), Is.EqualTo(1), "Grid should contain a StackPanel in its first row");
             Assert.That(_buttons.All(b => b.Parent == _stackPanel), Is.True, "The 2 Buttons should be inside the stackPanel");
-            Assert.That(_buttons.Count(), Is.EqualTo(2), "There should be 2 buttons inside the StackPanel");
+            Assert.That(_buttons.Count, Is.EqualTo(2), "There should be 2 buttons inside the StackPanel");
         }
 
-        [MonitoredTest("There should be an image with an image source on the first button "), Order(5)]
-        public void _04_TheFirstButtonShouldContainAnImage()
-        {           
+        [MonitoredTest("StackPanel - There should be an image with an image source on the first button "), Order(5)]
+        public void _05_ThereShouldBeAnImageWithAnImageSourceOnTheFirstButton()
+        {
             Assert.That(_buttons[0].Content, Is.InstanceOf<Image>(), "The content of the first button should be an image");
             Assert.That(_image.Source, Is.Not.Null, "The image source must have a value");
         }

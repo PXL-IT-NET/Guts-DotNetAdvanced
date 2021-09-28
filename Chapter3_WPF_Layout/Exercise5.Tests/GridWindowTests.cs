@@ -9,12 +9,11 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Threading;
+using Guts.Client.Classic;
 
 namespace Exercise5.Tests
 {
-    //[ExerciseTestFixture("dotnet2", "H03", "Exercise05", @"Exercise5\GridWindow.xaml")]
-    [TestFixture]
+    [ExerciseTestFixture("dotnet2", "H03", "Exercise05", @"Exercise5\GridWindow.xaml;Exercise5\GridWindow.xaml.cs")]
     [Apartment(ApartmentState.STA)]
     public class GridWindowTests
     {
@@ -37,18 +36,17 @@ namespace Exercise5.Tests
         [OneTimeTearDown]
         public void TearDown()
         {
-            Dispatcher.CurrentDispatcher.InvokeShutdown();
             _window.Dispose();
         }
 
-        [MonitoredTest("Grid Should have 3 rows"), Order(1)]
+        [MonitoredTest("Grid - Should have 3 rows"), Order(1)]
         public void _01_GridShouldHave3Rows()
         {
             AssertGridHas3Cells();
         }
 
-        [MonitoredTest("First Row should contain a stackpanel with 2 TextBoxes, 2 TextBlocks and a Button"), Order(2)]
-        public void _01_FirstRowOfGridShouldContainAStackPanel()
+        [MonitoredTest("Grid - First Row should contain a StackPanel"), Order(2)]
+        public void _02_FirstRowOfGridShouldContainAStackPanel()
         {
             AssertGridHasHorizontalStackPanelInHisFirstRow();
         }
@@ -60,8 +58,8 @@ namespace Exercise5.Tests
             Assert.That(_stackPanel.Orientation, Is.EqualTo(Orientation.Horizontal), "The stackpanel inside the first row of the grid must have an horizontal orientation");
         }
 
-        [MonitoredTest("First Row should contain a stackpanel with 2 TextBoxes, 2 TextBlocks and a Button"), Order(2)]
-        public void _02_StackPanelShouldContain5Controls()
+        [MonitoredTest("Grid - The StackPanel in the first row should contain 2 TextBoxes, 2 TextBlocks and a Button"), Order(3)]
+        public void _03_StackPanelShouldContain5Controls()
         {
             UIElementCollection stackPanelChildren = _stackPanel.Children;
             Assert.That(stackPanelChildren.Count, Is.EqualTo(5), "The stackPanel within the first row of the Grid should contain 5 controls.");
@@ -91,27 +89,26 @@ namespace Exercise5.Tests
             return false;
         }
 
-        [MonitoredTest("Button in StackPanel should a have Click event handler"), Order(3)]
-        public void _03_ButtonInStackPanelShouldHaveClickEventHandler()
+        [MonitoredTest("Grid - Button in StackPanel should a have Click event handler"), Order(4)]
+        public void _04_ButtonInStackPanelShouldHaveClickEventHandler()
         {
             Assert.That(VerifyClickEventHandler(_apply_Button, "Click"), Is.True, "The button in the StackPanel should have a click event handler.");
         }
 
-        [MonitoredTest("Inner Grid has 4 rows and 4 columns"), Order(4)]
-        public void _04_InnerGridShouldHave4RowsAnd4Columns()
+        [MonitoredTest("Grid - Inner Grid has 4 rows and 4 columns"), Order(5)]
+        public void _05_InnerGridShouldHave4RowsAnd4Columns()
         {
             AssertHasInnerGrid();
             AssertInnerGridHas4RowsAnd4Columns();
         }
 
-        [MonitoredTest("Inner Grid contains a lightgreen Button"), Order(5)]
-        public void _05_InnerGridContainsAButton()
+        [MonitoredTest("Grid - Inner Grid contains a lightgreen Button"), Order(6)]
+        public void _06_InnerGridContainsAButton()
         {
             Assert.That(_innerGrid.Children.OfType<Button>().Count(), Is.EqualTo(1), "Inner Grid should contain a Button");
             Button button = (Button)_innerGrid.Children[0];
             Assert.That((button.Background as SolidColorBrush).Color, Is.EqualTo(Colors.LightGreen), "The button should have a LightGreen backColor");
         }
-
 
         private void AssertGridHas3Cells()
         {
@@ -147,8 +144,8 @@ namespace Exercise5.Tests
             Assert.That(_innerGrid.ColumnDefinitions, Has.Count.EqualTo(4), () => "The 'Grid' should have 4 columns defined.");
         }
 
-        [MonitoredTest("The selected button shoud have a LightGreen BackColor"), Order(6)]
-        public void _06_TheSelectedButtonShoudHaveALightGreenBackColor()
+        [MonitoredTest("Grid - The selected button should have a LightGreen BackColor"), Order(7)]
+        public void _07_TheSelectedButtonShoudHaveALightGreenBackColor()
         {
             AssertApplyButton();
         }
@@ -171,7 +168,7 @@ namespace Exercise5.Tests
             .Cast<UIElement>()
             .First(e => Grid.GetRow(e) == rowValue && Grid.GetColumn(e) == colValue);
 
-             Assert.That((content.Background as SolidColorBrush).Color, Is.EqualTo(Colors.LightGreen), "The Background of the selected cell has to be lightgreen.");
+            Assert.That((content.Background as SolidColorBrush).Color, Is.EqualTo(Colors.LightGreen), "The Background of the selected cell has to be lightgreen.");
             Assert.That(content.Content, Is.EqualTo($"Row {rowValue}, Column {colValue}"), "The content of the cell isn't correct");
 
         }
