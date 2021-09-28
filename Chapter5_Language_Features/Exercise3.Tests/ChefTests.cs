@@ -6,14 +6,14 @@ using System.Threading;
 using Exercise3.ChefAggregate;
 using Exercise3.FrontDeskAggregate;
 using Exercise3.OrderAggregate;
+using Guts.Client.Classic;
 using Guts.Client.Shared;
 using Moq;
 using NUnit.Framework;
 
 namespace Exercise3.Tests
 {
-    [TestFixture]
-    //[ExerciseTestFixture("dotnet2", "H5", "Exercise03", @"Exercise3\ChefAggregate\Chef.cs")]
+    [ExerciseTestFixture("dotnet2", "H05", "Exercise03", @"Exercise3\ChefAggregate\Chef.cs")]
     public class ChefTests
     {
         private static readonly Random Random = new Random();

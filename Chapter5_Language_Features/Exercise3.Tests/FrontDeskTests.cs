@@ -4,13 +4,13 @@ using System.Linq;
 using System.Reflection;
 using Exercise3.FrontDeskAggregate;
 using Exercise3.OrderAggregate;
+using Guts.Client.Classic;
 using Guts.Client.Shared;
 using NUnit.Framework;
 
 namespace Exercise3.Tests
 {
-    [TestFixture]
-    //[ExerciseTestFixture("dotnet2", "H5", "Exercise03", @"Exercise3\FrontDeskAggregate\FrontDesk.cs")]
+    [ExerciseTestFixture("dotnet2", "H05", "Exercise03", @"Exercise3\FrontDeskAggregate\FrontDesk.cs")]
     public class FrontDeskTests
     {
         private static readonly Random Random = new Random();

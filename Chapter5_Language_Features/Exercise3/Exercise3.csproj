@@ -67,6 +67,7 @@
     <Compile Include="ChefAggregate\DummyChefActions.cs" />
     <Compile Include="ChefAggregate\IChefActions.cs" />
     <Compile Include="FrontDeskAggregate\FrontDesk.cs" />
+    <Compile Include="IntegerExtensions.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

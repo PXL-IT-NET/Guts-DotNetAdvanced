@@ -112,6 +112,7 @@ De XAML and C# code of the main window is completly given. Do not change anythin
 
 Complete the inner workings of the program by making the unit tests green.
 Recommended order:
+* IntegerExtensionsTests
 * OrderNumberTests
 * OrderTests
 * FrontDeskTests

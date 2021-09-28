@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using Exercise3.OrderAggregate;
+using Guts.Client.Classic;
 using Guts.Client.Shared;
 using Guts.Client.Shared.TestTools;
 using Microsoft.CodeAnalysis.CSharp;
@@ -12,8 +13,7 @@ using NUnit.Framework;
 
 namespace Exercise3.Tests
 {
-    [TestFixture]
-    //[ExerciseTestFixture("dotnet2", "H5", "Exercise03", @"Exercise3\OrderAggregate\Order.cs")]
+    [ExerciseTestFixture("dotnet2", "H05", "Exercise03", @"Exercise3\OrderAggregate\Order.cs")]
     public class OrderTests
     {
         private static readonly Random Random = new Random();

@@ -7,8 +7,7 @@ using NUnit.Framework;
 
 namespace Exercise3.Tests
 {
-    [TestFixture]
-    //[ExerciseTestFixture("dotnet2", "H5", "Exercise03", @"Exercise3\Order\OrderNumber.cs")]
+    [ExerciseTestFixture("dotnet2", "H05", "Exercise03", @"Exercise3\OrderAggregate\OrderNumber.cs")]
     public class OrderNumberTests
     {
         private Type _type;
