@@ -6,6 +6,22 @@
         xmlns:local="clr-namespace:Exercise5"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Grid Margin="20">
+        <Grid.RowDefinitions >
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="3*" />
+        </Grid.RowDefinitions>
+        <TextBlock HorizontalAlignment="Center" FontWeight="Bold" FontSize="30" Grid.Row="0">Element Data binding</TextBlock>
+        <StackPanel Orientation="Vertical" Grid.Row="1">
+            <TextBlock FontSize="15">Change the slider to change the font size in the textbox. The fontsize will be used to show text in the textblock</TextBlock>
+            <Slider x:Name="FontSizeSlider" Minimum="5" Maximum="100" />
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Vertical">
+            <TextBlock FontSize="15" Text="Font size"/>
+            <TextBox x:Name="SizeTextBox" />
+        </StackPanel>
+        <TextBlock Text="Text with a fontsize" Grid.Row="3"/>
     </Grid>
 </Window>
