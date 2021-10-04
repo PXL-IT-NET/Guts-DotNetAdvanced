@@ -19,7 +19,6 @@ namespace Exercise5.Tests
         private StackPanel _orientationStackPanel, _stackPanel;
         private IList<RadioButton> _radioButtons;
         private IList<Button> _buttons;
-        private Image _image;
 
         [OneTimeSetUp]
         public void Setup()
@@ -31,7 +30,6 @@ namespace Exercise5.Tests
             _radioButtons = _window.GetUIElements<RadioButton>().ToList();
             _buttons = _window.GetUIElements<Button>().ToList();
             _stackPanel = _window.GetUIElements<StackPanel>().FirstOrDefault(s => s.Parent == _grid);
-            _image = _window.GetUIElements<Image>().FirstOrDefault();
         }
 
         [OneTimeTearDown]
@@ -96,8 +94,11 @@ namespace Exercise5.Tests
         [MonitoredTest("StackPanel - There should be an image with an image source on the first button "), Order(5)]
         public void _05_ThereShouldBeAnImageWithAnImageSourceOnTheFirstButton()
         {
-            Assert.That(_buttons[0].Content, Is.InstanceOf<Image>(), "The content of the first button should be an image");
-            Assert.That(_image.Source, Is.Not.Null, "The image source must have a value");
+            Image image = _buttons[0].Content as Image;
+            Assert.That(image, Is.Not.Null, "The content of the first button should be an image");
+            Assert.That(image.Source, Is.Not.Null, "The image source must be set correctly. " +
+                                                   "Make sure the image is visible when you run the application. " +
+                                                   "For this to work, the image must be present next the exe file (in the output directory) or be a resource of the assembly.");
         }
     }
 }
