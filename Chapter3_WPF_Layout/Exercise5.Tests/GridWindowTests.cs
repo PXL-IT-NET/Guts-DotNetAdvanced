@@ -51,13 +51,6 @@ namespace Exercise5.Tests
             AssertGridHasHorizontalStackPanelInHisFirstRow();
         }
 
-        private void AssertGridHasHorizontalStackPanelInHisFirstRow()
-        {
-            Assert.That(_stackPanel, Is.Not.Null, "Outer Grid should contain a StackPanel");
-            Assert.That(_stackPanel.GetValue(Grid.RowProperty), Is.EqualTo(0), "Grid should contain a StackPanel in its first row");
-            Assert.That(_stackPanel.Orientation, Is.EqualTo(Orientation.Horizontal), "The stackpanel inside the first row of the grid must have an horizontal orientation");
-        }
-
         [MonitoredTest("Grid - The StackPanel in the first row should contain 2 TextBoxes, 2 TextBlocks and a Button"), Order(3)]
         public void _03_StackPanelShouldContain5Controls()
         {
@@ -70,29 +63,10 @@ namespace Exercise5.Tests
 
         }
 
-        private bool VerifyClickEventHandler(object objectWithEvent, string eventName)
-        {
-            var eventStore = objectWithEvent.GetType()
-            .GetProperty("EventHandlersStore", BindingFlags.Instance | BindingFlags.NonPublic)
-            .GetValue(objectWithEvent, null);
-
-            if (eventStore != null)
-            {
-                var clickEvent = ((RoutedEventHandlerInfo[])eventStore
-                .GetType()
-                .GetMethod("GetRoutedEventHandlers", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-                .Invoke(eventStore, new object[] { Button.ClickEvent }))
-                .First();
-                return clickEvent.Handler.Method.Name == null ? false : true;
-
-            }
-            return false;
-        }
-
         [MonitoredTest("Grid - Button in StackPanel should a have Click event handler"), Order(4)]
         public void _04_ButtonInStackPanelShouldHaveClickEventHandler()
         {
-            Assert.That(VerifyClickEventHandler(_apply_Button, "Click"), Is.True, "The button in the StackPanel should have a click event handler.");
+            Assert.That(HasClickEventHandler(_apply_Button), Is.True, "The button in the StackPanel should have a click event handler.");
         }
 
         [MonitoredTest("Grid - Inner Grid has 4 rows and 4 columns"), Order(5)]
@@ -107,8 +81,65 @@ namespace Exercise5.Tests
         {
             Assert.That(_innerGrid.Children.OfType<Button>().Count(), Is.EqualTo(1), "Inner Grid should contain a Button");
             Button button = (Button)_innerGrid.Children[0];
-            Assert.That((button.Background as SolidColorBrush).Color, Is.EqualTo(Colors.LightGreen), "The button should have a LightGreen backColor");
+            Assert.That((button.Background as SolidColorBrush)?.Color, Is.EqualTo(Colors.LightGreen), "The button should have a LightGreen backColor");
         }
+
+        [MonitoredTest("Grid - The selected button should have a LightGreen BackColor"), Order(7)]
+        public void _07_TheSelectedButtonShouldHaveALightGreenBackColor()
+        {
+            AssertApplyButton();
+        }
+
+        private void AssertGridHasHorizontalStackPanelInHisFirstRow()
+        {
+            Assert.That(_stackPanel, Is.Not.Null, "Outer Grid should contain a StackPanel");
+            Assert.That(_stackPanel.GetValue(Grid.RowProperty), Is.EqualTo(0), "Grid should contain a StackPanel in its first row");
+            Assert.That(_stackPanel.Orientation, Is.EqualTo(Orientation.Horizontal), "The stackpanel inside the first row of the grid must have an horizontal orientation");
+        }
+
+        private void AssertApplyButton()
+        {
+            Random random = new Random();
+            int x = random.Next(0, 4);
+            int y = random.Next(0, 4);
+            _textBoxes[0].Text = x.ToString();
+            _textBoxes[1].Text = y.ToString();
+            _apply_Button.FireClickEvent();
+            DispatcherUtil.DoEvents();
+
+            int rowValue = Convert.ToInt32(_textBoxes[0].Text);
+            int colValue = Convert.ToInt32(_textBoxes[1].Text);
+            _apply_Button = _window.GetUIElements<Button>().FirstOrDefault();
+
+            Button content = (Button)_innerGrid.Children
+            .Cast<UIElement>()
+            .FirstOrDefault(e => Grid.GetRow(e) == rowValue && Grid.GetColumn(e) == colValue);
+
+            Assert.That(content, Is.Not.Null, $"Cannot find a Button in grid cell ({rowValue}, {colValue}).");
+            Assert.That((content.Background as SolidColorBrush)?.Color, Is.EqualTo(Colors.LightGreen), "The Background of the selected cell has to be lightgreen.");
+            Assert.That(content.Content, Is.EqualTo($"Row {rowValue}, Column {colValue}"), "The content of the cell isn't correct");
+        }
+
+        private bool HasClickEventHandler(object objectWithEvent)
+        {
+            object eventStore = objectWithEvent.GetType()
+                .GetProperty("EventHandlersStore", BindingFlags.Instance | BindingFlags.NonPublic)
+                .GetValue(objectWithEvent, null);
+
+            if (eventStore != null)
+            {
+                RoutedEventHandlerInfo clickEvent = ((RoutedEventHandlerInfo[])eventStore
+                        .GetType()
+                        .GetMethod("GetRoutedEventHandlers", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+                        .Invoke(eventStore, new object[] { Button.ClickEvent }))
+                    .FirstOrDefault();
+
+                if (clickEvent == default) return false;
+                return clickEvent.Handler?.Method.Name != null;
+            }
+            return false;
+        }
+
 
         private void AssertGridHas3Cells()
         {
@@ -142,35 +173,6 @@ namespace Exercise5.Tests
 
             Assert.That(_innerGrid.RowDefinitions, Has.Count.EqualTo(4), () => "The 'Grid' should have 4 rows defined.");
             Assert.That(_innerGrid.ColumnDefinitions, Has.Count.EqualTo(4), () => "The 'Grid' should have 4 columns defined.");
-        }
-
-        [MonitoredTest("Grid - The selected button should have a LightGreen BackColor"), Order(7)]
-        public void _07_TheSelectedButtonShoudHaveALightGreenBackColor()
-        {
-            AssertApplyButton();
-        }
-
-        private void AssertApplyButton()
-        {
-            Random random = new Random();
-            int x = random.Next(0, 4);
-            int y = random.Next(0, 4);
-            _textBoxes[0].Text = x.ToString();
-            _textBoxes[1].Text = y.ToString();
-            _apply_Button.FireClickEvent();
-            DispatcherUtil.DoEvents();
-
-            int rowValue = Convert.ToInt32(_textBoxes[0].Text);
-            int colValue = Convert.ToInt32(_textBoxes[1].Text);
-            _apply_Button = _window.GetUIElements<Button>().FirstOrDefault();
-
-            Button content = (Button)_innerGrid.Children
-            .Cast<UIElement>()
-            .First(e => Grid.GetRow(e) == rowValue && Grid.GetColumn(e) == colValue);
-
-            Assert.That((content.Background as SolidColorBrush).Color, Is.EqualTo(Colors.LightGreen), "The Background of the selected cell has to be lightgreen.");
-            Assert.That(content.Content, Is.EqualTo($"Row {rowValue}, Column {colValue}"), "The content of the cell isn't correct");
-
         }
     }
 }

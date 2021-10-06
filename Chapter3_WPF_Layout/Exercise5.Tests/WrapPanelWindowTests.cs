@@ -108,7 +108,7 @@ namespace Exercise5.Tests
         }
 
         [MonitoredTest("WrapPanel - The orientation of the WrapPanel has to be horizontal when clicking the Horizontal RadioButton "), Order(6)]
-        public void _06_TheOrientationOfTheWrapPanelHasToBecomeVerticalWhenClickingTheVerticalRadioButton()
+        public void _06_TheOrientationOfTheWrapPanelHasToBecomeHorizontalWhenClickingTheHorizontalRadioButton()
         {
             RadioButton horizontalRadioButton = _radioButtons.FirstOrDefault(r => r.Content.ToString() == "Horizontal");
             Assert.That(horizontalRadioButton, Is.Not.Null, "Cannot find a 'RadioButton' with content 'Horizontal'.");
