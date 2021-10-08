@@ -88,14 +88,14 @@ namespace Exercise5.Tests
         }
 
         [MonitoredTest("WrapPanel - The WrapPanel has to be in the second row of the Grid"), Order(4)]
-        public void _04_HorizontalWrapPanelHasToBeInTheSecondRowOfTheGridAndContains7Ellipses()
+        public void _04_HorizontalWrapPanelHasToBeInTheSecondRowOfTheGridAndContains8Ellipses()
         {
             Assert.That(_wrapPanel, Is.Not.Null, "There has to be a wrapPanel on the window");
             Assert.That(_wrapPanel.GetValue(Grid.RowProperty), Is.EqualTo(1), "Grid should contain a WrapPanel in its second row");
             Assert.That(_wrapPanel.Orientation, Is.EqualTo(Orientation.Horizontal), "The orientation of the WrapPanel has to be Horizontal");
-            Assert.That(_radioButtons.Count, Is.EqualTo(2), "The Groupbox has to contain 2 radioButtons");
+            Assert.That(_radioButtons.Count, Is.EqualTo(2), "The GroupBox has to contain 2 radioButtons");
             Assert.That(_ellipses.All(r => r.Parent == _wrapPanel), Is.True, "All the ellipses should be within the wrapPanel");
-            Assert.That(_ellipses.Count, Is.EqualTo(8), "There have to be 7 ellipses within the WrapPanel");
+            Assert.That(_ellipses.Count, Is.EqualTo(8), "There have to be 8 ellipses within the WrapPanel");
         }
 
         [MonitoredTest("WrapPanel - The orientation of the WrapPanel has to be vertical when clicking the Vertical RadioButton "), Order(5)]
