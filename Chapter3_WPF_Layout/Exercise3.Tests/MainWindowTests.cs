@@ -125,7 +125,7 @@ namespace Exercise3.Tests
                 "Tip: make use of an attached property 'ZIndex' of 'Canvas'.");
 
             Assert.That(secondRedEllipse.IsBehindRectangle(firstBlackRectangle, secondBlackRectangle, secondYellowRectangle), Is.True,
-                "The second red ellipse should not be behind the first black rectangle. " +
+                "The second red ellipse should be behind the first black rectangle. " +
                 "Tip: make use of an attached property 'ZIndex' of 'Canvas'.");
 
             Assert.That(secondBlueRectangle.IsBehind(secondYellowRectangle), Is.True,
