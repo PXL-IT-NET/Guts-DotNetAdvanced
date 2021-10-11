@@ -48,7 +48,7 @@ namespace Exercise5.Tests
         {
             AssertHasOuterGrid();
 
-            Assert.That(_grid.RowDefinitions, Has.Count.EqualTo(2), () => "The 'Grid' should have 3 rows defined.");
+            Assert.That(_grid.RowDefinitions, Has.Count.EqualTo(2), () => "The 'Grid' should have 2 rows defined.");
             Assert.That(_grid.RowDefinitions[0].Height.IsAuto, Is.True, "The first row of the outer grid should adjust to the height of its children.");
             Assert.That(_grid.ColumnDefinitions, Has.Count.EqualTo(0), () => "The 'Grid' should have no columns defined.");
         }
@@ -68,8 +68,8 @@ namespace Exercise5.Tests
 
         private void AssertGridHasGroupBoxInHisFirstRow()
         {
-            Assert.That(_groupBox, Is.Not.Null, "Grid should contain a StackPanel");
-            Assert.That(_groupBox.GetValue(Grid.RowProperty), Is.EqualTo(0), "Grid should contain a StackPanel in its first row");
+            Assert.That(_groupBox, Is.Not.Null, "Grid should contain a GroupBox");
+            Assert.That(_groupBox.GetValue(Grid.RowProperty), Is.EqualTo(0), "Grid should contain a GroupBox in its first row");
             Assert.That(_groupBox.Header, Is.EqualTo("Orientation"), "The header of the groupBox should be 'Orientation'");
         }
 
@@ -78,7 +78,7 @@ namespace Exercise5.Tests
         {
             Assert.That(_orientationStackPanel, Is.Not.Null, "There has to be a stackPanel on the window");
             Assert.That(_orientationStackPanel.Parent, Is.EqualTo(_groupBox), "The StackPanel has to be within the GroupBox");
-            Assert.That(_radioButtons.Count, Is.EqualTo(2), "The Groupbox has to contain 2 radioButtons");
+            Assert.That(_radioButtons.Count, Is.EqualTo(2), "The StackPanel has to contain 2 radioButtons");
             Assert.That(_radioButtons.All(r => r.Parent == _orientationStackPanel), Is.True, "All radioButtons have to be inside the StackPanel");
         }
 

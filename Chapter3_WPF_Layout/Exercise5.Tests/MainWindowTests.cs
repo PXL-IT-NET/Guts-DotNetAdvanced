@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -64,6 +65,13 @@ namespace Exercise5.Tests
         public void _02_ShouldHaveAGridWith4CellsContainingAButton()
         {
             AssertGridHas4Cells();
+            AssertCellsContainButtonsWithContent();
+        }
+
+        private void AssertCellsContainButtonsWithContent()
+        {
+            Assert.That(_allButtons.All(button => button.Content != null && (String)button.Content != String.Empty), Is.True, "All buttons should have a Content");
+
         }
 
         [MonitoredTest("MainWindow - The grid should have the correct element in each cell"), Order(3)]

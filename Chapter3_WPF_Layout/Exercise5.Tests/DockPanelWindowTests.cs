@@ -52,7 +52,7 @@ namespace Exercise5.Tests
         public void _02_TheDockPanelShouldContain4ButtonsAndAnImage()
         {
             Assert.That(_buttons.Count, Is.EqualTo(4), "The DockPanel should contain 4 buttons");
-            Assert.That(_image.Parent, Is.SameAs(_dockPanel), "The parent element of the DockPanel is the Window");
+            Assert.That(_image.Parent, Is.SameAs(_dockPanel), "The parent element of the Image is the DockPanel");
         }
 
         [MonitoredTest("DockPanel - The Buttons should have correct margins ans dimensions"), Order(3)]
@@ -77,3 +77,4 @@ namespace Exercise5.Tests
         }
     }
 }
+

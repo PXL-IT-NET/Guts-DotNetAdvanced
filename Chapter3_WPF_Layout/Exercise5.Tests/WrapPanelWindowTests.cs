@@ -32,7 +32,7 @@ namespace Exercise5.Tests
             _wrapPanel = _window.GetUIElements<WrapPanel>().FirstOrDefault();
             _radioButtons = _window.GetUIElements<RadioButton>().ToList();
             _ellipses = _wrapPanel != null ? _wrapPanel.Children.OfType<Ellipse>().ToList() : new List<Ellipse>();
-            
+
         }
 
         [OneTimeTearDown]
@@ -51,7 +51,7 @@ namespace Exercise5.Tests
         {
             AssertHasOuterGrid();
 
-            Assert.That(_grid.RowDefinitions, Has.Count.EqualTo(2), () => "The 'Grid' should have 3 rows defined.");
+            Assert.That(_grid.RowDefinitions, Has.Count.EqualTo(2), () => "The 'Grid' should have 2 rows defined.");
 
             Assert.That(_grid.RowDefinitions[0].Height.IsAuto, Is.True, "The first row of the outer grid should adjust to the height of its children.");
             Assert.That(_grid.ColumnDefinitions, Has.Count.EqualTo(0), () => "The 'Grid' should have no columns defined.");
@@ -117,3 +117,4 @@ namespace Exercise5.Tests
         }
     }
 }
+
