@@ -123,5 +123,10 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\knicks.png" />
+    <Resource Include="images\KRC_Genk_Logo.png" />
+    <Resource Include="images\sunset.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
