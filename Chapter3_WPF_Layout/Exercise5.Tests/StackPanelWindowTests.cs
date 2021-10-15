@@ -78,12 +78,12 @@ namespace Exercise5.Tests
         {
             Assert.That(_orientationStackPanel, Is.Not.Null, "There has to be a stackPanel on the window");
             Assert.That(_orientationStackPanel.Parent, Is.EqualTo(_groupBox), "The StackPanel has to be within the GroupBox");
-            Assert.That(_radioButtons.Count, Is.EqualTo(2), "The StackPanel has to contain 2 radioButtons");
-            Assert.That(_radioButtons.All(r => r.Parent == _orientationStackPanel), Is.True, "All radioButtons have to be inside the StackPanel");
+            Assert.That(_radioButtons.Count, Is.EqualTo(2), "The StackPanel in the GroupBox has to contain 2 radioButtons");
+            Assert.That(_radioButtons.All(r => r.Parent == _orientationStackPanel), Is.True, "All radioButtons have to be inside the StackPanel of the GroupBox");
         }
 
-        [MonitoredTest("StackPanel - The StackPanel should be in the first row of the grid "), Order(4)]
-        public void _04_TheStackPanelShouldBeInTheFirstRowOfTheGrid()
+        [MonitoredTest("StackPanel - The StackPanel should be in the first row of the grid "), Order(4)] //TODO: second row instead of first row
+        public void _04_TheStackPanelShouldBeInTheSecondRowOfTheGrid()
         {
             Assert.That(_stackPanel, Is.Not.Null, "The should be a stackPanel within the Grid");
             Assert.That(_stackPanel.GetValue(Grid.RowProperty), Is.EqualTo(1), "Grid should contain a StackPanel in its first row");
