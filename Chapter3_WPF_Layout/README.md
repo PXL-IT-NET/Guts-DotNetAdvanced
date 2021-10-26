@@ -69,7 +69,7 @@ Black Rectangle: top margin: 200 - left margin: 200 - width: 100
 
 Black Rectangle: top margin: 300 - left margin: 200: width: 100
 
-Red Ellipse: top margin: 150 - left margin: 150 - diameter 150
+Red Ellipse: top margin: 250 - left margin: 100 - diameter 150
 
 Yellow Rectangle: top margin: 350 - left margin: 150 - width: 100
 
