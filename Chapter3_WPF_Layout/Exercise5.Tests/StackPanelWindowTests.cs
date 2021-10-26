@@ -86,7 +86,7 @@ namespace Exercise5.Tests
         public void _04_TheStackPanelShouldBeInTheSecondRowOfTheGrid()
         {
             Assert.That(_stackPanel, Is.Not.Null, "The should be a stackPanel within the Grid");
-            Assert.That(_stackPanel.GetValue(Grid.RowProperty), Is.EqualTo(1), "Grid should contain a StackPanel in its first row");
+            Assert.That(_stackPanel.GetValue(Grid.RowProperty), Is.EqualTo(1), "Grid should contain a StackPanel in its second row");
             Assert.That(_buttons.All(b => b.Parent == _stackPanel), Is.True, "The 2 Buttons should be inside the stackPanel");
             Assert.That(_buttons.Count, Is.EqualTo(2), "There should be 2 buttons inside the StackPanel");
         }
@@ -99,6 +99,24 @@ namespace Exercise5.Tests
             Assert.That(image.Source, Is.Not.Null, "The image source must be set correctly. " +
                                                    "Make sure the image is visible when you run the application. " +
                                                    "For this to work, the image must be present next the exe file (in the output directory) or be a resource of the assembly.");
+        }
+
+        [MonitoredTest("StackPanel - The orientation of the StackPanel has to be vertical when clicking the Vertical RadioButton "), Order(6)]
+        public void _06_TheOrientationOfTheStackPanelHasToBecomeVerticalWhenClickingTheVerticalRadioButton()
+        {
+            RadioButton verticalRadioButton = _radioButtons.FirstOrDefault(r => r.Content.ToString() == "Vertical");
+            Assert.That(verticalRadioButton, Is.Not.Null, "Cannot find a 'RadioButton' with content 'Vertical'.");
+            verticalRadioButton.IsChecked = true;
+            Assert.That(_stackPanel.Orientation, Is.EqualTo(Orientation.Vertical), "The Orientation of the StackPanel is not Vertical.");
+        }
+
+        [MonitoredTest("StackPanel - The orientation of the StackPanel has to be horizontal when clicking the Horizontal RadioButton "), Order(7)]
+        public void _07_TheOrientationOfTheWrapPanelHasToBecomeHorizontalWhenClickingTheHorizontalRadioButton()
+        {
+            RadioButton horizontalRadioButton = _radioButtons.FirstOrDefault(r => r.Content.ToString() == "Horizontal");
+            Assert.That(horizontalRadioButton, Is.Not.Null, "Cannot find a 'RadioButton' with content 'Horizontal'.");
+            horizontalRadioButton.IsChecked = true;
+            Assert.That(_stackPanel.Orientation, Is.EqualTo(Orientation.Horizontal), "The Orientation of the StackPanel is not Horizontal");
         }
     }
 }
