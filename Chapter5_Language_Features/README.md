@@ -108,6 +108,8 @@ In this exercise you will be working on the inner workings of a WPF application 
 * shows the progress of orders in a list. Checkboxes are checked when the chef starts on an order and completes an order.
 * lets the frontdesk employee remove completed orders from the list
 
+![Console Window](images/BurgerRestaurant.png)
+
 De XAML and C# code of the main window is completly given. Do not change anything there.
 
 Complete the inner workings of the program by making the unit tests green.
