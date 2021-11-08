@@ -5,8 +5,8 @@ using System.Reflection;
 using Guts.Client.Classic;
 using Guts.Client.Shared;
 using Guts.Client.Shared.TestTools;
-using HeroApp.Business;
-using HeroApp.Business.Contracts;
+using HeroApp.AppLogic;
+using HeroApp.AppLogic.Contracts;
 using HeroApp.Domain.Contracts;
 using Moq;
 using NUnit.Framework;
@@ -14,7 +14,7 @@ using NUnit.Framework;
 namespace HeroApp.Tests
 {
     [ExerciseTestFixture("dotnet2", "H07", "Exercise01",
-        @"HeroApp.Business\BattleService.cs;HeroApp.Business\Contracts\IBattleService.cs")]
+        @"HeroApp.AppLogic\BattleService.cs;HeroApp.AppLogic\Contracts\IBattleService.cs")]
     public class BattleServiceTests
     {
         private Type _battleServiceType;
@@ -28,9 +28,9 @@ namespace HeroApp.Tests
         [MonitoredTest("IBattleService - Should not have changed interface")]
         public void ShouldNotHaveChangedIBattleService()
         {
-            var filePath = @"HeroApp.Business\Contracts\IBattleService.cs";
+            var filePath = @"HeroApp.AppLogic\Contracts\IBattleService.cs";
             var fileHash = Solution.Current.GetFileHash(filePath);
-            Assert.That(fileHash, Is.EqualTo("7A-03-45-DC-DC-05-33-56-A7-C3-32-ED-BC-5C-7D-FA"),
+            Assert.That(fileHash, Is.EqualTo("B5-B6-94-9C-8A-66-3F-90-19-DB-21-A3-39-DC-B6-1D"),
                 $"The file '{filePath}' has changed. " +
                 "Undo your changes on the file to make this test pass.");
         }
@@ -41,11 +41,11 @@ namespace HeroApp.Tests
             Assert.That(typeof(IBattleService).IsAssignableFrom(_battleServiceType), Is.True);
         }
 
-        [MonitoredTest("BattleService - Should only be visible to the business layer")]
-        public void ShouldOnlyBeVisibleToTheBusinessLayer()
+        [MonitoredTest("BattleService - Should only be visible to the application logic layer")]
+        public void ShouldOnlyBeVisibleToTheAppLogicLayer()
         {
             Assert.That(_battleServiceType.IsNotPublic,
-                "Only IBattleService should be visible to the other layers. The BattleService class itself can be encapsulated in the business layer.");
+                "Only IBattleService should be visible to the other layers. The BattleService class itself can be encapsulated in the application logic layer.");
         }
 
         [MonitoredTest("BattleService - Should have a constructor that accepts a hero repository and a battle factory")]

@@ -96,17 +96,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HeroApp.Business\HeroApp.Business.csproj">
+    <ProjectReference Include="..\HeroApp.AppLogic\HeroApp.AppLogic.csproj">
       <Project>{f47e6d22-de80-444d-8293-e596047df162}</Project>
-      <Name>HeroApp.Business</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HeroApp.Data\HeroApp.Data.csproj">
-      <Project>{ca0997b2-cfaa-4e69-9b36-c335c7c2f641}</Project>
-      <Name>HeroApp.Data</Name>
+      <Name>HeroApp.AppLogic</Name>
     </ProjectReference>
     <ProjectReference Include="..\HeroApp.Domain\HeroApp.Domain.csproj">
       <Project>{948ABC9E-3EBA-46CC-B4EC-700BBEC032AF}</Project>
       <Name>HeroApp.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HeroApp.Infrastructure\HeroApp.Infrastructure.csproj">
+      <Project>{ca0997b2-cfaa-4e69-9b36-c335c7c2f641}</Project>
+      <Name>HeroApp.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\HeroApp.UI\HeroApp.UI.csproj">
       <Project>{620baa7e-fdcf-4a5e-9716-8f4356b6f24a}</Project>

@@ -1,4 +1,4 @@
-﻿namespace HeroApp.Data
+﻿namespace HeroApp.Infrastructure
 {
     public class InMemoryHeroRepository 
     {

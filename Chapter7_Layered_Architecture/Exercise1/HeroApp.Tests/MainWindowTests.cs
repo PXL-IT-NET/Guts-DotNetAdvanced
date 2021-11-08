@@ -8,7 +8,7 @@ using Guts.Client.Classic;
 using Guts.Client.Classic.TestTools.WPF;
 using Guts.Client.Shared;
 using Guts.Client.Shared.TestTools;
-using HeroApp.Business.Contracts;
+using HeroApp.AppLogic.Contracts;
 using HeroApp.Domain.Contracts;
 using HeroApp.UI;
 using Moq;

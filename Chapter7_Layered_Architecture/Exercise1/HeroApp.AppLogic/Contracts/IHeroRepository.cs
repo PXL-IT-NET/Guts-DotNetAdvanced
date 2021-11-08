@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using HeroApp.Domain.Contracts;
 
-namespace HeroApp.Business.Contracts
+namespace HeroApp.AppLogic.Contracts
 {
     public interface IHeroRepository
     {

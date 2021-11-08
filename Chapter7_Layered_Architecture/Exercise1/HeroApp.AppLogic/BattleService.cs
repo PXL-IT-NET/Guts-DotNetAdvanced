@@ -1,4 +1,4 @@
-﻿namespace HeroApp.Business
+﻿namespace HeroApp.AppLogic
 {
     public class BattleService
     {

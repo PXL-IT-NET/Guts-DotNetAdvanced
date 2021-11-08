@@ -5,16 +5,16 @@ using System.Reflection;
 using Guts.Client.Classic;
 using Guts.Client.Shared;
 using Guts.Client.Shared.TestTools;
-using HeroApp.Business.Contracts;
-using HeroApp.Data;
+using HeroApp.AppLogic.Contracts;
 using HeroApp.Domain.Contracts;
+using HeroApp.Infrastructure;
 using Moq;
 using NUnit.Framework;
 
 namespace HeroApp.Tests
 {
     [ExerciseTestFixture("dotnet2", "H07", "Exercise01",
-        @"HeroApp.Data\InMemoryHeroRepository.cs;HeroApp.Business\Contracts\IHeroRepository.cs")]
+        @"HeroApp.Infrastructure\InMemoryHeroRepository.cs;HeroApp.AppLogic\Contracts\IHeroRepository.cs")]
     public class InMemoryHeroRepositoryTests
     {
         private Type _inMemoryHeroRepositoryType;
@@ -28,9 +28,9 @@ namespace HeroApp.Tests
         [MonitoredTest("IHeroRepository - Should not have changed interface")]
         public void ShouldNotHaveChangedIHeroRepository()
         {
-            var filePath = @"HeroApp.Business\Contracts\IHeroRepository.cs";
+            var filePath = @"HeroApp.AppLogic\Contracts\IHeroRepository.cs";
             var fileHash = Solution.Current.GetFileHash(filePath);
-            Assert.That(fileHash, Is.EqualTo("50-C6-4C-E7-E8-63-59-6C-AC-30-09-7F-9B-87-1F-A2"),
+            Assert.That(fileHash, Is.EqualTo("A6-FD-83-31-E2-2E-35-CB-F2-7C-48-4E-28-F7-6D-AA"),
                 $"The file '{filePath}' has changed. " +
                 "Undo your changes on the file to make this test pass.");
         }
@@ -41,8 +41,8 @@ namespace HeroApp.Tests
             Assert.That(typeof(IHeroRepository).IsAssignableFrom(_inMemoryHeroRepositoryType), Is.True);
         }
 
-        [MonitoredTest("InMemoryHeroRepository - Should only be visible to the data layer")]
-        public void ShouldOnlyBeVisibleToTheDataLayer()
+        [MonitoredTest("InMemoryHeroRepository - Should only be visible to the infrastructure layer")]
+        public void ShouldOnlyBeVisibleToTheInfrastructureLayer()
         {
             Assert.That(_inMemoryHeroRepositoryType.IsNotPublic);
         }
@@ -76,7 +76,7 @@ namespace HeroApp.Tests
             Assert.That(allHeroes.Count, Is.GreaterThanOrEqualTo(3), "At least 3 heroes must be returned.");
             builder.HeroFactoryMock.Verify(
                 factory => factory.CreateNewHero(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<float>()),
-                Times.Exactly(allHeroes.Count), 
+                Times.Exactly(allHeroes.Count),
                 $"When {allHeroes.Count} heroes are returned, " +
                 $"the 'CreateNewHero' method of the factory should have been called {allHeroes.Count} times.");
         }

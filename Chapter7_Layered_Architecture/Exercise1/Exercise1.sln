@@ -7,9 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeroApp.UI", "HeroApp.UI\He
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeroApp.Domain", "HeroApp.Domain\HeroApp.Domain.csproj", "{948ABC9E-3EBA-46CC-B4EC-700BBEC032AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeroApp.Business", "HeroApp.Business\HeroApp.Business.csproj", "{F47E6D22-DE80-444D-8293-E596047DF162}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeroApp.AppLogic", "HeroApp.AppLogic\HeroApp.AppLogic.csproj", "{F47E6D22-DE80-444D-8293-E596047DF162}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeroApp.Data", "HeroApp.Data\HeroApp.Data.csproj", "{CA0997B2-CFAA-4E69-9B36-C335C7C2F641}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeroApp.Infrastructure", "HeroApp.Infrastructure\HeroApp.Infrastructure.csproj", "{CA0997B2-CFAA-4E69-9B36-C335C7C2F641}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeroApp.Tests", "HeroApp.Tests\HeroApp.Tests.csproj", "{B6881C03-F6BD-407B-AC4A-C597A4ED4B18}"
 EndProject

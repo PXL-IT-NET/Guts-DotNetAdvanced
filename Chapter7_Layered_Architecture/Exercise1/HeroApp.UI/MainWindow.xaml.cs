@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using HeroApp.Business.Contracts;
+using HeroApp.AppLogic.Contracts;
 
 namespace HeroApp.UI
 {

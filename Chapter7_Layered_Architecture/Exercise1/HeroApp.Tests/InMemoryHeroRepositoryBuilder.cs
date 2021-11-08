@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Reflection;
-using HeroApp.Business.Contracts;
-using HeroApp.Data;
+using HeroApp.AppLogic.Contracts;
 using HeroApp.Domain.Contracts;
+using HeroApp.Infrastructure;
 using Moq;
 using NUnit.Framework;
 

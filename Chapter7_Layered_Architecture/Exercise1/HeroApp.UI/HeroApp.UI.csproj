@@ -95,9 +95,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HeroApp.Business\HeroApp.Business.csproj">
-      <Project>{f47e6d22-de80-444d-8293-e596047df162}</Project>
-      <Name>HeroApp.Business</Name>
+    <ProjectReference Include="..\HeroApp.AppLogic\HeroApp.AppLogic.csproj">
+      <Project>{F47E6D22-DE80-444D-8293-E596047DF162}</Project>
+      <Name>HeroApp.AppLogic</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
