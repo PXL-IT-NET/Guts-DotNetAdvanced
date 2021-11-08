@@ -66,7 +66,9 @@ namespace Exercise1.Tests
         [MonitoredTest("Should have a DataContext set to game"), Order(2)]
         public void _2_ShouldHaveDataContextSetToGame()
         {
-            Assert.That(_window.Window.DataContext, Is.TypeOf<Game>(), () => "The Datacontext of the window should be a Game object");
+            Game source = _window.Window.DataContext as Game;
+            Assert.That(source, Is.Not.Null, "The DataContext of the window should be a Game object");
+            Assert.That(source.GameId, Is.GreaterThan(0), "The GameId of the source object is not correct. The Game instance created in the constructor should be the data source.");
         }
 
         [MonitoredTest("Should have correct bindings for the TextBoxes"), Order(3)]
@@ -80,7 +82,6 @@ namespace Exercise1.Tests
             BindingUtil.AssertBinding(_releaseDateTextBox, TextBox.TextProperty, "ReleaseDate", BindingMode.OneWay);
             BindingUtil.AssertBinding(_descriptionTextBox, TextBox.TextProperty, "Description", BindingMode.OneWay);
         }
-
 
         private void AssertHasFiveTextBoxes()
         {
