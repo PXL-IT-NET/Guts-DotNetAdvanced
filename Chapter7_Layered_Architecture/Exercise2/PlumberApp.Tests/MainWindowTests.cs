@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Windows.Controls;
+using Guts.Client.Classic;
 using Guts.Client.Classic.TestTools.WPF;
 using Guts.Client.Shared;
 using Moq;
@@ -14,6 +15,7 @@ using PlumberApp.UI;
 
 namespace PlumberApp.Tests
 {
+    [ExerciseTestFixture("dotnet2", "H07", "Exercise02", @"PlumberApp.UI\MainWindow.xaml.cs")]
     [Apartment(ApartmentState.STA)]
     public class MainWindowTests : TestBase
     {

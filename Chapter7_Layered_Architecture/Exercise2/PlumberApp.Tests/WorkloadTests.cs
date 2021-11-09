@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using Guts.Client.Classic;
 using Guts.Client.Shared;
 using Guts.Client.Shared.TestTools;
 using NUnit.Framework;
@@ -8,6 +9,7 @@ using PlumberApp.Domain;
 
 namespace PlumberApp.Tests
 {
+    [ExerciseTestFixture("dotnet2", "H07", "Exercise02", @"PlumberApp.Domain\Workload.cs")]
     public class WorkloadTests : TestBase
     {
         private Type _workloadType;

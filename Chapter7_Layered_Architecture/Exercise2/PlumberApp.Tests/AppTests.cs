@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Guts.Client.Classic;
 using Guts.Client.Shared;
 using Guts.Client.Shared.TestTools;
 using Microsoft.CodeAnalysis.CSharp;
@@ -11,6 +12,7 @@ using PlumberApp.UI;
 
 namespace PlumberApp.Tests
 {
+    [ExerciseTestFixture("dotnet2", "H07", "Exercise02", @"PlumberApp.UI\App.xaml.cs")]
     public class AppTests
     {
         private string _appClassContent;

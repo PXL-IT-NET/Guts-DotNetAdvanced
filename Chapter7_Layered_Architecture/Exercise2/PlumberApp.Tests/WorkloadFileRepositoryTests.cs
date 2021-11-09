@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Guts.Client.Classic;
 using Guts.Client.Shared;
 using Guts.Client.Shared.TestTools;
 using NUnit.Framework;
@@ -12,6 +13,7 @@ using PlumberApp.Tests.Builders;
 
 namespace PlumberApp.Tests
 {
+    [ExerciseTestFixture("dotnet2", "H07", "Exercise02", @"PlumberApp.Infrastructure\Storage\WorkloadFileRepository.cs")]
     public class WorkloadFileRepositoryTests : TestBase
     {
         private WorkloadFileRepository _repository;
