@@ -2,9 +2,9 @@
 
 namespace LinqExamples.Models
 {
-    public class PersonAgeGroup
+    public class AnimalLoverCollection
     {
-        public int Age { get; set; }
+        public string Animal { get; set; }
         public IEnumerable<Person> Persons { get; set; }
     }
 }

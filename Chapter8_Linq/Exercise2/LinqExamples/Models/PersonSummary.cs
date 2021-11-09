@@ -1,15 +1,23 @@
-﻿namespace LinqExamples.Models
+﻿using System;
+
+namespace LinqExamples.Models
 {
     public class PersonSummary
     {
+        public Guid Id { get; set; }
+
         public string FullName { get; set; }
-        public bool IsAdult { get; set; }
+
+        /// <summary>
+        /// True when under 18
+        /// </summary>
+        public bool IsChild { get; set; }
 
         public override bool Equals(object obj)
         {
             if (!(obj is PersonSummary other)) return false;
 
-            return other.FullName.Equals(FullName) && other.IsAdult.Equals(IsAdult);
+            return other.Id.Equals(Id);
         }
     }
 }

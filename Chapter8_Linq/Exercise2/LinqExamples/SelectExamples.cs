@@ -10,7 +10,7 @@ namespace LinqExamples
     {
         //Tip: use the "ToList" extension method to convert an IEnumerable to a List
 
-        public IList<string> ConvertWordsToUpper(IEnumerable<string> words)
+        public IList<int> ConvertNumbersToSquaredNumbers(IEnumerable<int> numbers)
         {
             throw new NotImplementedException();
         }

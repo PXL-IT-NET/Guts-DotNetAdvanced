@@ -9,13 +9,13 @@ namespace LinqExamples
     {
         //Tip: use the "ToList" extension method to convert an IEnumerable to a List
 
-        public IList<IGrouping<bool, int>> GroupSmallAndBigNumbers(int[] numbers)
+        public IList<IGrouping<bool, int>> GroupNegativeAndPositiveNumbers(int[] numbers)
         {
+            //Tip: Zero can be interpreted as a positive number
             throw new NotImplementedException();
-           
         }
 
-        public IList<PersonAgeGroup> GroupPersonsByAge(List<Person> persons)
+        public IList<AnimalLoverCollection> GroupPersonsByFavoriteAnimal(List<Person> persons)
         {
             throw new NotImplementedException();
         }

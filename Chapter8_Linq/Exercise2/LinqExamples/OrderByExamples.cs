@@ -7,13 +7,13 @@ namespace LinqExamples
 {
     public class OrderByExamples
     {
-        public string[] SortWordsDescending(string[] words)
+        public string[] SortWordsByLengthDescending(string[] words)
         {
             //Tip: use the "ToArray" extension method to convert an IEnumerable to an Array
             throw new NotImplementedException();
         }
 
-        public IList<Person> SortPersonsOnDescendingAgeAndThenOnFavoriteAnimalAscending(List<Person> persons)
+        public IList<Person> SortPersonsOnAscendingAgeAndThenOnFavoriteAnimalDescending(List<Person> persons)
         {
             //Tip: use the "ToList" extension method to convert an IEnumerable to a List
             throw new NotImplementedException();

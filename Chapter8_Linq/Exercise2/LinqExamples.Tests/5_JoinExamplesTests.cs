@@ -28,39 +28,39 @@ namespace LinqExamples.Tests
             var intersection = _examples.GetIntersection(firstList, secondList);
 
             //Assert
-           Assert.That(intersection, Has.All.Matches((int n) => expected.Contains(n)));
+            Assert.That(intersection, Has.All.Matches((int n) => expected.Contains(n)));
         }
 
         [Test]
         public void PersonsCanBeGroupedByFavoriteAnimalUsingGroupBy()
         {
             //Arrange
-            var boys = new List<Person>
+            var group1 = new List<Person>
             {
-                new Person{Firstname = "John", FavoriteAnimal = "Cat"},
-                new Person{Firstname = "Jules", FavoriteAnimal = "Dog"},
-                new Person{Firstname = "Jeffrey", FavoriteAnimal = "Dog"},
-                new Person{Firstname = "Jay", FavoriteAnimal = "Horse"},
+                new Person{Firstname = "John", Age = 20},
+                new Person{Firstname = "Jules", Age = 30},
+                new Person{Firstname = "Jeffrey", Age = 30},
+                new Person{Firstname = "Jay", Age = 40},
             };
 
-            var girls = new List<Person>
+            var group2 = new List<Person>
             {
-                new Person{Firstname = "Jane", FavoriteAnimal = "Cat"},
-                new Person{Firstname = "Jennifer", FavoriteAnimal = "Turtle"},
-                new Person{Firstname = "Joan", FavoriteAnimal = "Dog"},
-                new Person{Firstname = "Jill", FavoriteAnimal = "Cat"},
+                new Person{Firstname = "Jane", Age = 20},
+                new Person{Firstname = "Jennifer", Age = 50},
+                new Person{Firstname = "Joan", Age = 30},
+                new Person{Firstname = "Jill", Age = 20},
             };
 
-           var expected = new List<string>
-           {
-               "John and Jane", "John and Jill", "Jules and Joan", "Jeffrey and Joan"
-           };
+            var expected = new List<string>
+            {
+                "John and Jane", "John and Jill", "Jules and Joan", "Jeffrey and Joan"
+            };
 
             //Act
-            var couples = _examples.FindCouplesByFavoriteAnimalUsingJoin(boys, girls);
+            var duos = _examples.Merge2GroupsIntoDuosByAgeUsingJoin(group1, group2);
 
             //Assert
-            Assert.That(couples, Is.EquivalentTo(expected));
+            Assert.That(duos, Is.EquivalentTo(expected));
 
         }
     }

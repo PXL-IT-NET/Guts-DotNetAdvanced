@@ -21,19 +21,19 @@ LinqExamples\JoinExamples.cs;")]
         public void _01_ShouldNotHaveChangedTestFiles()
         {
             var hash = Solution.Current.GetFileHash(@"LinqExamples.Tests\1_SelectExamplesTests.cs");
-            Assert.That(hash, Is.EqualTo("77-D8-A5-61-80-8D-EA-0B-6B-8A-39-F9-F7-27-3B-85"), () => "'1_SelectExamplesTests.cs' has been changed.");
+            Assert.That(hash, Is.EqualTo("CB-4C-36-EB-C6-61-F5-40-32-81-43-5F-7A-86-28-C3"), "'1_SelectExamplesTests.cs' has been changed.");
 
             hash = Solution.Current.GetFileHash(@"LinqExamples.Tests\2_WhereExamplesTests.cs");
-            Assert.That(hash, Is.EqualTo("9D-7E-52-9B-EA-09-39-F4-F0-23-5D-3B-A4-0A-91-9D"), () => "'2_WhereExamplesTests.cs' has been changed.");
+            Assert.That(hash, Is.EqualTo("31-B0-EF-11-62-DA-BA-C3-36-C6-10-2B-5C-13-34-6C"), "'2_WhereExamplesTests.cs' has been changed.");
 
             hash = Solution.Current.GetFileHash(@"LinqExamples.Tests\3_OrderByExamplesTests.cs");
-            Assert.That(hash, Is.EqualTo("D6-D1-9C-2D-4F-81-4F-F0-6D-37-06-1A-4A-14-17-70"), () => "'3_OrderByExamplesTests.cs' has been changed.");
+            Assert.That(hash, Is.EqualTo("80-6A-76-57-21-60-F4-03-22-88-E1-AD-86-48-53-61"), "'3_OrderByExamplesTests.cs' has been changed.");
 
             hash = Solution.Current.GetFileHash(@"LinqExamples.Tests\4_GroupExamplesTests.cs");
-            Assert.That(hash, Is.EqualTo("35-30-53-49-3A-21-C2-D0-9D-B5-7E-4B-36-EE-6F-67"), () => "'4_GroupExamplesTests.cs' has been changed.");
+            Assert.That(hash, Is.EqualTo("AE-C4-CD-6B-1B-43-E3-5C-C1-67-81-C4-EF-3F-4F-EA"), "'4_GroupExamplesTests.cs' has been changed.");
 
             hash = Solution.Current.GetFileHash(@"LinqExamples.Tests\5_JoinExamplesTests.cs");
-            Assert.That(hash, Is.EqualTo("B3-B3-21-62-7D-5C-D1-7F-F3-EB-07-3C-7E-CA-FF-AD"), () => "'5_JoinExamplesTests.cs' has been changed.");
+            Assert.That(hash, Is.EqualTo("25-5C-06-34-E4-EA-DC-17-D4-F1-AC-32-9B-6E-9C-23"), "'5_JoinExamplesTests.cs' has been changed.");
         }
 
         [MonitoredTest("Should use LINQ"), Order(2)]

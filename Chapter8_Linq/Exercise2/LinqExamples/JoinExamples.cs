@@ -13,7 +13,7 @@ namespace LinqExamples
             throw new NotImplementedException();
         }
 
-        public IList<string> FindCouplesByFavoriteAnimalUsingJoin(List<Person> boys, List<Person> girls)
+        public IList<string> Merge2GroupsIntoDuosByAgeUsingJoin(List<Person> group1, List<Person> group2)
         {
             //Tip: use the "ToList" extension method to convert an IEnumerable to a List
             throw new NotImplementedException();

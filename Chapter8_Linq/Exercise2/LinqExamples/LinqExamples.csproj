@@ -44,7 +44,7 @@
     <Compile Include="JoinExamples.cs" />
     <Compile Include="Models\AngleInfo.cs" />
     <Compile Include="Models\Person.cs" />
-    <Compile Include="Models\PersonAgeGroup.cs" />
+    <Compile Include="Models\AnimalLoverCollection.cs" />
     <Compile Include="Models\PersonSummary.cs" />
     <Compile Include="SelectExamples.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
