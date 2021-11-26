@@ -32,7 +32,7 @@ Complete the *RomanNumberConverterTests* class (in the test project) by implemen
           * If *number >= 900* the result is *CM* followed by the conversion of *number - 900*. 
           * If *number >= 500* the result is *D* followed by the conversion of *number - 500*. 
           * If *number >= 400* the result is *CD* followed by the conversion of *number - 400*. 
-          * If *number >= 100* the result is *C* followed by the conversion of *number - 1000*. 
+          * If *number >= 100* the result is *C* followed by the conversion of *number - 100*. 
           * If *number >= 90* the result is *XC* followed by the conversion of *number - 90*. 
           * If *number >= 50* the result is *L* followed by the conversion of *number - 50*. 
           * If *number >= 40* the result is *XL* followed by the conversion of *number - 40*. 
@@ -59,7 +59,7 @@ The FizzBuzz application you are building can be used to generate the numbers of
 The user can also alter the Fizz factor, the Buzz factor and the last number. 
 
 The presentation layer (UI) of the application is already in place. 
-It uses a class “FizzBuzzService” in the business layer that can generate the text.
+It uses a class ï¿½FizzBuzzServiceï¿½ in the business layer that can generate the text.
 
 Complete the FizzBuzzService tests (in the test project) and make sure the FizzBuzzService class works correctly.
 Complete the following tests:
