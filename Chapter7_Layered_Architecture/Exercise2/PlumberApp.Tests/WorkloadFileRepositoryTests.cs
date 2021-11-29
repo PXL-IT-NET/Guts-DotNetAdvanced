@@ -62,7 +62,8 @@ namespace PlumberApp.Tests
         [MonitoredTest("WorkloadFileRepository - Constructor - Should create the file directory")]
         public void Constructor_ShouldCreateTheFileDirectory()
         {
-           Assert.That(Directory.Exists(_workloadDirectory), Is.True);
+            Assert.That(Directory.Exists(_workloadDirectory), Is.True,
+                "The constructor should create the 'workloadFileDirectory' if it does not exist yet.");
         }
 
         [MonitoredTest("WorkloadFileRepository - Add - Should save a json version of the workload in a file")]
