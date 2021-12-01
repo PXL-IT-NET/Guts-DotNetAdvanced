@@ -2,13 +2,13 @@
 using System.Linq;
 using Guts.Client.Classic;
 using Guts.Client.Shared;
-using Lottery.Data;
 using Lottery.Domain;
+using Lottery.Infrastructure;
 using NUnit.Framework;
 
 namespace Lottery.Tests
 {
-    [ExerciseTestFixture("dotnet2", "H11", "Exercise01", @"Lottery.Data\LotteryGameRepository.cs")]
+    [ExerciseTestFixture("dotnet2", "H11", "Exercise01", @"Lottery.Infrastructure\LotteryGameRepository.cs")]
     internal class LotteryGameRepositoryTests : DatabaseTests
     {
         [MonitoredTest("LotteryGameRepository - GetAll should return all games from the database")]

@@ -11,7 +11,7 @@ using NUnit.Framework;
 
 namespace Lottery.Tests
 {
-    [ExerciseTestFixture("dotnet2", "H11", "Exercise01", @"Lottery.Data\LotteryContext.cs")]
+    [ExerciseTestFixture("dotnet2", "H11", "Exercise01", @"Lottery.Infrastructure\LotteryContext.cs")]
     internal class LotteryContextTests : DatabaseTests
     {
         private string _lotterContextClassContent;
@@ -19,7 +19,7 @@ namespace Lottery.Tests
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            _lotterContextClassContent = Solution.Current.GetFileContent(@"Lottery.Data\LotteryContext.cs");
+            _lotterContextClassContent = Solution.Current.GetFileContent(@"Lottery.Infrastructure\LotteryContext.cs");
         }
 
         [MonitoredTest("LotteryContext - Should have two DBSets")]

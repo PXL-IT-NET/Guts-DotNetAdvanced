@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Guts.Client.Classic;
 using Guts.Client.Shared;
 using Lottery.Domain;
 using Lottery.UI.Converters;
 using NUnit.Framework;
+using System.Linq;
 
 namespace Lottery.Tests
 {
@@ -23,8 +23,8 @@ namespace Lottery.Tests
             _random = new Random();
         }
 
-        [MonitoredTest("DrawNumbersConverter - Convert should create a comma seperated string of numbers"), Order(1)]
-        public void _01_Convert_ShouldCreateACommaSeperatedStringOfNumbers()
+        [MonitoredTest("DrawNumbersConverter - Convert should create a comma separated string of numbers"), Order(1)]
+        public void _01_Convert_ShouldCreateACommaSeparatedStringOfNumbers()
         {
             //Arrange
             var drawedNumbers = new List<DrawNumber>

@@ -18,7 +18,7 @@ When this button is clicked, the application generates a new draw for the select
 
 ### Implementation details
 
-#### Setup the database context (Lottery.Data)
+#### Setup the database context (Lottery.Infrastructure)
 The application will use Entity Framework (EF) to create, manage and access the database. 
 
 The domain classes (the classes that represent entities in our lottery domain) can be found in a seperate project *Lottery.Domain*. 
@@ -29,7 +29,7 @@ In our domain we have 3 classes:
 
 **Attention:** in this exercise the domain classes, foreign key properties and navigation properties are given. This will not always be the case (e.g. on you exam).
 
-Now turn your attention to the *LotteryContext* class in the data layer (*Lottery.Data*). 
+Now turn your attention to the *LotteryContext* class in the infrastructure layer (*Lottery.Infrastructure*). 
 
 Add 2 *DbSet*s to the context one for *LotteryGame* and one for *Draw*. Now EF will know that *LotterGame* and *Draw* are a part of the database model. 
 And thanks to the navigation properties EF will also infer that *DrawNumber* is a part of the model.
@@ -54,20 +54,19 @@ The *LotteryContext* will be instantiated at the startup of the application insi
 At that moment the *CreateOrUpdateDatabase* method of the context will be called. You need to make sure this method works. 
 **Do not change any code inside App.xaml.cs.** You only need to add an implementation to the *CreateOrUpdateDatabase* method.
 
-#### LotteryGameRepository.cs (Lottery.Data)
+#### LotteryGameRepository.cs (Lottery.Infrastructure)
 Implement the *GetAll* method. Use the automatic tests for guidance.
 
-#### DrawRepository.cs (Lottery.Data)
+#### DrawRepository.cs (Lottery.Infrastructure)
 Implement the *Find* method. Use the automatic tests for guidance.
 
 Implement the *Add* method. Use the automatic tests for guidance.
 
-#### DrawService.cs (Lottery.Business)
-The lottery application also has a business layer. The business layer uses the data layer to retrieve data 
-and it is used by the presentation (UI) layer.
+#### DrawService.cs (Lottery.AppLogic)
+The lottery application also has an application logic layer.
 
 The *DrawService* is responsible for correctly generating a new draw for a certain lottery game 
-and saving it in the database (using the data layer).
+and saving it in storage.
 When the *DrawService* creates a draw it should take the following rules into account:
 * The *LotteryGameId* of the draw must be set.
 * The *Date* of the draw must be the current date.

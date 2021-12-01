@@ -1,6 +1,5 @@
 ﻿using System;
 using Guts.Client.Shared.TestTools;
-using Lottery.Business.Interfaces;
 using Lottery.Domain;
 using Lottery.UI;
 using Moq;
@@ -14,6 +13,7 @@ using System.Windows.Data;
 using Guts.Client.Classic;
 using Guts.Client.Classic.TestTools.WPF;
 using Guts.Client.Shared;
+using Lottery.AppLogic.Interfaces;
 using Lottery.UI.Converters;
 
 namespace Lottery.Tests

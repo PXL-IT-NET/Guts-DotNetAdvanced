@@ -1,6 +1,6 @@
 ﻿using System.Windows;
-using Lottery.Business;
-using Lottery.Data;
+using Lottery.AppLogic;
+using Lottery.Infrastructure;
 
 namespace Lottery.UI
 {

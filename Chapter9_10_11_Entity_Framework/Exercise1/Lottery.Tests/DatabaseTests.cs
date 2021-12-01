@@ -1,10 +1,10 @@
-﻿using Lottery.Data;
-using Microsoft.Data.Sqlite;
+﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System;
 using System.Text;
 using Lottery.Domain;
+using Lottery.Infrastructure;
 
 namespace Lottery.Tests
 {

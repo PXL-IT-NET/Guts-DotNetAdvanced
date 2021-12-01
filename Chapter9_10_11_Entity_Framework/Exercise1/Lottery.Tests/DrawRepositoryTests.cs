@@ -4,16 +4,16 @@ using System.Linq;
 using Guts.Client.Classic;
 using Guts.Client.Shared;
 using Guts.Client.Shared.TestTools;
-using Lottery.Data;
 using Lottery.Domain;
+using Lottery.Infrastructure;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using NUnit.Framework;
 
 namespace Lottery.Tests
 {
-    [ExerciseTestFixture("dotnet2", "H11", "Exercise01", 
-        @"Lottery.Data\DrawRepository.cs")]
+    [ExerciseTestFixture("dotnet2", "H11", "Exercise01",
+        @"Lottery.Infrastructure\DrawRepository.cs")]
     internal class DrawRepositoryTests : DatabaseTests
     {
         [MonitoredTest("DrawRepository - Find should return all draws of a game when there are no date limits")]
@@ -132,7 +132,7 @@ namespace Lottery.Tests
         [MonitoredTest("DrawRepository - Find should contain less than 450 characters")]
         public void Find_ShouldContainLessThan450Characters()
         {
-            var code = Solution.Current.GetFileContent(@"Lottery.Data\DrawRepository.cs");
+            var code = Solution.Current.GetFileContent(@"Lottery.Infrastructure\DrawRepository.cs");
             var syntaxtTree = CSharpSyntaxTree.ParseText(code);
             var root = syntaxtTree.GetRoot();
             var method = root

@@ -1,12 +1,11 @@
-﻿using System.Configuration;
-using Lottery.Domain;
+﻿using System;
 using Microsoft.EntityFrameworkCore;
 
-namespace Lottery.Data
+namespace Lottery.Infrastructure
 {
     internal class LotteryContext : DbContext
     {
-        public LotteryContext(){} //Constructor used by UI project
+        public LotteryContext(){ } //Constructor used by UI project
 
         public LotteryContext(DbContextOptions<LotteryContext> options) : base(options) { } //Constructor used by Test project
 
@@ -18,13 +17,9 @@ namespace Lottery.Data
             }
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-        }
-
         public void CreateOrUpdateDatabase()
         {
+            throw new NotImplementedException();
         }
     }
 }

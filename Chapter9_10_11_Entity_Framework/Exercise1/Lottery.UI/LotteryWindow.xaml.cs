@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using Lottery.Business.Interfaces;
-using Lottery.Domain;
+using Lottery.AppLogic.Interfaces;
 
 namespace Lottery.UI
 {
@@ -27,7 +26,7 @@ namespace Lottery.UI
         {
             //TODO: create the draw
 
-            RetrieveDraws(); //Refreshed the draws that are shown in the ListView
+            RetrieveDraws(); //Refresh the draws that are shown in the ListView
         }
 
         private void GameComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -40,7 +39,7 @@ namespace Lottery.UI
 
         private void RetrieveDraws()
         {
-            //TODO: get the draws and show them
+            //TODO: get the draws using the repository and show them
         }
     }
 }

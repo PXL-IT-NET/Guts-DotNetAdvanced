@@ -1,6 +1,6 @@
 ﻿using Lottery.Domain;
 
-namespace Lottery.Business.Interfaces
+namespace Lottery.AppLogic.Interfaces
 {
     public interface IDrawService
     {

@@ -1,18 +1,18 @@
 ﻿using Guts.Client.Classic;
 using Guts.Client.Shared;
-using Lottery.Business;
 using Lottery.Domain;
 using Moq;
 using NUnit.Framework;
 using System;
 using System.Linq;
 using Guts.Client.Shared.TestTools;
-using Lottery.Business.Interfaces;
+using Lottery.AppLogic;
+using Lottery.AppLogic.Interfaces;
 using Microsoft.CodeAnalysis.CSharp;
 
 namespace Lottery.Tests
 {
-    [ExerciseTestFixture("dotnet2", "H11", "Exercise01", @"Lottery.Business\DrawService.cs")]
+    [ExerciseTestFixture("dotnet2", "H11", "Exercise01", @"Lottery.AppLogic\DrawService.cs")]
     public class DrawServiceTests
     {
         private Mock<IDrawRepository> _drawRepositoryMock;
@@ -23,7 +23,7 @@ namespace Lottery.Tests
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            _drawServiceClassContent = Solution.Current.GetFileContent(@"Lottery.Business\DrawService.cs");
+            _drawServiceClassContent = Solution.Current.GetFileContent(@"Lottery.AppLogic\DrawService.cs");
         }
 
         [SetUp]

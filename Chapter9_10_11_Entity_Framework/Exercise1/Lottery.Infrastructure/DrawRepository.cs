@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Lottery.Business.Interfaces;
+using Lottery.AppLogic.Interfaces;
 using Lottery.Domain;
-using Microsoft.EntityFrameworkCore;
 
-namespace Lottery.Data
+namespace Lottery.Infrastructure
 {
     internal class DrawRepository : IDrawRepository
     {
@@ -15,7 +13,7 @@ namespace Lottery.Data
 
         public IList<Draw> Find(int lotteryGameId, DateTime? fromDate, DateTime? untilDate)
         {
-            return null;
+            throw new NotImplementedException();
         }
 
         public void Add(Draw draw)

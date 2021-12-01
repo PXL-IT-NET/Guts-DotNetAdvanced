@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Lottery.Business.Interfaces;
+using Lottery.AppLogic.Interfaces;
 using Lottery.Domain;
 
-namespace Lottery.Business
+namespace Lottery.AppLogic
 {
     internal class DrawService : IDrawService
     {

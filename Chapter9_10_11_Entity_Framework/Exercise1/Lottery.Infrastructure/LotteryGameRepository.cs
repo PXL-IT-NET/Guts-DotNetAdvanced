@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Lottery.Business.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using Lottery.AppLogic.Interfaces;
 using Lottery.Domain;
 
-namespace Lottery.Data
+namespace Lottery.Infrastructure
 {
     internal class LotteryGameRepository : ILotteryGameRepository
     {
@@ -13,7 +13,7 @@ namespace Lottery.Data
 
         public IList<LotteryGame> GetAll()
         {
-            return null;
+            throw new NotImplementedException();
         }
     }
 }
