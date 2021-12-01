@@ -125,14 +125,17 @@ The transfer windows closes automatically and the balances of the accounts are a
 
 ### Implementation details
 
+#### Complete the domain entities (Bank.Domain)
+The domain classes (the classes that represent entities in our banking domain) can be found in the *Domain* layer. 
+In our domain we have 3 classes:
+* City: place with a name and a zipcode. The zipcode identifies each city uniquely.
+* Customer: represents a customer of the bank. A customer is linked to a city via the *ZipCode* property. One customer can have many accounts.
+* Account: banking account of a customer. There are different types of accounts. The type of the account is set by a property of the *AccountType* enum.
+
+Tip: use the names and feedback of the automatic tests as guidance.
+
 #### Setup the database context (Bank.Infrastructure)
 The application will use Entity Framework (EF) to create, manage and access the database. 
-
-The domain classes (the classes that represent entities in our banking domain) can be found in the *DomainClasses* folder. 
-In our domain we have 3 classes:
-* City: place with a name and a zipcode. The zipcode makes each city unique (primary key).
-* Customer: represents a customer of the bank. A customer is linked to a city via the *ZipCode* property (foreign key). The *Name* and *FirstName* of a customer are required properties. One customer can have many accounts.
-* Account: banking account of a customer. The *AccountNumber* is required. There are different types of accounts. The type of the account is set by a property of the *AccountType* enum.
 
 **Attention:** the navigation properties (relations) are missing in the domain classes. It is up to you to define the correct relations.
 
@@ -161,8 +164,10 @@ Do this in the *OnConfiguring* method inside the if-test.
 **Do not change the constructors or place code outside the if-test in the *OnConfiguring* method. 
 Otherwise the automatic tests will not function properly.**
 
-The *BankContext* will be instantiated at the startup of the application inside *App.xaml.cs* (wiring). 
+The *BankContext* should be instantiated at the startup of the application inside *App.xaml.cs* (wiring). 
 At that moment the *CreateOrUpdateDatabase* method of the context should be called. You need to make sure this method works. 
+
+Tip: use the names and feedback of the automatic tests as guidance.
 
 #### CityRepository.cs (Bank.Infrastructure)
 The *CityRepository* class implements *ICityRepository* that defines 1 method:
@@ -170,14 +175,14 @@ The *CityRepository* class implements *ICityRepository* that defines 1 method:
 
 Use the automatic tests for guidance.
 
-#### CustomerRepository.cs (Bank.Data)
+#### CustomerRepository.cs (Bank.Infrastructure)
 The *CustomerRepository* class implements *ICustomerRepository* that defines 2 methods:
 * GetAllWithAccounts: returns all customers with there accounts loaded
 * Add: adds a new customer to the databse
 
 Use the automatic tests for guidance.
 
-#### AccountRepository.cs (Bank.Data)
+#### AccountRepository.cs (Bank.Infrastructure)
 The *AccountRepository* class implements *IAccountRepository* that defines 3 methods:
 * GetByAccountNumber: retrieves a specific account from the database.
 * Add: adds a new account to the database.
@@ -185,49 +190,30 @@ The *AccountRepository* class implements *IAccountRepository* that defines 3 met
 
 Use the automatic tests for guidance.
 
-#### Validators (Bank.Business)
-The business layer of the applications contains to validator classes:
-* The *CustomerValidator* class is resposible for validating a *Customer* instance. It checks if the first and lastname are filled in and if a valid zipcode is set. 
-* The *AccountValidatory* class is resposible for validating an *Account* instance. It checks if an accountnumber is set. Is also verifies that an new account (id <= 0) does not have a negative balance. It also checks if a valid customer and a valid type is set.
+#### AccountService (Bank.AppLogic)
+Implement the *AccountService* class. This service can be used to add a new account to a customer and to transfer many between the accounts of a customer.
 
 Use the automatic tests for guidance.
 
 #### CustomersWindow.xaml (.cs) (Bank.UI)
-We want to display the customers in a table layout, we want to be able to edit rows and we want to be able to add new rows (customers). 
-There is a (WPF) control that can do all of this stuff and more: the **DataGrid** control. 
+The XAML code is given. The C# code in the codebehind still needs some work.
 
-Make yourself familiar with this control (their is a big chance that you'll have to work with it on the exam):
-* [DataGrid class documentation](https://docs.microsoft.com/en-us/dotnet/api/system.windows.controls.datagrid)
-* [DataGrid tutorial](https://www.wpftutorial.net/DataGrid.html)
+Use the names and feedback of the automatic tests as guidance.
 
-In this window the datagrid will have a list of customers (retrieved with an ICustomerRepository) as *ItemsSource*. 
-Make sure the correct bindings are used for the different columns. 
-For the city combobox column you will need to retrieve a list of all cities and set this list as *ItemsSource* of the column. 
-Then you need to make sure that the correct *City* properties are used for the displaytext and value of each item. 
-You will also need to tell the datagrid that the selected value in the combobox matches the *ZipCode* property of the customer. 
-
-Provide an implementation for the button click event handlers. 
-The unit tests for this class will guide you in the right direction.
-
-Error messages can be shown in the UI using the *ErrorTextBlock*.
-
-Note that the repository classes and validator classes (interfaces) are injected via the constructor.
+Note that the repositories and services (interfaces) are injected via the constructor.
 There is also an *IWindowDialogService* that is injected. Use this object to open the *AccountsWindow* if needed. 
 This eliminates the need to new up an instance of *AccountsWindow* directly and makes the class more testable. 
-If you are wondering how the customers window is created you can take a look at *App.xaml.cs*.
+
+Don't forget to create and show an instance of the *CustomersWindow* during application startup (wiring).
 
 #### AccountsWindow.xaml (.cs) (Bank.UI)
-The UI of the accounts window is very similar to the customers window. 
-In this case a datagrid of accounts of the customer is shown. 
+The accounts window is very similar to the customers window. 
 
-Complete the bindings for the datagrid. 
-Provide an implementation for the button click event handlers. 
-Error messages can be shown in the UI using the *ErrorTextBlock*.
-
-The unit tests for this class will guide you in the right direction.
+Use the names and feedback of the automatic tests as guidance.
 
 #### TransferWindow.xaml (.cs) (Bank.UI) 
 Provide an implementation for the button click event handler. 
+
 The unit tests for this class will guide you in the right direction.
 
 [img_customers_window]:images/customers_window.png "Overview of customers"
