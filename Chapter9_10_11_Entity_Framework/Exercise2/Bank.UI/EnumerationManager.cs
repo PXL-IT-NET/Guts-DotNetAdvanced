@@ -3,7 +3,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Reflection;
 
-namespace Bank.Domain.Enums
+namespace Bank.UI
 {
     public class EnumerationManager
     {

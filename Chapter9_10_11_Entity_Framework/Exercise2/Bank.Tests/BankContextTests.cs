@@ -6,11 +6,12 @@ using Guts.Client.Shared;
 using Guts.Client.Shared.TestTools;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 
 namespace Bank.Tests
 {
-    [ExerciseTestFixture("dotnet2", "H11", "Exercise02", @"Bank.Data\BankContext.cs")]
+    [ExerciseTestFixture("dotnet2", "H11", "Exercise02", @"Bank.Infrastructure\BankContext.cs")]
     public class BankContextTests : DatabaseTests
     {
         private string _bankContextClassContent;
@@ -18,11 +19,11 @@ namespace Bank.Tests
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            _bankContextClassContent = Solution.Current.GetFileContent(@"Bank.Data\BankContext.cs");
+            _bankContextClassContent = Solution.Current.GetFileContent(@"Bank.Infrastructure\BankContext.cs");
         }
 
-        [MonitoredTest("BankContext - Should have three DBSets")]
-        public void ShouldHaveThreeDbSets()
+        [MonitoredTest("BankContext - Should have 3 DBSets")]
+        public void ShouldHave3DbSets()
         {
             var properties = GetDbSetProperties();
 
@@ -36,6 +37,21 @@ namespace Bank.Tests
             Assert.That(properties,
                 Has.One.Matches((PropertyDeclarationSyntax p) => p.Type.ToString() == "DbSet<City>"),
                 "There should be one 'DbSet' for cities.");
+        }
+
+        [MonitoredTest("BankContext - OnModelCreating should make the name and firstname of a customer required")]
+        public void OnModelCreating_ShouldMakeTheNameAndFirstNameOfACustomerRequired()
+        {
+            using (var context = CreateDbContext())
+            {
+                var customerEntityType = context.Model.FindEntityType(typeof(Customer).FullName);
+                var nameProperty = customerEntityType.FindProperty(nameof(Customer.Name));
+                Assert.That(nameProperty.IsNullable, Is.False, "The 'Name' property is not required. " +
+                                                               "Use Fluent API to tell Entity Framework that the 'Name' property of a 'Customer' entity should be required.");
+                var firstNameProperty = customerEntityType.FindProperty(nameof(Customer.FirstName));
+                Assert.That(firstNameProperty.IsNullable, Is.False, "The 'FirstName' property is not required. " +
+                                                                    "Use Fluent API to tell Entity Framework that the 'FirstName' property of a 'Customer' entity should be required.");
+            }
         }
 
         [MonitoredTest("BankContext - OnModelCreating should set the zipcode as primary key for the City entity")]
@@ -54,16 +70,14 @@ namespace Bank.Tests
             }
         }
 
-
         [MonitoredTest("BankContext - OnModelCreating should seed the flemish capital cities")]
         public void OnModelCreating_ShouldSeedTheFlemishCapitalCities()
         {
             using (var context = CreateDbContext())
             {
-
                 var seededCities = context.Set<City>().ToList();
                 Assert.That(seededCities, Has.Count.GreaterThanOrEqualTo(5), "The database must be seeded wit at least 5 cities. " +
-                                                                      $"Now the database contains {seededCities.Count} cities after creation.");
+                                                                             $"Now the database contains {seededCities.Count} cities after creation.");
                 AssertCity(seededCities, "Antwerpen", 2000);
                 AssertCity(seededCities, "Brugge", 8000);
                 AssertCity(seededCities, "Gent", 9000);
@@ -72,34 +86,18 @@ namespace Bank.Tests
             }
         }
 
-
-        [MonitoredTest("BankContext - OnModelCreating should make the name and firstname of a customer required")]
-        public void OnModelCreating_ShouldMakeTheNameAndFirstNameOfACustomerRequired()
-        {
-            using (var context = CreateDbContext())
-            {
-                var customerEntityType = context.Model.FindEntityType(typeof(Customer).FullName);
-                var nameProperty = customerEntityType.FindProperty(nameof(Customer.Name));
-                Assert.That(nameProperty.IsNullable, Is.False, "The 'Name' property is not required. " +
-                                                               "Use Fluent API to tell Entity Framework that the 'Name' property of a 'Customer' entity should be required.");
-                var firstNameProperty = customerEntityType.FindProperty(nameof(Customer.FirstName));
-                Assert.That(firstNameProperty.IsNullable, Is.False, "The 'FirstName' property is not required. " +
-                                                                    "Use Fluent API to tell Entity Framework that the 'FirstName' property of a 'Customer' entity should be required.");
-            }
-        }
-
-        [MonitoredTest("BankContext - OnModelCreating should make the number of an account required")]
-        public void OnModelCreating_ShouldMakeTheNumberOfAnAccountRequired()
+        [MonitoredTest("BankContext - OnModelCreating should mark the number of an account as primary key")]
+        public void OnModelCreating_ShouldMarkTheNumberOfAnAccountAsPrimaryKey()
         {
             using (var context = CreateDbContext())
             {
                 var accountEntityType = context.Model.FindEntityType(typeof(Account).FullName);
                 var accountNumberProperty = accountEntityType.FindProperty(nameof(Account.AccountNumber));
-                Assert.That(accountNumberProperty.IsNullable, Is.False, "The 'AccountNumber' property is not required. " +
-                                                               "Use Fluent API to tell Entity Framework that the 'AccountNumber' property of an 'Account' entity should be required.");
+
+                Assert.That(accountNumberProperty.IsPrimaryKey(), Is.True, "The 'AccountNumber' property is not the primary key. " +
+                                                                            "Use Fluent API to tell Entity Framework that the 'AccountNumber' property of an 'Account' entity should be the primary key.");
             }
         }
-
 
         [MonitoredTest("BankContext - OnModelCreating should configure the relation between Customer and City correctly")]
         public void OnModelCreating_ShouldConfigureTheRelationBetweenCustomerAndCity()
@@ -118,16 +116,14 @@ namespace Bank.Tests
         {
             var methodBody = GetMethodBody("CreateOrUpdateDatabase").ToString();
 
-            Assert.That(methodBody, Contains.Substring("Database.Migrate();"), () => "You should use the 'Migrate' method of the 'Database' property of the context (this) to migrate the database. " +
-                                                                                     "If it does not exist yet, it is created. " +
-                                                                                     "Otherwise the database is migrated to the latest version.");
+            Assert.That(methodBody, Contains.Substring("Database.Migrate();"), () => "You should use the 'Migrate' method of the 'Database' property of the context (this) to migrate the database. " + "Otherwise the database is migrated to the latest version.");
         }
 
         [MonitoredTest("BankContext - Should not have unnecessary comments")]
         public void ShouldNotHaveUnnecessaryComments()
         {
-            var syntaxtTree = CSharpSyntaxTree.ParseText(_bankContextClassContent);
-            var root = syntaxtTree.GetRoot();
+            var syntaxTree = CSharpSyntaxTree.ParseText(_bankContextClassContent);
+            var root = syntaxTree.GetRoot();
             var commentCount = root
                 .DescendantTrivia()
                 .Count(trivia => trivia.Kind() == SyntaxKind.SingleLineCommentTrivia ||
@@ -137,17 +133,10 @@ namespace Bank.Tests
                                                                      "and/or replace comments with meaningful method calls.");
         }
 
-        private void AssertCity(IList<City> cities, string name, int zipCode)
-        {
-            Assert.That(cities.Any(c => c.Name == name && c.ZipCode == zipCode), Is.True,
-                $"City with name '{name}' && zip '{zipCode}' is not seeded.");
-        }
-
-
         private BlockSyntax GetMethodBody(string methodName)
         {
-            var syntaxtTree = CSharpSyntaxTree.ParseText(_bankContextClassContent);
-            var root = syntaxtTree.GetRoot();
+            var syntaxTree = CSharpSyntaxTree.ParseText(_bankContextClassContent);
+            var root = syntaxTree.GetRoot();
             var method = root
                 .DescendantNodes()
                 .OfType<MethodDeclarationSyntax>()
@@ -159,8 +148,8 @@ namespace Bank.Tests
 
         private IList<PropertyDeclarationSyntax> GetDbSetProperties()
         {
-            var syntaxtTree = CSharpSyntaxTree.ParseText(_bankContextClassContent);
-            var root = syntaxtTree.GetRoot();
+            var syntaxTree = CSharpSyntaxTree.ParseText(_bankContextClassContent);
+            var root = syntaxTree.GetRoot();
             var properties = root
                 .DescendantNodes()
                 .OfType<PropertyDeclarationSyntax>()
@@ -171,6 +160,12 @@ namespace Bank.Tests
                 });
 
             return properties.ToList();
+        }
+
+        private void AssertCity(IList<City> cities, string name, int zipCode)
+        {
+            Assert.That(cities.Any(c => c.Name == name && c.ZipCode == zipCode), Is.True,
+                $"City with name '{name}' && zip '{zipCode}' is not seeded.");
         }
     }
 }

@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.21" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Bank.Business\Bank.Business.csproj" />
+    <ProjectReference Include="..\Bank.AppLogic\Bank.AppLogic.csproj" />
     <ProjectReference Include="..\Bank.Domain\Bank.Domain.csproj" />
   </ItemGroup>
 

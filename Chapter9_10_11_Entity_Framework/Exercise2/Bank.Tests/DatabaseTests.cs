@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
-using Bank.Data;
 using Bank.Domain;
+using Bank.Infrastructure;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
@@ -24,7 +25,6 @@ namespace Bank.Tests
         [OneTimeSetUp]
         public void CreateDatabase()
         {
-
             _connection = new SqliteConnection("DataSource=:memory:");
             _connection.Open();
 
@@ -34,7 +34,7 @@ namespace Bank.Tests
                 try
                 {
                     context.Database.Migrate();
-                    context.Set<City>().FirstOrDefaultAsync();
+                    City firstCity = context.Set<City>().FirstOrDefault();
                 }
                 catch (Exception e)
                 {

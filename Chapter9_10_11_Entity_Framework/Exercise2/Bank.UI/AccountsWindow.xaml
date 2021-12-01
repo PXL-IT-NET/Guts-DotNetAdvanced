@@ -3,40 +3,56 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:enums="clr-namespace:Bank.Domain.Enums;assembly=Bank.Domain"
+        xmlns:ui="clr-namespace:Bank.UI"
+        xmlns:domain="clr-namespace:Bank.Domain;assembly=Bank.Domain"
         mc:Ignorable="d"
         Title="AccountsWindow" Height="auto" Width="auto">
     <Window.Resources>
-        <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type enums:EnumerationManager}" x:Key="AccountTypeDataProvider">
+        <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type ui:EnumerationManager}" x:Key="AccountTypeDataProvider">
             <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="enums:AccountType" />
+                <x:Type TypeName="domain:AccountType" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
+            <RowDefinition Height="20" />
             <RowDefinition Height="4*" />
-            <RowDefinition Height="60" />
+            <RowDefinition Height="3*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="500" />
+            <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="20" />
         </Grid.ColumnDefinitions>
-        <DataGrid AutoGenerateColumns="False" x:Name="AccountsDataGrid" HorizontalAlignment="Center" Height="auto" VerticalAlignment="Top" Width="auto" CanUserAddRows="False" Grid.Row="1" Grid.Column="1">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Account Number" />
-                <DataGridComboBoxColumn Header="AccountType" x:Name="AccountTypeComboBox" ItemsSource="{Binding Source = {StaticResource AccountTypeDataProvider }}" SelectedItemBinding ="{Binding AccountType, Mode=TwoWay}"/>
-                <DataGridTextColumn Header="Balance" />
-            </DataGrid.Columns>
-        </DataGrid>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1">
-            <Button x:Name="AddAccountButton" Content="Add Account" Margin="10" Padding="10" Click="AddAccountButton_Click"/>
-            <Button x:Name="SaveAccountButton" Content="Save" Margin="10" Padding="10" Click="SaveAccountButton_Click"/>
-            <Button x:Name="TransferButton" Content="Transfer Amount" Margin="10" Padding="10" Click="TransferButton_Click"/>
-        </StackPanel>
-        <TextBlock Name="ErrorTextBlock" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="8" Background="Red" Foreground="White" Visibility="Hidden"></TextBlock>
+        <ListView x:Name="AccountsListView" Grid.Row="1" Grid.Column="1">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Margin="4">
+                        <TextBlock Text="{Binding Path=AccountNumber}"></TextBlock>
+                        <TextBlock Text=" ("></TextBlock>
+                        <TextBlock Text="{Binding Path=AccountType}"></TextBlock>
+                        <TextBlock Text=") *** "></TextBlock>
+                        <TextBlock Text="{Binding Path=Balance}" FontWeight="Bold"></TextBlock>
+                        <Button Content="Transfer" Click="TransferButton_Click" Tag="{Binding}" Margin="10 0 0 0"></Button>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <GroupBox x:Name="NewAccountGroupBox" Header="New account" Grid.Row="2" Grid.Column="1">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="4">
+                    <Label Target="{Binding ElementName=AccountNumberTextBox}">_Account number</Label>
+                    <TextBox x:Name="AccountNumberTextBox" MinWidth="200"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="4">
+                    <Label Target="{Binding ElementName=TypeComboBox}">_Type</Label>
+                    <ComboBox x:Name="TypeComboBox" ItemsSource="{Binding Source = {StaticResource AccountTypeDataProvider }}" MinWidth="200"></ComboBox>
+                </StackPanel>
+                <Button Name="AddAccountButton" Content="Add Account" Click="AddAccountButton_Click" HorizontalAlignment="Left" Margin="10" Padding="10" />
+            </StackPanel>
+        </GroupBox>
+        <TextBlock Name="ErrorTextBlock" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="8" Margin="4" Background="Red" Foreground="White" Visibility="Hidden"></TextBlock>
     </Grid>
 </Window>

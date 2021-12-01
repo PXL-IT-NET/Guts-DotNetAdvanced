@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Windows;
-using Bank.Business.Contracts;
-using Bank.Business.Contracts.DataAccess;
+using System.Windows.Controls;
+using Bank.AppLogic.Contracts.DataAccess;
+using Bank.Domain;
 
 namespace Bank.UI
 {
     public partial class CustomersWindow : Window
     {
         public CustomersWindow(ICustomerRepository customerRepository,
-            ICustomerValidator customerValidator,
             ICityRepository cityRepository,
             IWindowDialogService windowDialogService)
         {
@@ -20,14 +20,12 @@ namespace Bank.UI
             throw new NotImplementedException();
         }
 
-        private void SaveCustomerButton_Click(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         private void ShowAccountsButton_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            Button clickedButton = (Button)e.Source;
+            Customer selectedCustomer = (Customer)clickedButton.Tag;
+
+            //TODO: use dialog service to show transfer dialog
         }
     }
 }

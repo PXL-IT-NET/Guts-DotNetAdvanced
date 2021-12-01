@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Windows;
-using Bank.Business.Contracts;
-using Bank.Business.Contracts.DataAccess;
+using System.Windows.Controls;
+using Bank.AppLogic;
+using Bank.AppLogic.Contracts;
 using Bank.Domain;
 
 namespace Bank.UI
@@ -9,11 +10,11 @@ namespace Bank.UI
     public partial class AccountsWindow : Window
     {
         public AccountsWindow(Customer customer,
-            IAccountRepository accountRepository,
-            IAccountValidator accountValidator,
+            IAccountService accountService,
             IWindowDialogService windowDialogService)
         {
             InitializeComponent();
+            TypeComboBox.SelectedIndex = 0;
         }
 
         private void AddAccountButton_Click(object sender, RoutedEventArgs e)
@@ -21,14 +22,12 @@ namespace Bank.UI
             throw new NotImplementedException();
         }
 
-        private void SaveAccountButton_Click(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         private void TransferButton_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            Button clickedButton = (Button)e.Source;
+            Account selectedAccount = (Account)clickedButton.Tag;
+
+            //TODO: use dialog service to show transfer dialog
         }
     }
 }

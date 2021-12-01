@@ -103,38 +103,29 @@ The *CustomersWindow* (the starting window) shows an overview of the customers o
 
 ![alt text][img_customers_window]
  
-When the *Add Customer* button is clicked a new (empty) row/customer is added to the table. 
-When the selected row is a new customer and the *Save* button is clicked, the new customer is added in the database.
+In the *New Customer* section a new customer can be added. To add a new customer the text boxes should be filled in and a city must be selected. 
+When the *Add Customer* button is clicked a new customer is saved in the database and shown in the overview of customers. 
+When not all fields are filled in correctly an error message is shown at the bottom.
 
-![alt text][img_customers_window_addrow]
-
-The city of a customer can be set by selecting the city in a dropdown list.
-
-![alt text][img_customers_window_selectcity]
-
-By double clicking on a cell in the table you can start editing that cell:
-
-![alt text][img_customers_window_editrow]
-
-When the *Save* button is clicked the changes of the selected row/customer are persisted in the database.
-
-When the *Show Accounts* button is clicked, a new window (*AccountsWindow*) is opened as a dialog. 
-
+Next to each customer in the overview, a button *Show accounts* is shown. When this button is clicked the accounts of that customer are shown in a dialog window (*AccountsWindow*). 
 
 ![alt text][img_accounts_window]
 
 This window shows the accounts of the customer that was selected in the *CustomerWindow*. 
-Accounts can be edited and added in a similair way as in the *CustomerWindow*. 
-The *balance* colunm, however, is read-only. The balance of an account can only be changed by selecting an account and clicking on the *Transfer Amount* button. 
-This button opens a new window (*TransferWindow*) as a dialog:
+For each account the account number, the type and the current balance is shown.
+
+Accounts can be added in a similair way as in the *CustomerWindow*.
+
+Next to each account in the overview, a button *Transfer* is shown. When this button is clicked the accounts an internal transfer between the accounts of the customer can be made in a dialog window (*TransferWindow*).
 
 ![alt text][img_transfer_window]
 
 Here you can select the target account (an account of the same customer) set an amount and transfer the funds by clicking on the button.
+The transfer windows closes automatically and the balances of the accounts are automatically updated in the accounts window. 
 
 ### Implementation details
 
-#### Setup the database context (Bank.Data)
+#### Setup the database context (Bank.Infrastructure)
 The application will use Entity Framework (EF) to create, manage and access the database. 
 
 The domain classes (the classes that represent entities in our banking domain) can be found in the *DomainClasses* folder. 
@@ -154,8 +145,8 @@ And thanks to the navigation properties EF will also infer that one customer can
 You will still need to help EF a little bit to deduce a correct model from the domain classes. 
 Use Fluent API to:
 * Set *ZipCode* to be the primary key of a *City*.
-* Make the *AcountNumber* of an *Account* required.
-* Make the *Name* and *FirtName* properties of a *Customer* required.
+* Set the *AcountNumber* to be the primary key of an *Account*.
+* Make the *Name* and *FirstName* properties of a *Customer* required.
 * Set the relation between a *Customer* and a *City*. EF will need your help to determine the correct foreign key column (*ZipCode*).
 
 When the database is created it should be seeded with the 5 capital cities of Flanders:
@@ -170,29 +161,27 @@ Do this in the *OnConfiguring* method inside the if-test.
 **Do not change the constructors or place code outside the if-test in the *OnConfiguring* method. 
 Otherwise the automatic tests will not function properly.**
 
-The *BankContext* will be instantiated at the startup of the application inside *App.xaml.cs*. 
-At that moment the *CreateOrUpdateDatabase* method of the context will be called. You need to make sure this method works. 
-**Do not change any code inside App.xaml.cs.** You only need to add an implementation to the *CreateOrUpdateDatabase* method.
+The *BankContext* will be instantiated at the startup of the application inside *App.xaml.cs* (wiring). 
+At that moment the *CreateOrUpdateDatabase* method of the context should be called. You need to make sure this method works. 
 
-#### CityRepository.cs (Bank.Data)
+#### CityRepository.cs (Bank.Infrastructure)
 The *CityRepository* class implements *ICityRepository* that defines 1 method:
-* GetAll: returns all cities in the database
+* GetAllOrderedByZipCode: returns all cities in the database ordered by zip code
 
 Use the automatic tests for guidance.
 
 #### CustomerRepository.cs (Bank.Data)
-The *CustomerRepository* class implements *ICustomerRepository* that defines 3 methods:
+The *CustomerRepository* class implements *ICustomerRepository* that defines 2 methods:
 * GetAllWithAccounts: returns all customers with there accounts loaded
 * Add: adds a new customer to the databse
-* Update: updates an existing customer in the database
 
 Use the automatic tests for guidance.
 
 #### AccountRepository.cs (Bank.Data)
 The *AccountRepository* class implements *IAccountRepository* that defines 3 methods:
-* Add: adds an account to the database.
-* Update: updates an existing account in the database. This method should throw an *InvalidOperationException* when the balance of an account is being updated. The balance of an account can only be changed using the *TransferMoney* method.
-* TransferMoney: transfers an amount from one account to another account.
+* GetByAccountNumber: retrieves a specific account from the database.
+* Add: adds a new account to the database.
+* CommitChanges: this should save the changes made to accounts retrieved from the database (e.g. update balances) after a transfer.
 
 Use the automatic tests for guidance.
 
@@ -242,8 +231,5 @@ Provide an implementation for the button click event handler.
 The unit tests for this class will guide you in the right direction.
 
 [img_customers_window]:images/customers_window.png "Overview of customers"
-[img_customers_window_editrow]:images/customers_window_edit_row.png "Edit a customer row"
-[img_customers_window_addrow]:images/customers_window_add_row.png "Add a new customer row"
-[img_customers_window_selectcity]:images/customers_window_select_city.png "Select a city"
 [img_accounts_window]:images/accounts_window.png "Overview of the accounts of a customer"
 [img_transfer_window]:images/transfer_window.png "Transfer an amount"																				

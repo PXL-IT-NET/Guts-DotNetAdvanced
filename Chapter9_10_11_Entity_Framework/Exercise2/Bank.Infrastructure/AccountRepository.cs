@@ -1,8 +1,10 @@
 ﻿using System;
-using Bank.Business.Contracts.DataAccess;
+using System.Linq;
+using Bank.AppLogic.Contracts.DataAccess;
 using Bank.Domain;
+using Microsoft.EntityFrameworkCore;
 
-namespace Bank.Data
+namespace Bank.Infrastructure
 {
     internal class AccountRepository : IAccountRepository
     {
@@ -10,17 +12,17 @@ namespace Bank.Data
         {
         }
 
+        public Account GetByAccountNumber(string accountNumber)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Add(Account newAccount)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(Account existingAccount)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void TransferMoney(int fromAccountId, int toAccountId, decimal amount)
+        public void CommitChanges()
         {
             throw new NotImplementedException();
         }

@@ -7,25 +7,23 @@ namespace Bank.Tests
     internal class CustomerBuilder
     {
         private readonly Customer _customer;
-        private readonly Random _random;
+        private static readonly Random Random = new Random();
 
-        public CustomerBuilder(Random random = null)
+        public CustomerBuilder()
         {
-            _random = random ?? new Random();
             _customer = new Customer
             {
                 FirstName = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString(),
                 Address = Guid.NewGuid().ToString(),
-                CellPhone = Guid.NewGuid().ToString(),
-                ZipCode = _random.Next(1, int.MaxValue)
+                ZipCode = Random.Next(1000,10000)
             };
+            _customer.TrySetAccounts(new List<Account>());
         }
-
 
         public CustomerBuilder WithId()
         {
-            return WithId(_random.Next(1, int.MaxValue));
+            return WithId(Random.Next(1, int.MaxValue));
         }
 
         public CustomerBuilder WithId(int id)
@@ -34,16 +32,10 @@ namespace Bank.Tests
             return this;
         }
 
-        public CustomerBuilder WithZipCode(int zipCode)
-        {
-            _customer.ZipCode = zipCode;
-            return this;
-        }
-
         public CustomerBuilder WithAccounts()
         {
             var accounts = new List<Account>();
-            for (int i = 0; i < _random.Next(1, 6); i++)
+            for (int i = 0; i < Random.Next(1, 6); i++)
             {
                 accounts.Add(new AccountBuilder().WithCustomerId(_customer.Id).Build());
             }
@@ -52,9 +44,27 @@ namespace Bank.Tests
             return this;
         }
 
-        public CustomerBuilder WithAccounts(ICollection<Account> accounts)
+        public CustomerBuilder WithName(string name)
         {
-            _customer.TrySetAccounts(accounts);
+            _customer.Name = name;
+            return this;
+        }
+
+        public CustomerBuilder WithFirstName(string firstName)
+        {
+            _customer.FirstName = firstName;
+            return this;
+        }
+
+        public CustomerBuilder WithAddress(string address)
+        {
+            _customer.Address = address;
+            return this;
+        }
+
+        public CustomerBuilder WithZipCode(int zipCode)
+        {
+            _customer.ZipCode = zipCode;
             return this;
         }
 

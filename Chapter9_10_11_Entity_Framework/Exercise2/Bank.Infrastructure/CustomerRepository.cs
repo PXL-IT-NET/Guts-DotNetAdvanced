@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Bank.Business.Contracts.DataAccess;
+using Bank.AppLogic.Contracts.DataAccess;
 using Bank.Domain;
 
-namespace Bank.Data
+namespace Bank.Infrastructure
 {
     internal class CustomerRepository : ICustomerRepository
     {
@@ -11,12 +11,7 @@ namespace Bank.Data
         {
         }
 
-        public IList<Customer> GetAllWithAccounts()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Customer existingCustomer)
+        public IReadOnlyList<Customer> GetAllWithAccounts()
         {
             throw new NotImplementedException();
         }

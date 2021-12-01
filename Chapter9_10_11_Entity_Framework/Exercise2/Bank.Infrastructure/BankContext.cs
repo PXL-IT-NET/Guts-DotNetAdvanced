@@ -1,7 +1,8 @@
 ﻿using System;
+using Bank.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace Bank.Data
+namespace Bank.Infrastructure
 {
     internal class BankContext : DbContext
     {
@@ -15,11 +16,6 @@ namespace Bank.Data
             {
                 //TODO: tell EF (Entity Framework) that is going to operate against a SQL Server database using the connection string in the app.config of the UI project
             }
-        }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
         }
 
         public void CreateOrUpdateDatabase()

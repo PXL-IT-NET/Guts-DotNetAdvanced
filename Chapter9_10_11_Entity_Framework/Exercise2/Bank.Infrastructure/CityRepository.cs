@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Bank.Business.Contracts.DataAccess;
+using System.Linq;
+using Bank.AppLogic.Contracts.DataAccess;
 using Bank.Domain;
 
-namespace Bank.Data
+namespace Bank.Infrastructure
 {
     internal class CityRepository : ICityRepository
     {
@@ -11,7 +12,7 @@ namespace Bank.Data
         {
         }
 
-        public IList<City> GetAll()
+        public IReadOnlyList<City> GetAllOrderedByZipCode()
         {
             throw new NotImplementedException();
         }

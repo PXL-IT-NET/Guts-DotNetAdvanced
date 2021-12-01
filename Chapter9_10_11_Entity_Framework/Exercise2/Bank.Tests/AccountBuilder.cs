@@ -1,6 +1,5 @@
 ﻿using System;
 using Bank.Domain;
-using Bank.Domain.Enums;
 
 namespace Bank.Tests
 {
@@ -12,20 +11,13 @@ namespace Bank.Tests
         public AccountBuilder()
         {
             _random = new Random();
-            var accountTypeValues = Enum.GetValues(typeof(AccountType));
+            
+            string accountNumber = Guid.NewGuid().ToString();
+            AccountType type = _random.NextAccountType();
+            int customerId = _random.Next(1, int.MaxValue);
 
-            _account = new Account
-            {
-                AccountNumber = Guid.NewGuid().ToString(),
-                AccountType = (AccountType)accountTypeValues.GetValue(_random.Next(accountTypeValues.Length)),
-                Balance = _random.Next(0, 1000000),
-                CustomerId = 0
-            };
-        }
-
-        public AccountBuilder WithCustomerId()
-        {
-            return WithCustomerId(_random.Next(1, int.MaxValue));
+            _account = Account.CreateNewForCustomer(customerId, accountNumber, type);
+            _account.Balance = _random.Next(0, 1000000);
         }
 
         public AccountBuilder WithCustomerId(int customerId)
@@ -34,20 +26,9 @@ namespace Bank.Tests
             return this;
         }
 
-        public AccountBuilder WithId()
+        public AccountBuilder WithType(AccountType type)
         {
-            return WithId(_random.Next(1, int.MaxValue));
-        }
-
-        public AccountBuilder WithId(int id)
-        {
-            _account.Id = id;
-            return this;
-        }
-
-        public AccountBuilder WithAccountNumber(string value)
-        {
-            _account.AccountNumber = value;
+            _account.AccountType = type;
             return this;
         }
 

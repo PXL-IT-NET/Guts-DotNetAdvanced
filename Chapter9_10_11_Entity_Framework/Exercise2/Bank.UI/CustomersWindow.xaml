@@ -8,32 +8,52 @@
         Title="Customers" Height="auto" Width="auto">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
+            <RowDefinition Height="20" />
             <RowDefinition Height="4*" />
-            <RowDefinition Height="60" />
+            <RowDefinition Height="4*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="500" />
+            <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="20" />
         </Grid.ColumnDefinitions>
 
-        <DataGrid AutoGenerateColumns="False" Name="CustomersDataGrid" HorizontalAlignment="Center" VerticalAlignment="Top" 
-                  CanUserAddRows="False" Width="auto" Height="auto" Grid.Row="1" Grid.Column="1">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" />
-                <DataGridTextColumn Header="Firstname" />
-                <DataGridTextColumn Header="Address" />
-                <DataGridComboBoxColumn Header="City" x:Name="CityComboBoxColumn" />
-                <DataGridTextColumn Header="Cellphone" />
-            </DataGrid.Columns>
-        </DataGrid>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1">
-            <Button Name="ShowAccountsButton" Content="Show Accounts" Click="ShowAccountsButton_Click" Margin="10" Padding="10"/>
-            <Button Name="SaveCustomerButton" Content="Save" Click="SaveCustomerButton_Click" Margin="10" Padding="10"/>
-            <Button Name="AddCustomerButton" Content="Add Customer" Click="AddCustomerButton_Click" Margin="10" Padding="10"/>
-        </StackPanel>
-        <TextBlock Name="ErrorTextBlock" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="8" Background="Red" Foreground="White" Visibility="Hidden"></TextBlock>
+        <ListView x:Name="CustomersListView" Grid.Row="1" Grid.Column="1">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Margin="4">
+                        <TextBlock Text="{Binding Path=FirstName}"></TextBlock>
+                        <TextBlock Text=" "></TextBlock>
+                        <TextBlock Text="{Binding Path=Name}"></TextBlock>
+                        <TextBlock Text=" - "></TextBlock>
+                        <TextBlock Text="{Binding Path=Address}"></TextBlock>
+                        <Button Content="Show accounts" Click="ShowAccountsButton_Click" Tag="{Binding}" Margin="10 0 0 0"></Button>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <GroupBox x:Name="NewCustomerGroupBox" Header="New customer" Grid.Row="2" Grid.Column="1">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="4">
+                    <Label Target="{Binding ElementName=NameTextBox}">_Name</Label>
+                    <TextBox x:Name="NameTextBox" Text="{Binding Path=Name}" MinWidth="200"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="4">
+                    <Label Target="{Binding ElementName=FirstNameTextBox}">_First name</Label>
+                    <TextBox x:Name="FirstNameTextBox" Text="{Binding Path=FirstName}" MinWidth="200"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="4">
+                    <Label Target="{Binding ElementName=AddressTextBox}">_Address</Label>
+                    <TextBox x:Name="AddressTextBox" Text="{Binding Path=Address}" MinWidth="300"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="4">
+                    <Label Target="{Binding ElementName=CityComboBox}">_City</Label>
+                    <ComboBox x:Name="CityComboBox" SelectedValue="{Binding Path=ZipCode}" SelectedValuePath="ZipCode" MinWidth="300"></ComboBox>
+                </StackPanel>
+                <Button Name="AddCustomerButton" Content="Add Customer" Click="AddCustomerButton_Click" HorizontalAlignment="Left" Margin="10" Padding="10" />
+            </StackPanel>
+        </GroupBox>
+        <TextBlock Name="ErrorTextBlock" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="8" Margin="4" Background="Red" Foreground="White" Visibility="Hidden"></TextBlock>
     </Grid>
 </Window>

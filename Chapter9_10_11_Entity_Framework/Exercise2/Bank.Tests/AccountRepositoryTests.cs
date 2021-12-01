@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using Bank.Data;
 using Bank.Domain;
-using Bank.Domain.Enums;
+using Bank.Infrastructure;
 using Guts.Client.Classic;
 using Guts.Client.Shared;
 using Microsoft.EntityFrameworkCore;
@@ -11,21 +9,68 @@ using NUnit.Framework;
 
 namespace Bank.Tests
 {
-    [ExerciseTestFixture("dotnet2", "H11", "Exercise02", @"Bank.Data\AccountRepository.cs")]
+    [ExerciseTestFixture("dotnet2", "H11", "Exercise02", @"Bank.Infrastructure\AccountRepository.cs")]
     internal class AccountRepositoryTests : DatabaseTests
     {
+        [MonitoredTest("AccountRepository - GetByAccountNumber - Account exists - Should return matching account")]
+        public void GetByAccountNumber_AccountExists_ShouldReturnMatchingAccount()
+        {
+            string accountNumber;
+            using (var context = CreateDbContext())
+            {
+                var existingCustomer = CreateExistingCustomer(context);
+                Account existingAccount = new AccountBuilder().WithCustomerId(existingCustomer.Id)
+                    .WithBalance(RandomGenerator.Next(500, 1001)).Build();
+                context.Set<Account>().Add(existingAccount);
+                context.SaveChanges();
+                accountNumber = existingAccount.AccountNumber;
+            }
 
-        [MonitoredTest("AccountRepository - Add should add a new account to the database")]
+            using (var context = CreateDbContext())
+            {
+                var repo = new AccountRepository(context);
+
+                //Act
+                Account retrievedAccount = repo.GetByAccountNumber(accountNumber);
+
+                Assert.That(retrievedAccount, Is.Not.Null);
+                Assert.That(retrievedAccount.AccountNumber, Is.EqualTo(accountNumber));
+            }
+        }
+
+        [MonitoredTest("AccountRepository - GetByAccountNumber - Account does not exist - Should return null")]
+        public void GetByAccountNumber_AccountDoesNotExist_ShouldReturnNull()
+        {
+            using (var context = CreateDbContext())
+            {
+                var existingCustomer = CreateExistingCustomer(context);
+                Account existingAccount = new AccountBuilder().WithCustomerId(existingCustomer.Id)
+                    .WithBalance(RandomGenerator.Next(500, 1001)).Build();
+                context.Set<Account>().Add(existingAccount);
+                context.SaveChanges();
+            }
+
+            string invalidAccountNumber = Guid.NewGuid().ToString();
+
+            using (var context = CreateDbContext())
+            {
+                var repo = new AccountRepository(context);
+
+                //Act
+                Account retrievedAccount = repo.GetByAccountNumber(invalidAccountNumber);
+
+                Assert.That(retrievedAccount, Is.Null);
+            }
+        }
+
+        [MonitoredTest("AccountRepository - Add - Should add a new account to the database")]
         public void Add_ShouldAddANewAccountToTheDatabase()
         {
             //Arrange
             Customer existingCustomer;
             using (var context = CreateDbContext())
             {
-                City existingCity = CreateExistingCity(context);
-                existingCustomer = new CustomerBuilder().WithZipCode(existingCity.ZipCode).Build();
-                context.Set<Customer>().Add(existingCustomer);
-                context.SaveChanges();
+                existingCustomer = CreateExistingCustomer(context);
             }
 
             var newAccount = new AccountBuilder().WithCustomerId(existingCustomer.Id).Build();
@@ -50,7 +95,7 @@ namespace Bank.Tests
             }
         }
 
-        [MonitoredTest("AccountRepository - Add should not save customer relation in a disconnected scenario")]
+        [MonitoredTest("AccountRepository - Add - Should not save customer relation in a disconnected scenario")]
         public void Add_ShouldNotSaveCustomerRelationInADisconnectedScenario()
         {
             //Arrange
@@ -61,7 +106,6 @@ namespace Bank.Tests
             }
 
             var newAccount = new AccountBuilder().WithCustomerId(existingCustomer.Id).Build();
-            existingCustomer.TrySetCity(null);
             existingCustomer.TrySetAccounts(null);
             newAccount.TrySetCustomer(existingCustomer);
 
@@ -97,7 +141,7 @@ namespace Bank.Tests
             }
         }
 
-        [MonitoredTest("AccountRepository - Add should throw an ArgumentException when the account already exists in the database")]
+        [MonitoredTest("AccountRepository - Add - Should throw an ArgumentException when the account already exists in the database")]
         public void Add_ShouldThrowArgumentExceptionWhenTheAccountAlreadyExists()
         {
             //Arrange
@@ -119,133 +163,42 @@ namespace Bank.Tests
             }
         }
 
-        [MonitoredTest("AccountRepository - Update should update an existing account in the database")]
-        public void Update_ShouldUpdateAnExistingAccountInTheDatabase()
+        [MonitoredTest("AccountRepository - CommitChanges - Should save changes on tracked entities")]
+        public void CommitChanges_ShouldSaveChangesOnTrackedEntities()
         {
-            //Arrange
-            Account existingAccount;
-            IList<Account> allOriginalAccounts;
+            string accountNumber;
             using (var context = CreateDbContext())
             {
                 var existingCustomer = CreateExistingCustomer(context);
-                existingAccount = new AccountBuilder().WithCustomerId(existingCustomer.Id).Build();
-                context.Set<Account>().Add(existingAccount);
-                context.SaveChanges();
-                allOriginalAccounts = context.Set<Account>().ToList();
-            }
-
-            var existingAccountId = existingAccount.Id;
-            var newAccountNumber = Guid.NewGuid().ToString();
-            var newAccountType = AccountType.PremiumAccount;
-
-            using (var context = CreateDbContext())
-            {
-                existingAccount = context.Set<Account>().Find(existingAccountId);
-                existingAccount.AccountNumber = newAccountNumber;
-                existingAccount.AccountType = newAccountType;
-
-                var repo = new AccountRepository(context);
-
-                //Act
-                repo.Update(existingAccount);
-            }
-
-            using (var context = CreateDbContext())
-            {
-                var updatedAccount = context.Set<Account>().Find(existingAccountId);
-
-                //Assert
-                var allAccounts = context.Set<Account>().ToList();
-                Assert.That(allAccounts, Has.Count.EqualTo(allOriginalAccounts.Count),
-                    "The amount of accounts in the database changed.");
-
-                Assert.That(updatedAccount.AccountNumber, Is.EqualTo(newAccountNumber), "Accountnumber is not updated properly.");
-                Assert.That(updatedAccount.AccountType, Is.EqualTo(newAccountType), "Account type is not updated properly.");
-            }
-        }
-
-        [MonitoredTest("AccountRepository - Update should throw an ArgumentException when the account does not exist in the database")]
-        public void Update_ShouldThrowArgumentExceptionWhenTheAccountDoesNotExists()
-        {
-            //Arrange
-            var newAccount = new AccountBuilder().WithId(0).Build();
-
-            using (var context = CreateDbContext())
-            {
-                var repo = new AccountRepository(context);
-
-                //Act + Assert
-                Assert.That(() => repo.Update(newAccount), Throws.ArgumentException);
-            }
-        }
-
-        [MonitoredTest("AccountRepository - Update should throw an InvalidOperationException when the balance is updated")]
-        public void Update_ShouldThrowAnInvalidOperationExceptionWhenTheBalanceIsUpdated()
-        {
-            //Arrange
-            Account existingAccount;
-            using (var context = CreateDbContext())
-            {
-                var existingCustomer = CreateExistingCustomer(context);
-                existingAccount = new AccountBuilder().WithCustomerId(existingCustomer.Id).Build();
-                context.Set<Account>().Add(existingAccount);
-                context.SaveChanges();
-            }
-            var existingAccountId = existingAccount.Id;
-
-            using (var context = CreateDbContext())
-            {
-                existingAccount = context.Set<Account>().Find(existingAccountId);
-                existingAccount.Balance += 1;
-
-                var repo = new AccountRepository(context);
-
-                //Act + Assert
-                Assert.That(() => repo.Update(existingAccount),
-                    Throws.InvalidOperationException,
-                    "No InvalidOperationException thrown. " +
-                    "Tip: an instance of the Entry class has a Property method that can be used to get the original and current value of a property of an entity. " +
-                    "So you can compare the original value and current value of the Balance property.");
-            }
-        }
-
-        [MonitoredTest("AccountRepository - TransferMoney should get the 2 accounts from te database, change the balances and save the changes")]
-        public void TransferMoney_ShouldGetThe2AccountsChangeTheBalancesAndSaveTheChanges()
-        {
-            Account fromAccount;
-            Account toAccount;
-            using (var context = CreateDbContext())
-            {
-                var existingCustomer = CreateExistingCustomer(context);
-                fromAccount = new AccountBuilder().WithCustomerId(existingCustomer.Id)
+                Account existingAccount = new AccountBuilder().WithCustomerId(existingCustomer.Id)
                     .WithBalance(RandomGenerator.Next(500, 1001)).Build();
-                toAccount = new AccountBuilder().WithCustomerId(existingCustomer.Id).Build();
-                context.Set<Account>().Add(fromAccount);
-                context.Set<Account>().Add(toAccount);
+                context.Set<Account>().Add(existingAccount);
                 context.SaveChanges();
+                accountNumber = existingAccount.AccountNumber;
             }
-            var fromAccountId = fromAccount.Id;
-            var toAccountId = toAccount.Id;
-            decimal transferAmount = RandomGenerator.Next(100, 401);
-            var expectedFromBalance = fromAccount.Balance - transferAmount;
-            var expectedToBalance = toAccount.Balance + transferAmount;
 
+            decimal newBalance;
             using (var context = CreateDbContext())
             {
                 var repo = new AccountRepository(context);
 
+                Account account = context.Set<Account>().Find(accountNumber);
+                Assert.That(account, Is.Not.Null, "Cannot retrieve saved account from database.");
+
+                newBalance = account.Balance - RandomGenerator.Next(10, 101);
+                account.Balance = newBalance;
+
                 //Act
-                repo.TransferMoney(fromAccountId, toAccountId, transferAmount);
+                repo.CommitChanges();
             }
 
             using (var context = CreateDbContext())
             {
-                var updatedFromAccount = context.Set<Account>().Find(fromAccountId);
-                var updatedToAccount = context.Set<Account>().Find(toAccountId);
+                var updatedAccount = context.Set<Account>().Find(accountNumber);
+                Assert.That(updatedAccount, Is.Not.Null, "Cannot retrieve saved account from database.");
 
                 //Assert
-                Assert.That(updatedFromAccount.Balance, Is.EqualTo(expectedFromBalance), "Balance of the 'from account' is not updated correctly.");
-                Assert.That(updatedToAccount.Balance, Is.EqualTo(expectedToBalance), "Balance of the 'to account' is not updated correctly.");
+                Assert.That(updatedAccount.Balance, Is.EqualTo(newBalance), "Balance of the 'account' is not updated correctly.");
             }
         }
     }

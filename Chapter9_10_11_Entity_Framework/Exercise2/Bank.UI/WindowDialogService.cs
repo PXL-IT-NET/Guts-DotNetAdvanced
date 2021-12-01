@@ -1,29 +1,31 @@
 ﻿using System.Collections.Generic;
-using Bank.Business.Contracts;
-using Bank.Business.Contracts.DataAccess;
+using Bank.AppLogic.Contracts;
+using Bank.AppLogic.Contracts.DataAccess;
 using Bank.Domain;
-using Bank.UI;
 
-public class WindowDialogService : IWindowDialogService
+namespace Bank.UI
 {
-    private readonly IAccountRepository _accountRepository;
-    private readonly IAccountValidator _accountValidator;
-
-    public WindowDialogService(IAccountRepository accountRepository, IAccountValidator accountValidator)
+    public class WindowDialogService : IWindowDialogService
     {
-        _accountRepository = accountRepository;
-        _accountValidator = accountValidator;
-    }
+        private readonly IAccountRepository _accountRepository;
+        private readonly IAccountService _accountService;
 
-    public bool? ShowAccountDialogForCustomer(Customer customer)
-    {
-        var accountsWindow = new AccountsWindow(customer, _accountRepository, _accountValidator, this);
-        return accountsWindow.ShowDialog();
-    }
+        public WindowDialogService(IAccountRepository accountRepository, IAccountService accountService)
+        {
+            _accountRepository = accountRepository;
+            _accountService = accountService;
+        }
 
-    public bool? ShowTransferDialog(Account fromAccount, IEnumerable<Account> allAccountsOfCustomer)
-    {
-        var transferWindow = new TransferWindow(fromAccount, allAccountsOfCustomer, _accountRepository);
-        return transferWindow.ShowDialog();
+        public bool? ShowAccountDialogForCustomer(Customer customer)
+        {
+            var accountsWindow = new AccountsWindow(customer, _accountService, this);
+            return accountsWindow.ShowDialog();
+        }
+
+        public bool? ShowTransferDialog(Account fromAccount, IEnumerable<Account> allAccountsOfCustomer)
+        {
+            var transferWindow = new TransferWindow(fromAccount, allAccountsOfCustomer, _accountService);
+            return transferWindow.ShowDialog();
+        }
     }
 }

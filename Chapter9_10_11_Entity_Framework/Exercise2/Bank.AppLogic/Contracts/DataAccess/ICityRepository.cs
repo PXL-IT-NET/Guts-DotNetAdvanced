@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using Bank.Domain;
 
-namespace Bank.Business.Contracts.DataAccess
+namespace Bank.AppLogic.Contracts.DataAccess
 {
     public interface ICityRepository
     {
-        IList<City> GetAll();
+        IReadOnlyList<City> GetAllOrderedByZipCode();
     }
 }
